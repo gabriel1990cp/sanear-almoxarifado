@@ -124,17 +124,22 @@ class Equipe_model extends CI_Model
         return $this->db->update('equipes', $data);
     }
 
+    function delete_employee($id)
+    {
+        $this->db->where('id_funcionario', $id);
+        return $this->db->delete('equipe_funcionarios');
+    }
+
     function update($id, $data)
     {
         $this->db->where('id_equipe', $id);
         return $this->db->update('equipes', $data);
     }
 
-    function check_employee_team($idEquipe, $idFuncionario)
+    function check_employee_team($idFuncionario)
     {
-        $this->db->select('x1.*,nome_equipe');
-        $this->db->from(" equipe_funcionarios x1");
-        $this->db->join('equipes x2', 'x2.id_equipe =' . $idEquipe);
+        $this->db->select('*');
+        $this->db->from(" equipe_funcionarios ");
         $this->db->where("id_funcionario", $idFuncionario);
         return $this->db->get()->result_array();
     }

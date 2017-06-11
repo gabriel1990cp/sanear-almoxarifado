@@ -153,6 +153,23 @@ class Equipe extends CI_Controller
         endif;
     }
 
+    public function delete_employee($id, $idEquipe)
+    {
+
+
+        if (empty($id)):
+            redirect(base_url('gerenciar-equipe'));
+        endif;
+
+        if ($this->equipe_model->delete_employee($id)):
+            $this->session->set_flashdata(open_modal(DELETADO_SUCESSO, CLASSE_SUCESSO));
+            redirect(base_url('gerenciar-equipe/' . $idEquipe));
+        else:
+            $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+            redirect(base_url('gerenciar-equipe/' . $idEquipe));
+        endif;
+    }
+
     public function edit($id)
     {
         if (empty($id)):
@@ -165,7 +182,6 @@ class Equipe extends CI_Controller
 
         #LISTA FUNCIONARIO PARA EDITAR
         $data['equipes'] = $this->equipe_model->list_team((int)$id, null);
-
 
         if (empty($data['equipes'])):
             redirect(base_url('equipes'));
@@ -270,17 +286,17 @@ class Equipe extends CI_Controller
             $idFuncionario = (int)$this->input->post('resultado-encanador');
             $idEquipe = (int)$this->input->post('equipe');
 
+            #VERIFICA SE O FUNCIONARIO JÁ CONSTA NA EQUIPE
+            $verificaFuncionario = $this->equipe_model->check_employee_team($idFuncionario);
+
             $data['id_equipe'] = $idEquipe;
             $data['id_funcionario'] = $idFuncionario;
 
-            #VERIFICA SE O FUNCIONARIO JÁ CONSTA NA EQUIPE
-            $verificaFuncionario = $this->equipe_model->check_employee_team($idEquipe, $idFuncionario);
-
             if (count($verificaFuncionario) > 0):
-                $this->session->set_flashdata(open_modal('Encanador já cadastrado na equipe ' . $verificaFuncionario[0]['nome_equipe'], CLASSE_ERRO));
+                $nomeEquipe = $this->equipe_model->list_team((int)$verificaFuncionario['0']['id_equipe'], null);
+                $this->session->set_flashdata(open_modal('Encanador já cadastrado na equipe ' . $nomeEquipe['0']['nome_equipe'], CLASSE_ERRO));
                 redirect(base_url('gerenciar-equipe/' . $idEquipe));
             endif;
-
 
             #VERIFICA SE OCORREU O INSERT NO BANCO DE DADOS
             if ($this->equipe_model->manager_team($data)):
@@ -290,7 +306,6 @@ class Equipe extends CI_Controller
                 $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
                 redirect(base_url('gerenciar-equipe/' . $idEquipe));
             endif;
-
         endif;
     }
 }
