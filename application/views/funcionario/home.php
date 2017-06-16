@@ -65,7 +65,7 @@
                             ?>
                             <tr>
                                 <td scope="row"><?= $funcionario['id_funcionario']; ?></td>
-                                <td><?= $funcionario['nome_funcionario']; ?></td>
+                                <td><a href="<?= base_url('visualizar-funcionario/' . $funcionario['id_funcionario']) ?>"><?= $funcionario['nome_funcionario']; ?></a></td>
                                 <td><?= $funcionario['rg_funcionario']; ?></td>
                                 <td><?= $funcionario['cpf_funcionario']; ?></td>
                                 <td><?= $funcionario['nome_cargo']; ?></td>

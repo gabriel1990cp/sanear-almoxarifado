@@ -125,6 +125,9 @@ class Equipe extends CI_Controller
         #REALIZA A PESQUISA
         $data['equipes'] = $this->equipe_model->list_search($nome, $tipoEquipe, $status);
 
+        #LISTA OS TIPOS DE EQUIPE
+        $data['tipoEquipes'] = $this->equipe_model->list_type_team();
+
         #DADOS DA PESQUISA
         $data['nome'] = $nome;
         $data['tipo_equipe'] = $tipoEquipe;

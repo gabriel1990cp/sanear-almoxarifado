@@ -49,10 +49,10 @@ class Funcionario extends CI_Controller
     {
         #CRIAR FUNCIONARIO
 
-        #CARROS
+        #LISTA TODOS OS CARROS
         $data['carros'] = $this->funcionario_model->list_car();
 
-        #CARGO
+        #LISTA TODOS OS CARGOS
         $data['cargos'] = $this->funcionario_model->list_office();
 
         $this->load->view('include/head.php');
@@ -61,15 +61,59 @@ class Funcionario extends CI_Controller
         $this->load->view('include/footer.php');
     }
 
+    public function edit($id)
+    {
+        if (empty($id)):
+            redirect(base_url('funcionarios'));
+        endif;
+
+        #LISTA TODOS OS CARROS
+        $data['carros'] = $this->funcionario_model->list_car();
+
+        #LISTA TODOS OS CARGOS
+        $data['cargos'] = $this->funcionario_model->list_office();
+
+        #LISTA FUNCIONARIO PARA EDITAR
+        $data['funcionario'] = $this->funcionario_model->list_employee((int)$id, null);
+
+        if (empty($data['funcionario'])):
+            redirect(base_url('funcionarios'));
+        endif;
+
+        $this->load->view('include/head.php');
+        $this->load->view('include/nav.php');
+        $this->load->view('funcionario/editar-funcionario', $data);
+        $this->load->view('include/footer.php');
+    }
+
+    public function view($id)
+    {
+        if (empty($page)):
+            $page = 0;
+        endif;
+
+        #LISTA TODOS FUNCIONARIOS
+        $data['funcionario'] = $this->funcionario_model->list_employee((int)$id, $page);
+
+        if (empty($data['funcionario'])):
+            redirect(base_url('funcionarios'));
+        endif;
+
+        $this->load->view('include/head.php');
+        $this->load->view('include/nav.php');
+        $this->load->view('funcionario/visualizar', $data);
+        $this->load->view('include/footer.php');
+    }
+
+
     public function insert()
     {
-        #INSERT FUNCIONARIO
+        #INSERIR FUNCIONARIO
         if ($_POST):
             $this->form_validation->set_error_delimiters('<span>', '</span>');
             $this->form_validation->set_rules('nome', ' "Nome do funcionário" ', 'required');
 
             #VERIFICA OS CAMPOS OBRIGATORIOS
-
             if ($this->form_validation->run() === FALSE):
                 $this->create_employee();
             else:
@@ -95,7 +139,7 @@ class Funcionario extends CI_Controller
                     'data_cad_funcionario' => date('Y-m-d H:i:s')
                 );
 
-                #VERIFICA SE OCORREU O INSERT NO BANCO DE DADOS
+                #VERIFICA SE INSERIU NO BANCO DE DADOS
                 if ($this->funcionario_model->register($data)):
                     $this->session->set_flashdata(open_modal(CADASTRO_SUCESSO, CLASSE_SUCESSO));
                     redirect(base_url('funcionarios'));
@@ -118,7 +162,7 @@ class Funcionario extends CI_Controller
             redirect(base_url('funcionario'));
         endif;
 
-        #REALIZA A PESQUISA
+        #RESULTADO DA PESQUISA
         $data['funcionarios'] = $this->funcionario_model->list_search($nome, $cpf, $status);
 
         #DADOS DA PESQUISA
@@ -138,8 +182,10 @@ class Funcionario extends CI_Controller
             redirect(base_url('funcionarios'));
         endif;
 
+        #SETA O USUARIO COMO INATIVO
         $data['status_funcionario'] = "inativo";
 
+        #VERIFICA SE O STATUS FOI ALTERADO COM SUCESSO
         if ($this->funcionario_model->delete($id, $data)):
             $this->session->set_flashdata(open_modal(DELETADO_SUCESSO, CLASSE_SUCESSO));
             redirect(base_url('funcionarios'));
@@ -147,31 +193,6 @@ class Funcionario extends CI_Controller
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
             redirect(base_url('funcionarios'));
         endif;
-    }
-
-    public function edit($id)
-    {
-        if (empty($id)):
-            redirect(base_url('funcionarios'));
-        endif;
-
-        #CARROS
-        $data['carros'] = $this->funcionario_model->list_car();
-
-        #CARGO
-        $data['cargos'] = $this->funcionario_model->list_office();
-
-        #LISTA FUNCIONARIO PARA EDITAR
-        $data['funcionario'] = $this->funcionario_model->list_employee((int)$id, null);
-
-        if (empty($data['funcionario'])):
-            redirect(base_url('funcionarios'));
-        endif;
-
-        $this->load->view('include/head.php');
-        $this->load->view('include/nav.php');
-        $this->load->view('funcionario/editar-funcionario', $data);
-        $this->load->view('include/footer.php');
     }
 
     public function insert_edit()

@@ -21,14 +21,14 @@
                 <li>
                     <a href="<?php echo base_url('home') ?>">Home</a>
                 </li>
-<!--                <li class="dropdown">-->
-<!--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Estoque<b class="caret"></b></a>-->
-<!--                    <ul class="dropdown-menu">-->
-<!--                        <li>-->
-<!--                            <a href="--><?php //echo base_url('pedido/gerar') ?><!--">#</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </li>-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Estoque<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="<?php echo base_url('') ?>">Entrada</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Equipes <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -62,17 +62,17 @@
                         </li>
                     </ul>
                 </li>
-<!--                <li class="dropdown">-->
-<!--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relatório <b class="caret"></b></a>-->
-<!--                    <ul class="dropdown-menu">-->
-<!--                        <li>-->
-<!--                            <a href="--><?php //echo base_url('relatorio/pedido') ?><!--">Pedidos</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                    <a href="--><?php //echo base_url('login/encerrar_session') ?><!--">Sair</a>-->
-<!--                </li>-->
+                <!--                <li class="dropdown">-->
+                <!--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relatório <b class="caret"></b></a>-->
+                <!--                    <ul class="dropdown-menu">-->
+                <!--                        <li>-->
+                <!--                            <a href="--><?php //echo base_url('relatorio/pedido') ?><!--">Pedidos</a>-->
+                <!--                        </li>-->
+                <!--                    </ul>-->
+                <!--                </li>-->
+                <!--                <li>-->
+                <!--                    <a href="--><?php //echo base_url('login/encerrar_session') ?><!--">Sair</a>-->
+                <!--                </li>-->
             </ul>
         </div>
     </div>

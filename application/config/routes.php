@@ -68,6 +68,7 @@ $route['cadastrar-funcionario']			      = 'funcionario/create_employee';
 $route['consultar-funcionario']			      = 'funcionario/search/';
 $route['deletar-funcionario/(:any)']	      = 'funcionario/delete/$1';
 $route['editar-funcionario/(:any)']	          = 'funcionario/edit/$1';
+$route['visualizar-funcionario/(:any)']	      = 'funcionario/view/$1';
 
 #EQUIPES
 $route['equipes']	         	   	          = 'equipe/index';

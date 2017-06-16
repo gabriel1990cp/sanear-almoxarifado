@@ -31,7 +31,7 @@
                     <?php
                     foreach ($tipoEquipes as $tipoEquipe):
                         ?>
-                        <option value="<?= $tipoEquipe['id_tipo_equipe'] ?>"><?= $tipoEquipe['nome_tipo_equipe'] ?></option>
+                        <option value="<?= $tipoEquipe['id_tipo_equipe'] ?>" <?php if (!empty($tipo_equipe)) : if ($tipo_equipe == $tipoEquipe['id_tipo_equipe']) : echo "selected"; endif; endif; ?>><?= $tipoEquipe['nome_tipo_equipe'] ?></option>
                         <?php
                     endforeach;
                     ?>
