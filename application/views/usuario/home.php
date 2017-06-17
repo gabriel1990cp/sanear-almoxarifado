@@ -64,7 +64,7 @@
                             ?>
                             <tr>
                                 <td scope="row"><?= $usuario['id_usuario']; ?></td>
-                                <td><?= $usuario['nome_usuario']; ?></td>
+                                <td><a href="<?= base_url('visualizar-usuario/' . $usuario['id_usuario']) ?>"><?= $usuario['nome_usuario']; ?></a></td>
                                 <td><?= $usuario['rg_usuario']; ?></td>
                                 <td><?= $usuario['cpf_usuario']; ?></td>
                                 <td><?= $usuario['email_usuario']; ?></td>

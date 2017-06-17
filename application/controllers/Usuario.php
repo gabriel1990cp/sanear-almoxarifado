@@ -194,6 +194,25 @@ class Usuario extends CI_Controller
         $this->load->view('include/footer.php');
     }
 
+    public function view($id)
+    {
+        if (empty($id)):
+            redirect(base_url('usuarios'));
+        endif;
+
+        #LISTA USUARIO PARA EDITAR
+        $data['usuario'] = $this->user_model->list_users((int)$id);
+
+        if (empty($data['usuario'])):
+            redirect(base_url('usuarios'));
+        endif;
+
+        $this->load->view('include/head.php');
+        $this->load->view('include/nav.php');
+        $this->load->view('usuario/visualizar', $data);
+        $this->load->view('include/footer.php');
+    }
+
     public function insert_edit()
     {
         if ($_POST):

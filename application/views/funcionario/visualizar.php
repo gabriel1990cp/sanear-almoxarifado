@@ -1,9 +1,3 @@
-<?php
-echo "<pre>";
-var_dump($funcionario[0]);
-echo "</pre>";
-?>
-
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -24,17 +18,19 @@ echo "</pre>";
     <div class="col-md-12">
         <div class="row">
             <div class="panel panel-info">
-                <div class="panel-heading">Dados equipe</div>
+                <div class="panel-heading">Dados do funcionário</div>
                 <div class="panel-body">
                     <p><strong>Nome: </strong><?= $funcionario[0]['nome_funcionario'] ?></p>
                     <p><strong>RG: </strong><?= $funcionario[0]['rg_funcionario'] ?></p>
-                    <p><strong>CPF: </strong><?= $funcionario[0]['nome_funcionario'] ?></p>
-                    <p><strong>Cargo: </strong><?= $funcionario[0]['nome_funcionario'] ?></p>
-                    <p><strong>Carro: </strong><?= $funcionario[0]['nome_funcionario'] ?></p>
-                    <p><strong>Telefone: </strong><?= $funcionario[0]['nome_funcionario'] ?></p>
-                    <p><strong>Celular: </strong><?= $funcionario[0]['nome_funcionario'] ?></p>
-                    <p><strong>Status: </strong><?= $funcionario[0]['nome_funcionario'] ?></p>
-                    <p><strong>Observação: </strong><?= $funcionario[0]['nome_funcionario'] ?></p>
+                    <p><strong>CPF: </strong><?= $funcionario[0]['cpf_funcionario'] ?></p>
+                    <p><strong>Cargo: </strong><?= $funcionario[0]['nome_cargo'] ?></p>
+                    <p><strong>Carro: </strong><?= $funcionario[0]['nome_carro'] ?></p>
+                    <p><strong>Telefone: </strong><?= $funcionario[0]['telefone_funcionario'] ?></p>
+                    <p><strong>Celular: </strong><?= $funcionario[0]['celular_funcionario'] ?></p>
+                    <p><strong>Status: </strong><?= ucfirst($funcionario[0]['status_funcionario']) ?></p>
+                    <p><strong>Observação: </strong><?= $funcionario[0]['observacao_funcionario'] ?></p>
+                    <p><strong>Data cadastro: </strong><?= $funcionario[0]['data_cad_funcionario'] ?></p>
+                    <p><strong>Data atualização: </strong><?= $funcionario[0]['data_atualizacao_funcionario'] ?></p>
                 </div>
             </div>
         </div>

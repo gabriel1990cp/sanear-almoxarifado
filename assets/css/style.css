@@ -3,6 +3,7 @@ body {
     font-family: 'Lato', sans-serif;
     font-size: 13px;
     padding-top: 70px;
+    color: #101010;
 }
 
 .footer {
@@ -62,6 +63,10 @@ body {
     background-color: #337ab7 !important;
     border-color: #337ab7 !important;
     color: white !important;
+}
+
+.table-responsive a{
+
 }
 
 

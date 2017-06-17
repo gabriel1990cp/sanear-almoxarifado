@@ -60,6 +60,7 @@ $route['cadastrar-usuario']			          = 'usuario/create_user';
 $route['consultar-usuario']			          = 'usuario/search/';
 $route['deletar-usuario/(:any)']	          = 'usuario/delete/$1';
 $route['editar-usuario/(:any)']	              = 'usuario/edit/$1';
+$route['visualizar-usuario/(:any)']	          = 'usuario/view/$1';
 
 #FUNCIONARIOS
 $route['funcionarios']	         	   	      = 'funcionario/index';
