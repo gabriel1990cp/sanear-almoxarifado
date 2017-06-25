@@ -299,7 +299,7 @@ class Equipe extends CI_Controller
 
             if (count($verificaFuncionario) > 0):
                 $nomeEquipe = $this->equipe_model->list_team((int)$verificaFuncionario['0']['id_equipe'], null);
-                $this->session->set_flashdata(open_modal('Encanador já cadastrado na equipe ' . $nomeEquipe['0']['nome_equipe'], CLASSE_ERRO));
+                $this->session->set_flashdata(open_modal('Encanador já cadastrado na equipe ' . '<a href="'.base_url('gerenciar-equipe/').$nomeEquipe['0']['id_equipe'].'" >'.$nomeEquipe['0']['nome_equipe'].'</a>', CLASSE_ERRO));
                 redirect(base_url('gerenciar-equipe/' . $idEquipe));
             endif;
 
