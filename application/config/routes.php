@@ -79,3 +79,8 @@ $route['consultar-equipe']			          = 'equipe/search/';
 $route['deletar-equipe/(:any)']	              = 'equipe/delete/$1';
 $route['editar-equipe/(:any)']	              = 'equipe/edit/$1';
 $route['gerenciar-equipe/(:any)']	          = 'equipe/manager_team/$1';
+
+
+#ESTOQUE
+$route['estoque-entrada']	         	   	  = 'estoque/create_stock';
+

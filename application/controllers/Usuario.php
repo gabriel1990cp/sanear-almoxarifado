@@ -237,7 +237,7 @@ class Usuario extends CI_Controller
                 $rg = strip_tags($this->input->post('rg'));
                 $cpf = strip_tags($this->input->post('cpf'));
                 $email = strip_tags(trim($this->input->post('email')));
-                $confEmail = strip_tags(trim($this->input->post('conf_email'))); 
+                $confEmail = strip_tags(trim($this->input->post('conf_email')));
                 $matSanear = strip_tags(trim($this->input->post('mat_sabesp')));
                 $perfil = strip_tags($this->input->post('perfil'));
                 $senhaAtual = strip_tags($this->input->post('senha_atual'));
