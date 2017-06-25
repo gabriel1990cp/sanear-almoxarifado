@@ -29,8 +29,20 @@
                     <p><strong>Celular: </strong><?= $funcionario[0]['celular_funcionario'] ?></p>
                     <p><strong>Status: </strong><?= ucfirst($funcionario[0]['status_funcionario']) ?></p>
                     <p><strong>Observação: </strong><?= $funcionario[0]['observacao_funcionario'] ?></p>
-                    <p><strong>Data cadastro: </strong><?= $funcionario[0]['data_cad_funcionario'] ?></p>
-                    <p><strong>Data atualização: </strong><?= $funcionario[0]['data_atualizacao_funcionario'] ?></p>
+                    <p><strong>Data cadastro: </strong>
+                        <?php
+                        if (isset($funcionario[0]['data_cad_funcionario'])):
+                            echo date('d/m/Y H:i', strtotime($funcionario[0]['data_cad_funcionario']));
+                        endif;
+                        ?>
+                    </p>
+                    <p><strong>Data atualização: </strong>
+                        <?php
+                        if (isset($funcionario[0]['data_atualizacao_funcionario'])):
+                            echo date('d/m/Y H:i', strtotime($funcionario[0]['data_atualizacao_funcionario']));
+                        endif;
+                        ?>
+                    </p>
                 </div>
             </div>
         </div>

@@ -52,7 +52,7 @@
                         <th>RG</th>
                         <th>CPF</th>
                         <th>E-mail</th>
-                        <th>Matrícula Sabesp</th>
+                        <th>Matrícula Sanear</th>
                         <th>Perfil</th>
                         <th>Status</th>
                         <th>Opção</th>

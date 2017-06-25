@@ -27,8 +27,21 @@
                     <p><strong>Matrícula Sanear: </strong><?= $usuario[0]['matricula_usuario'] ?></p>
                     <p><strong>Perfil: </strong><?= $usuario[0]['nome_perfil'] ?></p>
                     <p><strong>Status: </strong><?= ucfirst($usuario[0]['status_usuario']) ?></p>
-                    <p><strong>Data cadastro: </strong><?= $usuario[0]['data_cad_usuario'] ?></p>
-                    <p><strong>Data atualização: </strong><?= $usuario[0]['data_atualizacao_usuario'] ?></p>
+                    <p><strong>Data cadastro: </strong>
+                        <?php
+                        if (isset($usuario[0]['data_cad_usuario'])):
+                            echo date('d/m/Y H:i', strtotime($usuario[0]['data_cad_usuario']));
+                        endif;
+                        ?>
+                    </p>
+                    <p><strong>Data atualização: </strong>
+                        <?php
+                        if (isset($usuario[0]['data_atualizacao_usuario'])):
+                            echo date('d/m/Y H:i', strtotime($usuario[0]['data_atualizacao_usuario']));
+                        endif;
+                        ?>
+
+                    </p>
                 </div>
             </div>
         </div>

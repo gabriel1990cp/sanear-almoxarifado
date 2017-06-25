@@ -60,7 +60,6 @@ class Equipe extends CI_Controller
             endif;
         endforeach;
 
-
         #LISTA OS TIPOS DE EQUIPE
         $data['tipoEquipes'] = $this->equipe_model->list_type_team();
 
@@ -292,8 +291,11 @@ class Equipe extends CI_Controller
             #VERIFICA SE O FUNCIONARIO JÁ CONSTA NA EQUIPE
             $verificaFuncionario = $this->equipe_model->check_employee_team($idFuncionario);
 
-            $data['id_equipe'] = $idEquipe;
-            $data['id_funcionario'] = $idFuncionario;
+            $data = array(
+                'id_equipe' => $idEquipe,
+                'id_funcionario' => $idFuncionario,
+                'data_cad_func_equipe' => date('Y-m-d H:i:s')
+            );
 
             if (count($verificaFuncionario) > 0):
                 $nomeEquipe = $this->equipe_model->list_team((int)$verificaFuncionario['0']['id_equipe'], null);

@@ -59,6 +59,7 @@
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Inspetor</th>
+                        <th>Encanador</th>
                         <th>Observação</th>
                         <th>Tipo</th>
                         <th>Status</th>
@@ -72,6 +73,7 @@
                             <tr>
                                 <td scope="row"><?= $equipe['id_equipe']; ?></td>
                                 <td><?= $equipe['nome_equipe']; ?></td>
+                                <td><?= $equipe['nome_funcionario']; ?></td>
                                 <td><?= $equipe['nome_funcionario']; ?></td>
                                 <td><?= $equipe['observacao_equipe']; ?></td>
                                 <td><?= $equipe['nome_tipo_equipe']; ?></td>

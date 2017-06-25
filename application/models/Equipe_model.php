@@ -143,5 +143,14 @@ class Equipe_model extends CI_Model
         $this->db->where("id_funcionario", $idFuncionario);
         return $this->db->get()->result_array();
     }
+
+    function list_plumber_team($idEquipe)
+    {
+        $this->db->select('x2.nome_funcionario');
+        $this->db->from(" equipe_funcionarios x1 ");
+        $this->db->join("funcionarios x2", 'x1.id_funcionario = x2.id_funcionario');
+        $this->db->where("x1.id_equipe", $idEquipe);
+        return $this->db->get()->result_array();
+    }
 }
 

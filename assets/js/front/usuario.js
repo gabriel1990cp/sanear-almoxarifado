@@ -106,10 +106,22 @@ $(document).ready(function () {
         }
     });
 
+    //RETIRAR MENSAGEM SE A SENHA ESTIVER CORRETA
+    $("#conf_senha").change(function () {
+
+        var senha = $("#senha").val();
+        var conf_senha = $("#conf_senha").val();
+
+        if (senha == conf_senha || senha == '' && conf_senha == '') {
+
+            $(".error-senha").text(" ");
+            $(".error-conf-senha").text("");
+            return false;
+        }
+    });
+
     //ATUALIZAR USUARIO
     $(".atualizar").click(function () {
-
-
 
         var email = $("#email").val();
         var conf_email = $("#conf_email").val();
@@ -134,7 +146,7 @@ $(document).ready(function () {
             }
 
             //VERIFICA SE TEM NO MINIMO 8 CARACTERES
-            if (senha.length < 8 || conf_senha.length < 8){
+            if (senha.length < 8 || conf_senha.length < 8) {
                 $(".error-senha").text("Insira pelo menos 8 caracteres.");
                 $(".error-conf-senha").text("Insira pelo menos 8 caracteres.");
                 return false;

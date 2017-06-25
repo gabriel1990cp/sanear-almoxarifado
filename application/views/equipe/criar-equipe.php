@@ -35,6 +35,16 @@
                     ?>
                 </select>
                 <div class="error"><?= form_error('inspetor'); ?></div>
+                <div class="error">
+                    <?php
+                    #VERIFICA SE EXISTE INSPETOR DISPONIVEL PARA CRIAR EQUIPE
+                    if (empty($funcPermitidos)):
+                        ?>
+                        <p>Verifique se existe inspetores cadastrados ou se todos já estão veiculados a uma equipe.</p>
+                        <?php
+                    endif;
+                    ?>
+                </div>
             </div>
             <div class="form-group col-md-6">
                 <label for="nome">Tipo Equipe *</label>
