@@ -15,6 +15,7 @@ class Estoque extends CI_Controller
 
         #CARREGA MODEL'S
         $this->load->model('funcionario_model');
+        $this->load->model('estoque_model');
         $this->load->model('log_model');
         $this->load->database();
     }
@@ -47,10 +48,13 @@ class Estoque extends CI_Controller
 
     public function create_stock()
     {
+
+        $data['tipos_materiais'] = $this->estoque_model->list_type_material();
+
         #ENTRADA ESTOQUE
         $this->load->view('include/head.php');
         $this->load->view('include/nav.php');
-        $this->load->view('estoque/entrada-estoque');
+        $this->load->view('estoque/entrada-estoque',$data);
         $this->load->view('include/footer.php');
     }
 
@@ -63,7 +67,7 @@ class Estoque extends CI_Controller
         #LISTA TODOS OS CARROS
         $data['carros'] = $this->funcionario_model->list_car();
 
-        #LISTA TODOS OS CARGOS
+        #LISTA TODOS MATERIAIS PARA ENTRADA NO ESTOQUE
         $data['cargos'] = $this->funcionario_model->list_office();
 
         #LISTA FUNCIONARIO PARA EDITAR

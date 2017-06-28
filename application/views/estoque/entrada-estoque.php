@@ -1,6 +1,6 @@
 <div class="container">
-    <div class="col-md-12">
-        <div class="row">
+    <div class="row">
+        <div class="col-md-12">
             <h1 class="page-header">
                 Estoque
             </h1>
@@ -16,70 +16,80 @@
     </div>
     <?php $this->load->view('include/alert.php'); ?>
     <div class="row">
-        <form action="<?= base_url('funcionario/insert') ?>" method="post" enctype="multipart/form-data" id="cadastro_funcionario" class="cadastrar-funcionario">
-            <div class="form-group col-md-12">
-                <label for="nome">Nome *</label>
-                <input type="text" class="form-control" id="nome" name="nome">
-                <div class="error"><?= form_error('nome'); ?></div>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="rg">RG</label>
-                <input type="text" class="form-control" id="rg" name="rg">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="cpf">CPF</label>
-                <input type="text" class="form-control" id="cpf" name="cpf">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="tipo">Cargo</label>
-                <select class="form-control" id="cargo" name="cargo" >
-                    <option value="">Selecione ></option>
-                    <?php
-                    foreach ($cargos as $cargo):
-                        ?>
-                        <option value="<?= $cargo['id_cargo'] ?>"><?= $cargo['nome_cargo'] ?></option>
-                        <?php
-                    endforeach;
+        <div class="form-group col-md-6">
+            <label for="celular">Nota de remessa</label>
+            <input type="text" class="form-control" id="nota_remessa" name="nota_remessa">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="celular">Atendimento de Requisição</label>
+            <input type="text" class="form-control" id="nota_remessa" name="nota_remessa">
+        </div>
+        <div class="form-group col-md-12">
+            <label for="celular">Arquivo</label>
+            <input type="file" class="form-control" id="arquivo" name="arquivo">
+        </div>
+
+        <div class="form-group col-md-12">
+            <label for="tipo">Material *</label>
+            <select class="form-control" id="material" name="material">
+                <option value="">Selecione ></option>
+                <?php
+                foreach ($tipos_materiais as $tipo_material):
                     ?>
-                </select>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="carro">Carro</label>
-                <select class="form-control" id="carro" name="carro">
-                    <option value="">Selecione ></option>
+                    <option value="<?= $tipo_material['id_tipo_material'] ?>"><?= $tipo_material['nome_tipo_material'] ?></option>
                     <?php
-                    foreach ($carros as $carro):
-                        ?>
-                        <option value="<?= $carro['id_carro'] ?>"><?= $carro['nome_carro'] ?></option>
-                        <?php
-                    endforeach;
-                    ?>
-                </select>
+                endforeach;
+                ?>
+            </select>
+        </div>
+        <div class="form-group col-md-6 uni_hidrometro">
+            <label for="rg">Número do hidrômetro</label>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Número do hidrômetro">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Adicionar</button>
+                </span>
             </div>
-            <div class="form-group col-md-6 clean">
-                <label for="telefone">Telefone</label>
-                <input type="text" class="form-control" id="telefone" name="telefone">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered responsive">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>RG</th>
+                        <th>CPF</th>
+                        <th>Cargo</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
+                        <th>Carro</th>
+                        <th>Status</th>
+                        <th>Opção</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <td scope="row"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
             </div>
-            <div class="form-group col-md-6">
-                <label for="celular">Celular</label>
-                <input type="text" class="form-control" id="celular" name="celular">
-            </div>
-            <div class="form-group col-md-12">
-                <label for="observacao">Observação</label>
-                <textarea type="text" class="form-control" id="observacao" name="observacao" rows="5" style="resize: none"></textarea>
-            </div>
-            <div class="form-group col-md-6">
-                <button type="submit" class="btn btn-primary btn-block cadastrar">Cadastrar</button>
-            </div>
-            <div class="form-group col-md-6">
-                <a href="<?= base_url('funcionarios/') ?>" class="btn btn-danger btn-block">Cancelar</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
 <!-- SCRIPT -->
 <script src="<?= base_url('assets/js/jquery.validate.js') ?>"></script>
 <script src="<?= base_url('assets/js/jquery.maskedinput.js') ?>"></script>
-<script src="<?= base_url('assets/js/front/funcionario.js') ?>"></script>
+<script src="<?= base_url('assets/js/front/estoque.js') ?>"></script>
 <!-- SCRIPT -->
