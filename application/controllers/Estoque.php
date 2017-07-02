@@ -58,6 +58,71 @@ class Estoque extends CI_Controller
         $this->load->view('include/footer.php');
     }
 
+    public function insert()
+    {
+        #INSERIR ENTRADA NO ESTOQUE
+        if ($_POST):
+            $this->form_validation->set_error_delimiters('<span>', '</span>');
+            $this->form_validation->set_rules('nota_remessa', ' "Nota de remessa" ', 'required');
+            $this->form_validation->set_rules('atendimento_requisicao', ' "Atendimento de Requisição" ', 'required');
+            $this->form_validation->set_rules('tipo_material', ' "Material" ', 'required');
+
+
+            #VERIFICA OS CAMPOS OBRIGATORIOS
+            if ($this->form_validation->run() === FALSE):
+                $this->create_stock();
+            else:
+
+                $config['upload_path'] = './uploads/';
+                $config['allowed_types'] = 'pdf';
+                $config['max_size'] = 100;
+
+                $this->load->library('upload',$config);
+
+                $arquivo = $_FILES['arquivo'];
+
+
+                if($this->upload->do_upload($arquivo)){
+                    $data = array('upload_data' => $this->upload->data());
+                    echo "sucesso!";
+                    exit();
+                }else{
+                    $error = array('error' => $this->upload->display_errors());
+                    echo "<pre>";
+                    var_dump($error);
+                    echo "</pre>";
+                    exit();
+                }
+
+                exit();
+
+
+                #RECEBE OS VALORES ATRAVES DO POST
+                $notaRemessa = strip_tags(trim($this->input->post('nota_remessa')));
+                $atendiRequisicao = strip_tags($this->input->post('atendimento_requisicao'));
+
+                $data = array(
+                    'nota_remessa_entrada_mat' => $notaRemessa,
+                    'atend_requisicao_entrada_mat' => $atendiRequisicao,
+                    'arquivo_entrada_mat' => '',
+                    'responsavel_entrada_mat' => '1',
+                    'status_entrada_mat' => 'aberto',
+                    'data_entrada_mat' => date('Y-m-d H:i:s')
+                );
+
+                #VERIFICA SE INSERIU NO BANCO DE DADOS
+                if ($this->estoque_model->register($data)):
+                    $this->session->set_flashdata(open_modal(CADASTRO_SUCESSO, CLASSE_SUCESSO));
+                    redirect(base_url('estoque-entrada'));
+                else:
+                    $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+                    redirect(base_url('estoque-entrada'));
+                endif;
+            endif;
+        endif;
+    }
+
+
     public function edit($id)
     {
         if (empty($id)):
@@ -100,52 +165,6 @@ class Estoque extends CI_Controller
         $this->load->view('include/nav.php');
         $this->load->view('funcionario/visualizar', $data);
         $this->load->view('include/footer.php');
-    }
-
-
-    public function insert()
-    {
-        #INSERIR FUNCIONARIO
-        if ($_POST):
-            $this->form_validation->set_error_delimiters('<span>', '</span>');
-            $this->form_validation->set_rules('nome', ' "Nome do funcionário" ', 'required');
-
-            #VERIFICA OS CAMPOS OBRIGATORIOS
-            if ($this->form_validation->run() === FALSE):
-                $this->create_employee();
-            else:
-                #RECEBE OS VALORES ATRAVES DO POST
-                $nome = strip_tags(trim($this->input->post('nome')));
-                $rg = strip_tags($this->input->post('rg'));
-                $cpf = strip_tags($this->input->post('cpf'));
-                $cargo = (int) strip_tags(trim($this->input->post('cargo')));
-                $telefone = strip_tags(trim($this->input->post('telefone')));
-                $celular = strip_tags(trim($this->input->post('celular')));
-                $carro = strip_tags(trim($this->input->post('carro')));
-                $observacao = strip_tags(trim($this->input->post('observacao')));
-
-                $data = array(
-                    'nome_funcionario' => $nome,
-                    'rg_funcionario' => $rg,
-                    'cpf_funcionario' => $cpf,
-                    'cargo_funcionario' => $cargo,
-                    'telefone_funcionario' => $telefone,
-                    'celular_funcionario' => $celular,
-                    'carro_funcionario' => $carro,
-                    'observacao_funcionario' => $observacao,
-                    'data_cad_funcionario' => date('Y-m-d H:i:s')
-                );
-
-                #VERIFICA SE INSERIU NO BANCO DE DADOS
-                if ($this->funcionario_model->register($data)):
-                    $this->session->set_flashdata(open_modal(CADASTRO_SUCESSO, CLASSE_SUCESSO));
-                    redirect(base_url('funcionarios'));
-                else:
-                    $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-                    redirect(base_url('cadastrar-funcionario'));
-                endif;
-            endif;
-        endif;
     }
 
     public function search()

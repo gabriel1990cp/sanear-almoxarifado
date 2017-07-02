@@ -3,10 +3,10 @@
 
 class Estoque_model extends CI_Model
 {
-    #CADASTRAR USUARIO
+    #CADASTRAR ENTRADA ESTOQUE
     function register($data)
     {
-        return $this->db->insert('funcionarios', $data);
+        return $this->db->insert('entrada_material', $data);
     }
 
     #LISTA TODOS FUNCIONARIOS, LISTA O FUNCIONARIO PARA EDITAR

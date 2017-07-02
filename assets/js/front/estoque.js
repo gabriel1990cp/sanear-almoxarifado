@@ -3,8 +3,8 @@ $(document).ready(function () {
 });
 
 
-$("#material").change(function () {
-    var tipo = $("#material").val();
+$("#tipo_material").change(function () {
+    var tipo = $("#tipo_material").val();
 
     if (tipo == 1) {
         $(".uni_hidrometro").show();
