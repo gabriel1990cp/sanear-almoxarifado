@@ -3,10 +3,11 @@
 
 class Estoque_model extends CI_Model
 {
-    #CADASTRAR ENTRADA ESTOQUE
+    #CADASTRAR ESTOQUE ENTRADA
     function register($data)
     {
-        return $this->db->insert('entrada_material', $data);
+        $this->db->insert('estoque_entrada', $data);
+        return $this->db->insert_id();
     }
 
     #LISTA TODOS FUNCIONARIOS, LISTA O FUNCIONARIO PARA EDITAR

@@ -48,13 +48,12 @@ class Estoque extends CI_Controller
 
     public function create_stock()
     {
-
         $data['tipos_materiais'] = $this->estoque_model->list_type_material();
 
         #ENTRADA ESTOQUE
         $this->load->view('include/head.php');
         $this->load->view('include/nav.php');
-        $this->load->view('estoque/entrada-estoque',$data);
+        $this->load->view('estoque/entrada-estoque', $data);
         $this->load->view('include/footer.php');
     }
 
@@ -65,61 +64,48 @@ class Estoque extends CI_Controller
             $this->form_validation->set_error_delimiters('<span>', '</span>');
             $this->form_validation->set_rules('nota_remessa', ' "Nota de remessa" ', 'required');
             $this->form_validation->set_rules('atendimento_requisicao', ' "Atendimento de Requisição" ', 'required');
-            $this->form_validation->set_rules('tipo_material', ' "Material" ', 'required');
-
 
             #VERIFICA OS CAMPOS OBRIGATORIOS
             if ($this->form_validation->run() === FALSE):
                 $this->create_stock();
             else:
 
-                $config['upload_path'] = './uploads/';
-                $config['allowed_types'] = 'pdf';
-                $config['max_size'] = 100;
-
-                $this->load->library('upload',$config);
-
-                $arquivo = $_FILES['arquivo'];
-
-
-                if($this->upload->do_upload($arquivo)){
-                    $data = array('upload_data' => $this->upload->data());
-                    echo "sucesso!";
-                    exit();
-                }else{
-                    $error = array('error' => $this->upload->display_errors());
-                    echo "<pre>";
-                    var_dump($error);
-                    echo "</pre>";
-                    exit();
-                }
-
-                exit();
-
-
                 #RECEBE OS VALORES ATRAVES DO POST
                 $notaRemessa = strip_tags(trim($this->input->post('nota_remessa')));
                 $atendiRequisicao = strip_tags($this->input->post('atendimento_requisicao'));
 
                 $data = array(
-                    'nota_remessa_entrada_mat' => $notaRemessa,
-                    'atend_requisicao_entrada_mat' => $atendiRequisicao,
-                    'arquivo_entrada_mat' => '',
-                    'responsavel_entrada_mat' => '1',
-                    'status_entrada_mat' => 'aberto',
-                    'data_entrada_mat' => date('Y-m-d H:i:s')
+                    'nota_remessa_entrada_est' => $notaRemessa,
+                    'atend_requisicao_entrada_est' => $atendiRequisicao,
+                    'arquivo_entrada_est' => '',
+                    'responsavel_entrada_est' => '1',
+                    'status_entrada_est' => 'aberto',
+                    'data_entrada_est' => date('Y-m-d H:i:s')
                 );
 
                 #VERIFICA SE INSERIU NO BANCO DE DADOS
-                if ($this->estoque_model->register($data)):
+                $idEntradaMaterial = $this->estoque_model->register($data);
+                if ($idEntradaMaterial):
                     $this->session->set_flashdata(open_modal(CADASTRO_SUCESSO, CLASSE_SUCESSO));
-                    redirect(base_url('estoque-entrada'));
+                    //redirect(base_url('estoque-entrada'));
+                    redirect(base_url('insert-material/' . $idEntradaMaterial));
                 else:
                     $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
                     redirect(base_url('estoque-entrada'));
                 endif;
             endif;
         endif;
+    }
+
+    public function insert_material($idEntradaMaterial)
+    {
+
+        echo "<pre>";
+        var_dump($idEntradaMaterial);
+        echo "</pre>";
+        exit();
+
+
     }
 
 
