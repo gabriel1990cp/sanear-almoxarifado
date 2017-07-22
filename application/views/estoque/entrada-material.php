@@ -2,14 +2,14 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="page-header">
-                Estoque
+                Material
             </h1>
             <ol class="breadcrumb">
                 <li>
                     <i class="fa fa-dashboard"></i> <a href="<?= base_url('#') ?>">Estoque</a>
                 </li>
                 <li class="active">
-                    <i class="fa fa-table"></i>Entrada
+                    <i class="fa fa-table"></i>Material
                 </li>
             </ol>
         </div>

@@ -18,14 +18,23 @@
     <div class="row">
         <form action="<?= base_url('estoque/insert') ?>" method="post" enctype="multipart/form-data" id="entrada_estoque" class="entrada_estoque">
             <div class="form-group col-md-6">
-                <label for="nota_remessa">Nota de remessa *</label>
-                <input type="text" class="form-control" id="nota_remessa" name="nota_remessa">
-                <div class="error"><?= form_error('nota_remessa'); ?></div>
+                <label for="responsavel">Responsável *</label>
+                <input type="text" class="form-control" id="responsavel" name="responsavel" disabled value="Gabriel Costa">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="data_cadastro">Data de cadastro *</label>
+                <input type="text" class="form-control" id="data_cadastro" name="data_cadastro" disabled value="<?=date('d/m/Y H:i:s')?>">
             </div>
             <div class="form-group col-md-6">
                 <label for="atendimento_requisicao">Atendimento de Requisição *</label>
                 <input type="text" class="form-control" id="atendimento_requisicao" name="atendimento_requisicao">
                 <div class="error"><?= form_error('atendimento_requisicao'); ?></div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="nota_remessa">Nota de remessa *</label>
+                <input type="text" class="form-control" id="nota_remessa" name="nota_remessa">
+                <div class="error"><?= form_error('nota_remessa'); ?></div>
             </div>
             <div class="form-group col-md-12">
                 <label for="arquivo">Arquivo</label>

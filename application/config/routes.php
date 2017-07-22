@@ -83,6 +83,6 @@ $route['gerenciar-equipe/(:any)']	          = 'equipe/manager_team/$1';
 
 #ESTOQUE
 $route['estoque-entrada']	         	   	  = 'estoque/create_stock';
-$route['entrada-material']	         	   	  = 'estoque/insert_material/$1';
+$route['entrada-material/(:any)']	  	   	  = 'estoque/insert_material/$1';
 
 

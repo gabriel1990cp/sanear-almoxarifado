@@ -48,12 +48,10 @@ class Estoque extends CI_Controller
 
     public function create_stock()
     {
-        $data['tipos_materiais'] = $this->estoque_model->list_type_material();
-
         #ENTRADA ESTOQUE
         $this->load->view('include/head.php');
         $this->load->view('include/nav.php');
-        $this->load->view('estoque/entrada-estoque', $data);
+        $this->load->view('estoque/entrada-estoque');
         $this->load->view('include/footer.php');
     }
 
@@ -62,8 +60,8 @@ class Estoque extends CI_Controller
         #INSERIR ENTRADA NO ESTOQUE
         if ($_POST):
             $this->form_validation->set_error_delimiters('<span>', '</span>');
-            $this->form_validation->set_rules('nota_remessa', ' "Nota de remessa" ', 'required');
             $this->form_validation->set_rules('atendimento_requisicao', ' "Atendimento de Requisição" ', 'required');
+            $this->form_validation->set_rules('nota_remessa', ' "Nota de remessa" ', 'required');
 
             #VERIFICA OS CAMPOS OBRIGATORIOS
             if ($this->form_validation->run() === FALSE):
@@ -75,20 +73,20 @@ class Estoque extends CI_Controller
                 $atendiRequisicao = strip_tags($this->input->post('atendimento_requisicao'));
 
                 $data = array(
-                    'nota_remessa_entrada_est' => $notaRemessa,
                     'atend_requisicao_entrada_est' => $atendiRequisicao,
+                    'nota_remessa_entrada_est' => $notaRemessa,
                     'arquivo_entrada_est' => '',
                     'responsavel_entrada_est' => '1',
                     'status_entrada_est' => 'aberto',
                     'data_entrada_est' => date('Y-m-d H:i:s')
                 );
 
-                #VERIFICA SE INSERIU NO BANCO DE DADOS
+                #VERIFICA SE O OCORREU O INSERT NO BANCO DE DADOS
                 $idEntradaMaterial = $this->estoque_model->register($data);
-                if ($idEntradaMaterial):
-                    $this->session->set_flashdata(open_modal(CADASTRO_SUCESSO, CLASSE_SUCESSO));
-                    //redirect(base_url('estoque-entrada'));
-                    redirect(base_url('insert-material/' . $idEntradaMaterial));
+                if (isset($idEntradaMaterial)):
+                    $this->session->set_flashdata(open_modal('Entrada no estoque gerada com sucesso!', CLASSE_SUCESSO));
+                    #REDIRICIONA PARA A ENTRADA DE MATERIAL
+                    redirect(base_url('entrada-material/' . $idEntradaMaterial));
                 else:
                     $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
                     redirect(base_url('estoque-entrada'));
@@ -100,10 +98,11 @@ class Estoque extends CI_Controller
     public function insert_material($idEntradaMaterial)
     {
 
-        echo "<pre>";
-        var_dump($idEntradaMaterial);
-        echo "</pre>";
-        exit();
+        #ENTRADA DE MATERIAL
+        $this->load->view('include/head.php');
+        $this->load->view('include/nav.php');
+        $this->load->view('estoque/entrada-material');
+        $this->load->view('include/footer.php');
 
 
     }
