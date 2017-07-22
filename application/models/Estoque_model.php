@@ -10,6 +10,19 @@ class Estoque_model extends CI_Model
         return $this->db->insert_id();
     }
 
+    function register_material($data)
+    {
+        $this->db->insert('estoque_caixa',$data);
+        return $this->db->insert_id();
+    }
+
+    function register_material_item($data)
+    {
+        $this->db->insert('estoque_itens_caixa',$data);
+        return $this->db->insert_id();
+    }
+
+
     #LISTA TODOS FUNCIONARIOS, LISTA O FUNCIONARIO PARA EDITAR
     function list_employee($id = NULL, $page = NULL)
     {

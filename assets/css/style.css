@@ -79,6 +79,12 @@ body {
     display: none;
 }
 
+.cadastrar-hm
+{
+    margin-top: 22px;
+}
+
+
 .section-pagination {
     cursor: default !important;
     background-color: #337ab7 !important;

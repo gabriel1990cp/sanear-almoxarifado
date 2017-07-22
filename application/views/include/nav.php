@@ -25,6 +25,9 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Estoque<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
+                            <a href="<?php echo base_url('estoque') ?>">Listar</a>
+                        </li>
+                        <li>
                             <a href="<?php echo base_url('estoque-entrada') ?>">Entrada</a>
                         </li>
                     </ul>

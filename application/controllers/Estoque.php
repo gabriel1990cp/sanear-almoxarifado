@@ -84,7 +84,7 @@ class Estoque extends CI_Controller
                 #VERIFICA SE O OCORREU O INSERT NO BANCO DE DADOS
                 $idEntradaMaterial = $this->estoque_model->register($data);
                 if (isset($idEntradaMaterial)):
-                    $this->session->set_flashdata(open_modal('Entrada no estoque gerada com sucesso!', CLASSE_SUCESSO));
+                    $this->session->set_flashdata(open_modal('Entrada no estoque gerada com sucesso !', CLASSE_SUCESSO));
                     #REDIRICIONA PARA A ENTRADA DE MATERIAL
                     redirect(base_url('entrada-material/' . $idEntradaMaterial));
                 else:
@@ -97,13 +97,71 @@ class Estoque extends CI_Controller
 
     public function insert_material($idEntradaMaterial)
     {
+        #ID ENTRADA MATERIAL
+        $data['id_entrada_material'] = $idEntradaMaterial;
+
+        #TIPO DE MATERIAL PARA CADASTRO
+        $data['tipo_material'] = $this->estoque_model->list_type_material();
 
         #ENTRADA DE MATERIAL
         $this->load->view('include/head.php');
         $this->load->view('include/nav.php');
-        $this->load->view('estoque/entrada-material');
+        $this->load->view('estoque/entrada-material', $data);
         $this->load->view('include/footer.php');
 
+
+    }
+
+
+    public function entrada_estoque_cxhm()
+    {
+        #RECEBE OS HM PARA INSERT
+        $idEntradaMaterial = strip_tags(trim($this->input->post('id_entrada_material')));
+        $inicioCaixaHM = strip_tags(trim($this->input->post('inicio_caixa_hm')));
+        $fimCaixaHM = strip_tags(trim($this->input->post('fim_caixa_hm')));
+
+        #DEIXA APENAS OS NUMEROS DOS HM'S
+        $anoModeloHM = substr($inicioCaixaHM, 0, 4);
+        $inicioCaixaHMNumeros = substr($inicioCaixaHM, 4, 6);
+        $fimCaixaHMNumeros = substr($fimCaixaHM, 4, 6);
+
+        $diferencaHM = $fimCaixaHMNumeros - $inicioCaixaHMNumeros;
+
+
+        $data = array(
+            'id_entrada_estoque_caixa' => $idEntradaMaterial,
+            'quant_estoque_caixa' => $diferencaHM,
+            'inicio_estoque_caixa' => $inicioCaixaHM,
+            'fim_estoque_caixa' => $fimCaixaHM,
+            'id_responsavel_estoque_caixa' => '1',
+            'data_cadastro_estoque_caixa' => date('Y-m-d H:i:s')
+        );
+
+        $idCaixaEntrada = $this->estoque_model->register_material($data);
+
+        #VERIFICA SE INSERIU A CAIXA E INSERE OS ITENS DA CAIXA
+        if (isset($idCaixaEntrada)):
+
+            for ($i = 0; $i <= $diferencaHM; $i++):
+
+                $hmInsert = $inicioCaixaHMNumeros + $i;
+
+                $data = array(
+                    'id_caixa_estoque_itens_caixa' => $idCaixaEntrada,
+                    'item_estoque_itens_caixa' => $anoModeloHM . $hmInsert,
+                    'responsavel_estoque_itens_caixa' => '1',
+                    'data_estoque_itens_caixa' => date('Y-m-d H:i:s')
+                );
+
+                $this->estoque_model->register_material_item($data);
+            endfor;
+
+
+
+            else:
+            $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+
+        endif;
 
     }
 
