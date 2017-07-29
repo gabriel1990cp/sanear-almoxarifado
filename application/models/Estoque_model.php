@@ -39,11 +39,19 @@ class Estoque_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    #LISTA TODOS TIPOS DE MATERIAIS
     function list_type_material()
     {
         $this->db->select('*');
         $this->db->from("tipo_material");
+        return $this->db->get()->result_array();
+    }
+
+    function list_material($idEntradaMaterial)
+    {
+        $this->db->select('x1.*, x2.nome_tipo_material');
+        $this->db->from("estoque_caixa x1");
+        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_estoque_caixa");
+        $this->db->where('x1.id_entrada_estoque_caixa   ', $idEntradaMaterial);
         return $this->db->get()->result_array();
     }
 

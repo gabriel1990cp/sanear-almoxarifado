@@ -98,7 +98,10 @@ class Estoque extends CI_Controller
     public function insert_material($idEntradaMaterial)
     {
         #ID ENTRADA MATERIAL
-        $data['id_entrada_material'] = $idEntradaMaterial;
+        $data['id_entrada_material'] = (int) $idEntradaMaterial;
+
+        #LISTA OS MATERIAIS DA ENTRADA DO ESTOQUE
+        $data['materiais'] = $this->estoque_model->list_material( (int) $idEntradaMaterial );
 
         #TIPO DE MATERIAL PARA CADASTRO
         $data['tipo_material'] = $this->estoque_model->list_type_material();
@@ -112,11 +115,11 @@ class Estoque extends CI_Controller
 
     }
 
-
     public function entrada_estoque_cxhm()
     {
         #RECEBE OS HM PARA INSERT
         $idEntradaMaterial = strip_tags(trim($this->input->post('id_entrada_material')));
+        $tipoMaterial = strip_tags(trim($this->input->post('tipo_material')));
         $inicioCaixaHM = strip_tags(trim($this->input->post('inicio_caixa_hm')));
         $fimCaixaHM = strip_tags(trim($this->input->post('fim_caixa_hm')));
 
@@ -130,6 +133,7 @@ class Estoque extends CI_Controller
 
         $data = array(
             'id_entrada_estoque_caixa' => $idEntradaMaterial,
+            'id_mat_estoque_caixa' => $tipoMaterial,
             'quant_estoque_caixa' => $diferencaHM,
             'inicio_estoque_caixa' => $inicioCaixaHM,
             'fim_estoque_caixa' => $fimCaixaHM,
@@ -156,9 +160,8 @@ class Estoque extends CI_Controller
                 $this->estoque_model->register_material_item($data);
             endfor;
 
-
-
-            else:
+            redirect(base_url('entrada-material/' . $idEntradaMaterial));
+        else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
 
         endif;

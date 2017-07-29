@@ -1,6 +1,5 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-
 class Funcionario_model extends CI_Model
 {
     #CADASTRAR USUARIO
@@ -60,7 +59,6 @@ class Funcionario_model extends CI_Model
         return $this->db->get()->num_rows();
     }
 
-
     function check_email($id = NULL, $email = NULL)
     {
         $this->db->select('*');
@@ -72,7 +70,6 @@ class Funcionario_model extends CI_Model
         return $this->db->get()->num_rows();
     }
 
-
     function list_user_password($id = NULL, $senhaAtual = NULL)
     {
         $this->db->select('*');
@@ -81,7 +78,6 @@ class Funcionario_model extends CI_Model
         $this->db->where('id_usuario', $id);
         return $this->db->get()->num_rows();
     }
-
 
     function list_search($nome = NULL, $cpf = NULL, $status = NULL)
     {
