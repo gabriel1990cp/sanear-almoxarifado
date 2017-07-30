@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 02-Jul-2017 às 23:10
+-- Generation Time: 30-Jul-2017 às 23:59
 -- Versão do servidor: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -17,410 +17,292 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `sanear_almoxarifado`
+-- Database: `pedido_garantido`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cargos`
+-- Estrutura da tabela `cliente`
 --
 
-CREATE TABLE `cargos` (
-  `id_cargo` int(11) NOT NULL,
-  `nome_cargo` varchar(45) DEFAULT NULL
+CREATE TABLE `cliente` (
+  `id_cliente` int(11) NOT NULL,
+  `id_md5_cliente` varchar(32) DEFAULT NULL,
+  `nome_cliente` varchar(50) NOT NULL,
+  `rg_cliente` varchar(15) DEFAULT NULL,
+  `cpf_cliente` varchar(20) DEFAULT NULL,
+  `cnpj_cliente` varchar(20) DEFAULT NULL,
+  `email_cliente` varchar(50) DEFAULT NULL,
+  `cep_cliente` varchar(20) DEFAULT NULL,
+  `endereco_cliente` varchar(60) DEFAULT NULL,
+  `numero_cliente` varchar(10) DEFAULT NULL,
+  `complemento_cliente` varchar(50) DEFAULT NULL,
+  `bairro_cliente` varchar(50) DEFAULT NULL,
+  `cidade_cliente` varchar(50) DEFAULT NULL,
+  `estado_cliente` varchar(50) DEFAULT NULL,
+  `referencia_cliente` varchar(70) DEFAULT NULL,
+  `telefone_cliente` varchar(20) DEFAULT NULL,
+  `celular_cliente` varchar(20) DEFAULT NULL,
+  `data_cad_cliente` datetime DEFAULT NULL,
+  `senha_cliente` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Extraindo dados da tabela `cargos`
+-- Extraindo dados da tabela `cliente`
 --
 
-INSERT INTO `cargos` (`id_cargo`, `nome_cargo`) VALUES
-(1, 'Aux. Administrativo'),
-(2, 'Coordenador'),
-(3, 'Encanador'),
-(4, 'Inspetor');
+INSERT INTO `cliente` (`id_cliente`, `id_md5_cliente`, `nome_cliente`, `rg_cliente`, `cpf_cliente`, `cnpj_cliente`, `email_cliente`, `cep_cliente`, `endereco_cliente`, `numero_cliente`, `complemento_cliente`, `bairro_cliente`, `cidade_cliente`, `estado_cliente`, `referencia_cliente`, `telefone_cliente`, `celular_cliente`, `data_cad_cliente`, `senha_cliente`) VALUES
+(3, '3d1a01edb1a15dfc55a7e86756c10db4', 'Manoel', '22.222.222-2', '111.111.111-11', '00.000.000/0000-00', 'gabriel.cp1990@gmail.com', '02039-050', 'Rua Joaquim Osório de Azevedo', '1', '1', 'Jardim São Paulo(Zona Norte)', 'São Paulo', 'SP', '111111111', '1111-1111', '11111-1111', '2016-06-09 05:12:42', NULL),
+(4, 'd195eec5ca33c9267226211c6bff0305', 'teste', '33.333.333-3', '222.222.222-22', '11.111.111/1111-11', 'mariajose', '02039-050', 'Rua Joaquim Osório de Azevedo', '1', '1', '1', 'São Paulo', 'SP', '', '1111-1111', '11111-1111', '2016-06-09 05:28:32', 'alessandro');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `carros`
+-- Estrutura da tabela `entrada_prod`
 --
 
-CREATE TABLE `carros` (
-  `id_carro` int(11) NOT NULL,
-  `nome_carro` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `carros`
---
-
-INSERT INTO `carros` (`id_carro`, `nome_carro`) VALUES
-(1, 'Volkswagen Kombi'),
-(2, 'Fiat Fiorino '),
-(3, 'Fiat Strada'),
-(4, 'Chevrolet Montana'),
-(5, 'Volkswagen Saveiro'),
-(6, 'Chevrolet Celta'),
-(7, 'Outros');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `entrada_material`
---
-
-CREATE TABLE `entrada_material` (
-  `id_entrada_mat` int(11) NOT NULL,
-  `nota_remessa_entrada_mat` varchar(45) DEFAULT NULL,
-  `atend_requisicao_entrada_mat` varchar(45) DEFAULT NULL,
-  `arquivo_entrada_mat` varchar(45) DEFAULT NULL,
-  `responsavel_entrada_mat` varchar(45) DEFAULT NULL,
-  `status_entrada_mat` set('aberto','finalizado') DEFAULT NULL,
-  `data_entrada_mat` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `entrada_material`
---
-
-INSERT INTO `entrada_material` (`id_entrada_mat`, `nota_remessa_entrada_mat`, `atend_requisicao_entrada_mat`, `arquivo_entrada_mat`, `responsavel_entrada_mat`, `status_entrada_mat`, `data_entrada_mat`) VALUES
-(1, '163298/2014', '128367/2017', '', '1', 'aberto', '2017-07-02 22:49:34');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `equipes`
---
-
-CREATE TABLE `equipes` (
-  `id_equipe` int(11) NOT NULL,
-  `nome_equipe` varchar(100) DEFAULT NULL,
-  `inspetor_equipe` int(11) DEFAULT NULL,
-  `observacao_equipe` text,
-  `tipo_equipe` int(10) DEFAULT NULL,
-  `status_equipe` varchar(45) DEFAULT 'ativo',
-  `data_cad_equipe` date DEFAULT NULL,
-  `data_atualizacao_equipe` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `equipes`
---
-
-INSERT INTO `equipes` (`id_equipe`, `nome_equipe`, `inspetor_equipe`, `observacao_equipe`, `tipo_equipe`, `status_equipe`, `data_cad_equipe`, `data_atualizacao_equipe`) VALUES
-(1, 'TESTE', 12, 'TESTE', 2, 'ativo', '2017-06-16', NULL),
-(2, 'TESTE MANE', 16, 'TESTE', 1, 'ativo', '2017-06-25', NULL);
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `equipe_funcionarios`
---
-
-CREATE TABLE `equipe_funcionarios` (
-  `id_equipe_func` int(11) NOT NULL,
-  `id_equipe` int(11) DEFAULT NULL,
-  `id_funcionario` int(11) DEFAULT NULL,
-  `data_cad_func_equipe` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `equipe_funcionarios`
---
-
-INSERT INTO `equipe_funcionarios` (`id_equipe_func`, `id_equipe`, `id_funcionario`, `data_cad_func_equipe`) VALUES
-(3, 2, 15, '2017-06-25 23:07:06'),
-(4, 1, 14, '2017-06-25 23:09:05');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `funcionarios`
---
-
-CREATE TABLE `funcionarios` (
-  `id_funcionario` int(11) NOT NULL,
-  `nome_funcionario` varchar(50) NOT NULL,
-  `rg_funcionario` varchar(45) DEFAULT NULL,
-  `cpf_funcionario` varchar(45) DEFAULT NULL,
-  `cargo_funcionario` int(11) DEFAULT NULL,
-  `telefone_funcionario` varchar(45) DEFAULT NULL,
-  `celular_funcionario` varchar(45) DEFAULT NULL,
-  `carro_funcionario` int(11) DEFAULT NULL,
-  `observacao_funcionario` text,
-  `status_funcionario` enum('ativo','inativo') DEFAULT 'ativo',
-  `data_cad_funcionario` datetime DEFAULT NULL,
-  `data_atualizacao_funcionario` datetime DEFAULT NULL,
-  `responsavel_cad_funcionario` int(11) DEFAULT NULL
+CREATE TABLE `entrada_prod` (
+  `id_entrada_prod` int(10) UNSIGNED NOT NULL,
+  `id_md5_entrada_prod` varchar(32) DEFAULT NULL,
+  `id_produto` int(11) DEFAULT NULL,
+  `fornecedor_entrada_prod` varchar(45) DEFAULT NULL,
+  `compra_entrada_prod` double(9,2) DEFAULT NULL,
+  `venda_entrada_prod` double(9,2) DEFAULT NULL,
+  `quant_entrada_prod` varchar(45) DEFAULT NULL,
+  `nota_entrada_prod` varchar(45) DEFAULT NULL,
+  `data_entrada_produto` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='			';
 
 --
--- Extraindo dados da tabela `funcionarios`
+-- Extraindo dados da tabela `entrada_prod`
 --
 
-INSERT INTO `funcionarios` (`id_funcionario`, `nome_funcionario`, `rg_funcionario`, `cpf_funcionario`, `cargo_funcionario`, `telefone_funcionario`, `celular_funcionario`, `carro_funcionario`, `observacao_funcionario`, `status_funcionario`, `data_cad_funcionario`, `data_atualizacao_funcionario`, `responsavel_cad_funcionario`) VALUES
-(12, 'Gabriel Costa Pinto', '47.270.088-1', '407.492.248-78', 2, '111-1111-1111', '222-22222-2222', 4, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam efficitur risus vitae porttitor sodales. Phasellus ultrices arcu consequat, faucibus enim nec, aliquet nulla. Nullam ornare dui sed iaculis sollicitudin. Morbi sit amet felis mi. Donec sollicitudin laoreet lacus, et iaculis nibh porta in. Donec mattis felis viverra, pellentesque lectus sit amet, blandit dolor. Nunc rhoncus libero consequat, ultricies urna quis, volutpat neque. Integer vitae consectetur neque. Nulla quis volutpat nisi. Quisque sed dolor dapibus, hendrerit mauris eu, maximus ex. Pellentesque vitae suscipit neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin hendrerit hendrerit augue, sit amet finibus augue lacinia ut.\r\n\r\nMorbi et posuere erat, vel dictum augue. Suspendisse potenti. Aliquam sem urna, venenatis ac diam ac, iaculis volutpat diam. Nunc at nibh lorem. In eleifend, massa vitae sodales laoreet, augue nibh pharetra elit, quis aliquet eros est quis odio. Vivamus sagittis elit a ipsum vulputate, vitae eleifend lectus scelerisque. Nunc faucibus sollicitudin nulla, vehicula convallis orci. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas quis viverra est. Sed non nisl rhoncus, pharetra dui vel, mollis felis. Nulla convallis vestibulum eros, quis vestibulum leo mollis quis.\r\n\r\nIn accumsan, dolor tristique sollicitudin vulputate, ligula lorem convallis ligula, id ullamcorper ante sem a justo. Praesent ornare arcu at commodo euismod. Quisque aliquam porttitor sapien, et blandit massa rhoncus sed. Phasellus sit amet vulputate enim. Integer quis nisi id tellus porttitor viverra ornare quis ex. Nulla facilisi. Curabitur ultrices mollis odio, quis pretium nibh posuere sit amet. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris aliquet est luctus, bibendum sapien et, viverra dui. Vivamus blandit auctor quam, vitae molestie velit ultrices sed. Duis vehicula lectus non lacus sollicitudin pulvinar. Maecenas placerat nisl in libero elementum, eu vehicula dolor mollis.\r\n\r\nNam in leo dapibus, iaculis magna ac, maximus leo. Fusce elementum, tellus sit amet sollicitudin malesuada, dolor lorem ornare ex, non tempor enim urna et lectus. Donec a iaculis dui, suscipit commodo odio. Nunc ac nunc at enim dignissim pretium. Suspendisse vel neque odio. Suspendisse potenti. Nulla sed velit ac urna egestas convallis. Nam rhoncus non diam a auctor. Sed pellentesque erat at ante vulputate maximus.', 'inativo', '2017-06-14 02:57:28', '2017-06-14 03:08:41', NULL),
-(13, 'Ana Paula Costa Pinto', '22.222.222-2', '333.333.333-33', 1, '555-5555-5555', '666-66666-6666', 6, 'Fusce sollicitudin rutrum erat sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ut tincidunt libero. Nam auctor tempor malesuada. Nulla consectetur tristique orci ac dictum. Suspendisse ac pellentesque massa. Suspendisse accumsan imperdiet augue, at tempus tortor luctus at. Donec convallis nec dolor non varius. Quisque non felis ut eros ultricies suscipit. Nam odio est, varius ut eleifend vel, consequat eu turpis.', 'ativo', '2017-06-14 02:58:33', '2017-06-25 19:17:10', NULL),
-(14, 'Antonio Mauricio Pinto', '66.666.666-6', '777.777.777-77', 3, '666-6666-6666', '333-33333-3333', 0, 'TESTE', 'ativo', '2017-06-14 02:59:08', NULL, NULL),
-(15, 'Miguel Henrique Costa Pinto', '22.222.222-2', '555.555.555-55', 3, '666-6666-6666', '333-33333-3333', 0, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dignissim risus in nisl commodo vehicula. Pellentesque et ultrices ex. Etiam porttitor hendrerit eros, nec dapibus metus ornare vel. Sed eu dui rutrum, consequat turpis eget, ullamcorper justo. Donec a odio eu nisi tempus condimentum nec vitae mi. Praesent at turpis nec mauris tempor varius sed nec lectus. Nam lorem diam, interdum vitae est sit amet, placerat eleifend nulla. Aliquam erat volutpat. In at mauris vel magna mattis euismod. Aliquam vel turpis suscipit est fringilla consectetur vitae id libero. Curabitur eleifend massa turpis, vel aliquet massa faucibus at. Donec luctus malesuada velit, sit amet ullamcorper metus dignissim interdum. Suspendisse potenti. Nunc ligula sem, cursus quis vulputate quis, feugiat convallis ante. Quisque tellus nunc, fringilla non pulvinar non, vestibulum quis mi. Nulla facilisis eu mi a accumsan.\r\n\r\nNam tempus facilisis sagittis. Phasellus quis augue at erat rutrum fermentum. Mauris bibendum a arcu sit amet pharetra. Donec dolor lacus, interdum et erat ut, scelerisque molestie risus. Integer consequat eget velit a dapibus. Cras condimentum laoreet sagittis. Praesent nunc nibh, bibendum eu massa eu, molestie volutpat metus. In non risus sem. Nullam at iaculis ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus accumsan, est non euismod rhoncus, lectus nibh porta felis, ut vestibulum elit dolor ut nibh. Praesent a viverra massa, vitae molestie tellus.\r\n\r\nInteger turpis mi, rhoncus vitae nibh et, commodo porttitor nisi. Praesent malesuada ullamcorper aliquet. Praesent turpis ligula, malesuada vitae tristique vitae, viverra id magna. Donec aliquet tellus et ipsum vulputate, sit amet egestas leo semper. Maecenas hendrerit scelerisque lacus in aliquam. Duis ultricies tempor justo vel rutrum. Morbi quis faucibus nisi. Nunc iaculis eros quis vehicula blandit. Aliquam scelerisque blandit nibh, non laoreet erat. Aenean ultricies ligula ac elit tempus rutrum. Nam id vulputate mi, in tincidunt diam.\r\n\r\nDonec mattis eleifend sodales. Duis iaculis, ex ac tristique malesuada, nunc sapien malesuada augue, at tristique justo diam sed dui. Aenean mollis molestie faucibus. Proin dapibus leo eget dolor rhoncus, quis faucibus dui lacinia. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent quis rutrum quam. Nulla vulputate eu lectus a malesuada. Nam in eros eros. Mauris ultricies, augue eu lacinia ornare, lectus turpis iaculis nunc, sed sagittis risus augue quis dolor. Morbi vulputate, ex a consequat rutrum, magna urna feugiat nunc, ac maximus eros sapien id metus. Donec nec leo ut felis sagittis dignissim hendrerit ut leo. Nam id lorem pretium, pretium lectus vel, sagittis odio. Donec libero tortor, laoreet in cursus efficitur, viverra ut quam. Ut fringilla velit dolor, ut fringilla neque ultrices sit amet.\r\n\r\nQuisque elementum dui ac lectus mattis, sed porta orci mollis. Vestibulum laoreet, risus sed euismod interdum, nisi leo sollicitudin urna, ut elementum ipsum nisl vel ante. Maecenas eu vestibulum ipsum. Proin sagittis nunc sed augue tincidunt varius. Nunc vitae arcu suscipit, eleifend ante et, tristique nisi. Morbi eu est ex. Praesent non eros quis nisi consequat sollicitudin in vel sapien.\r\n\r\nMorbi mattis risus eget purus scelerisque, at pharetra dolor semper. Sed ullamcorper sodales ligula, nec scelerisque quam posuere in. Curabitur tempus fringilla dictum. Proin et dui molestie, convallis odio ac, eleifend mauris. Mauris blandit felis eros, in cursus lorem vulputate sit amet. Ut ut nisi a nisl scelerisque mollis in in tortor. In tempus justo in sem tempor eleifend. Vivamus purus lacus, commodo tempor purus nec, tincidunt vehicula dolor. Vestibulum tincidunt risus id lacus feugiat laoreet. Nam facilisis pellentesque quam vitae aliquet. Pellentesque rhoncus, libero nec accumsan lobortis, massa sapien commodo ex, at laoreet metus leo non ipsum.\r\n\r\nProin nec pellentesque tellus, sed posuere est. Nullam et eros lectus. Aliquam interdum enim ligula, eu bibendum ipsum bibendum a. Sed eget luctus elit. Fusce dapibus mollis magna accumsan sagittis. Sed eget ultricies ex. Sed pharetra sed leo nec euismod. Vivamus sed vehicula lectus, vel pharetra risus. Sed dapibus aliquet commodo. Praesent ac fermentum ante, at gravida justo.\r\n\r\nVestibulum ac diam consequat, pharetra justo tempus, varius tortor. Duis magna justo, ultrices vel tristique scelerisque, placerat in sem. Vivamus ultricies, nisi ut porta vestibulum, odio orci eleifend orci, malesuada gravida tellus eros eget arcu. Duis posuere libero eget lorem placerat ullamcorper. Donec id semper metus. Mauris nisl mauris, convallis eu lobortis sed, hendrerit in nisi. Ut pulvinar vehicula risus, id molestie nibh placerat nec. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam interdum eros odio. Phasellus maximus in erat a maximus. Vivamus sed turpis sed augue mattis gravida. Aliquam turpis lorem, condimentum et commodo eu, aliquam sit amet ante.\r\n\r\nDuis tincidunt purus in erat sagittis, a tincidunt elit sagittis. Integer ut sem tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce luctus nulla a lacinia auctor. Sed et auctor massa. Suspendisse ultrices sagittis odio sit amet sollicitudin. Fusce laoreet convallis ante a vestibulum. Mauris fermentum leo ac dolor accumsan, in congue est facilisis. Vestibulum lacinia metus ligula, imperdiet gravida felis imperdiet eu. Nullam imperdiet risus vel mi faucibus fermentum vel vel metus. Quisque ligula magna, feugiat id fringilla non, porttitor at lacus.', 'ativo', '2017-06-14 02:59:53', '2017-06-14 03:01:04', NULL),
-(16, 'TESTE', '22.222.222-2', '333.333.333-33', 2, '888-8888-8888', '999-99999-9999', 4, 'TESTE', 'ativo', '2017-06-25 19:23:50', NULL, NULL);
+INSERT INTO `entrada_prod` (`id_entrada_prod`, `id_md5_entrada_prod`, `id_produto`, `fornecedor_entrada_prod`, `compra_entrada_prod`, `venda_entrada_prod`, `quant_entrada_prod`, `nota_entrada_prod`, `data_entrada_produto`) VALUES
+(3, 'faa0340cd28113e1fc36b695ced8055b', 3, 'Gabriel', 1.11, 2.22, '11', '11', '2016-06-09 05:03:14');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `log`
+-- Estrutura da tabela `itens_pedido`
 --
 
-CREATE TABLE `log` (
-  `id_log` int(11) NOT NULL,
-  `log_acao` varchar(45) DEFAULT NULL,
-  `log_responsavel` varchar(45) DEFAULT NULL,
-  `log_data` datetime DEFAULT NULL
+CREATE TABLE `itens_pedido` (
+  `id_itens_pedido` int(11) NOT NULL,
+  `id_pedido` int(11) DEFAULT '0',
+  `id_cliente_itens_pedido` int(11) DEFAULT NULL,
+  `id_produto_itens_pedido` int(11) DEFAULT NULL,
+  `quant_produto_itens_pedido` int(11) DEFAULT NULL,
+  `valor_prod_itens_pedido` double(9,2) DEFAULT NULL,
+  `data_itens_pedido` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `itens_pedido`
+--
+
+INSERT INTO `itens_pedido` (`id_itens_pedido`, `id_pedido`, `id_cliente_itens_pedido`, `id_produto_itens_pedido`, `quant_produto_itens_pedido`, `valor_prod_itens_pedido`, `data_itens_pedido`) VALUES
+(3, 3, 2, 3, 1, 2.22, '2016-06-09'),
+(4, 3, 2, 3, 2, 2.22, '2016-06-09'),
+(5, 4, 2, 3, 1, 2.22, '2016-06-09'),
+(6, 5, 3, 3, 1, 2.22, '2016-06-09'),
+(7, 6, 4, 3, 1, 2.22, '2016-06-09'),
+(8, 7, 4, 3, 2, 2.22, '2016-06-09'),
+(9, 8, 2, 3, 10, 2.22, '2017-05-02'),
+(10, 0, 2, 3, 1, 2.22, '2017-05-13');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `perfil`
+-- Estrutura da tabela `login`
 --
 
-CREATE TABLE `perfil` (
-  `id_perfil` int(11) NOT NULL,
-  `nome_perfil` varchar(45) DEFAULT NULL
+CREATE TABLE `login` (
+  `id_login` int(10) NOT NULL,
+  `usuario_login` varchar(40) NOT NULL,
+  `senha_login` varchar(32) NOT NULL,
+  `acessos_login` int(10) NOT NULL,
+  `tipo_perfil_login` int(11) DEFAULT NULL,
+  `status_login` varchar(45) DEFAULT NULL,
+  `data_cadastro_login` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Extraindo dados da tabela `perfil`
+-- Extraindo dados da tabela `login`
 --
 
-INSERT INTO `perfil` (`id_perfil`, `nome_perfil`) VALUES
-(1, 'Administrativo'),
-(2, 'Almoxarifado'),
-(3, 'Supervisor'),
-(4, 'Sabesp');
+INSERT INTO `login` (`id_login`, `usuario_login`, `senha_login`, `acessos_login`, `tipo_perfil_login`, `status_login`, `data_cadastro_login`) VALUES
+(1, 'gabriel.cp1990@gmail.com', '202cb962ac59075b964b07152d234b70', 0, NULL, NULL, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tipo_equipes`
+-- Estrutura da tabela `pedido`
 --
 
-CREATE TABLE `tipo_equipes` (
-  `id_tipo_equipe` int(11) NOT NULL,
-  `nome_tipo_equipe` varchar(50) DEFAULT NULL
+CREATE TABLE `pedido` (
+  `id_pedido` int(11) NOT NULL,
+  `cliente_pedido` int(11) DEFAULT NULL,
+  `pagamento_pedido` varchar(45) DEFAULT NULL,
+  `data_pedido` datetime DEFAULT NULL,
+  `status_final_pedido` varchar(50) DEFAULT 'pendente',
+  `data_status` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Extraindo dados da tabela `tipo_equipes`
+-- Extraindo dados da tabela `pedido`
 --
 
-INSERT INTO `tipo_equipes` (`id_tipo_equipe`, `nome_tipo_equipe`) VALUES
-(1, 'Varredura'),
-(2, 'Denúncia');
+INSERT INTO `pedido` (`id_pedido`, `cliente_pedido`, `pagamento_pedido`, `data_pedido`, `status_final_pedido`, `data_status`) VALUES
+(3, 2, 'Dinheiro', '2016-06-09 05:04:04', 'pendente', NULL),
+(4, 2, 'Cheque', '2016-06-09 05:06:57', 'Entrega Confirmada', '2016-06-09 05:09:05'),
+(5, 3, 'Cartão', '2016-06-09 05:13:09', 'Entrega Confirmada', '2017-05-03 01:24:29'),
+(6, 4, 'Cheque', '2016-06-09 05:31:51', 'pendente', NULL),
+(7, 4, 'Cheque', '2016-06-09 05:39:23', 'pendente', NULL),
+(8, 2, 'Dinheiro', '2017-05-02 04:37:58', 'pendente', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tipo_material`
+-- Estrutura da tabela `produto`
 --
 
-CREATE TABLE `tipo_material` (
-  `id_tipo_material` int(11) NOT NULL,
-  `nome_tipo_material` varchar(100) DEFAULT NULL
+CREATE TABLE `produto` (
+  `id_produto` int(11) NOT NULL,
+  `id_md5_produto` varchar(32) DEFAULT NULL,
+  `descricao_produto` varchar(50) NOT NULL,
+  `cat_produto` varchar(45) DEFAULT NULL,
+  `peso_produto` int(10) DEFAULT NULL,
+  `unid_med_produto` enum('kg','ml','lt') DEFAULT NULL,
+  `marca_produto` varchar(45) DEFAULT NULL,
+  `cod_produto` varchar(45) DEFAULT NULL,
+  `data_cad_produto` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Extraindo dados da tabela `tipo_material`
+-- Extraindo dados da tabela `produto`
 --
 
-INSERT INTO `tipo_material` (`id_tipo_material`, `nome_tipo_material`) VALUES
-(1, 'Hidrômetro A'),
-(2, 'Hidrômetro B'),
-(3, 'Hidrômetro C'),
-(4, 'Hidrômetro D'),
-(5, 'Hidrômetro Y'),
-(6, 'Lacre cordoalha de aço'),
-(8, 'Mola dispositivo anti fraude');
+INSERT INTO `produto` (`id_produto`, `id_md5_produto`, `descricao_produto`, `cat_produto`, `peso_produto`, `unid_med_produto`, `marca_produto`, `cod_produto`, `data_cad_produto`) VALUES
+(3, 'fe146fcfcfb677b13e908bf6b5f73c72', 'Aguá', 'GALÃO', 350, 'ml', 'Agua boa', '1045', '2016-06-09 05:03:05');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usuarios`
+-- Estrutura da tabela `status_pedido`
 --
 
-CREATE TABLE `usuarios` (
-  `id_usuario` int(11) NOT NULL,
-  `nome_usuario` varchar(50) DEFAULT NULL,
-  `rg_usuario` varchar(15) DEFAULT NULL,
-  `cpf_usuario` varchar(20) DEFAULT NULL,
-  `email_usuario` varchar(45) DEFAULT NULL,
-  `matricula_usuario` varchar(45) DEFAULT NULL,
-  `perfil_usuario` int(11) DEFAULT NULL,
-  `senha_usuario` varchar(32) DEFAULT NULL,
-  `status_usuario` enum('ativo','inativo') DEFAULT 'ativo',
-  `data_cad_usuario` datetime DEFAULT NULL,
-  `data_atualizacao_usuario` datetime DEFAULT NULL,
-  `respo_cad_usuario` int(11) DEFAULT NULL
+CREATE TABLE `status_pedido` (
+  `id_status_pedido` int(11) NOT NULL,
+  `id_pedido_status_pedido` int(11) DEFAULT NULL,
+  `status_pedido` varchar(50) DEFAULT NULL,
+  `data_status_pedido` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Extraindo dados da tabela `usuarios`
+-- Extraindo dados da tabela `status_pedido`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nome_usuario`, `rg_usuario`, `cpf_usuario`, `email_usuario`, `matricula_usuario`, `perfil_usuario`, `senha_usuario`, `status_usuario`, `data_cad_usuario`, `data_atualizacao_usuario`, `respo_cad_usuario`) VALUES
-(1, 'Gabriel Costa', '22.222.222-2', '333.333.333-33', 'gabriel.cp1990@gmail.com', 'T00016110962', 2, '1bd5e0bb3f8b01c81a5a880c121bdbfd', 'ativo', '2017-06-17 05:22:40', '2017-06-26 00:14:38', NULL);
+INSERT INTO `status_pedido` (`id_status_pedido`, `id_pedido_status_pedido`, `status_pedido`, `data_status_pedido`) VALUES
+(8, 3, 'Pendente', '2016-06-09 05:04:04'),
+(9, 4, 'Pendente', '2016-06-09 05:06:57'),
+(10, 4, 'Cliente não atendeu 1ª tentativa', '2016-06-09 05:07:31'),
+(11, 4, 'Entrega Confirmada', '2016-06-09 05:09:05'),
+(12, 5, 'Pendente', '2016-06-09 05:13:09'),
+(13, 6, 'Pendente', '2016-06-09 05:31:51'),
+(14, 7, 'Pendente', '2016-06-09 05:39:23'),
+(15, 7, 'Não entregue', '2017-05-02 01:38:55'),
+(16, 8, 'Pendente', '2017-05-02 04:37:58'),
+(17, 8, 'Em Trânsito', '2017-05-02 04:38:20'),
+(18, 8, 'Cliente não atendeu 1ª tentativa', '2017-05-03 01:23:10'),
+(19, 5, 'Cliente não atendeu 1ª tentativa', '2017-05-03 01:23:30'),
+(20, 5, 'Entrega Confirmada', '2017-05-03 01:24:29');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `cargos`
+-- Indexes for table `cliente`
 --
-ALTER TABLE `cargos`
-  ADD PRIMARY KEY (`id_cargo`);
+ALTER TABLE `cliente`
+  ADD PRIMARY KEY (`id_cliente`);
 
 --
--- Indexes for table `carros`
+-- Indexes for table `entrada_prod`
 --
-ALTER TABLE `carros`
-  ADD PRIMARY KEY (`id_carro`);
+ALTER TABLE `entrada_prod`
+  ADD PRIMARY KEY (`id_entrada_prod`);
 
 --
--- Indexes for table `entrada_material`
+-- Indexes for table `itens_pedido`
 --
-ALTER TABLE `entrada_material`
-  ADD PRIMARY KEY (`id_entrada_mat`);
+ALTER TABLE `itens_pedido`
+  ADD PRIMARY KEY (`id_itens_pedido`);
 
 --
--- Indexes for table `equipes`
+-- Indexes for table `login`
 --
-ALTER TABLE `equipes`
-  ADD PRIMARY KEY (`id_equipe`),
-  ADD KEY `tipo_equioe_idx` (`tipo_equipe`),
-  ADD KEY `inspetor_equipe_idx` (`inspetor_equipe`);
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`id_login`);
 
 --
--- Indexes for table `equipe_funcionarios`
+-- Indexes for table `pedido`
 --
-ALTER TABLE `equipe_funcionarios`
-  ADD PRIMARY KEY (`id_equipe_func`);
+ALTER TABLE `pedido`
+  ADD PRIMARY KEY (`id_pedido`);
 
 --
--- Indexes for table `funcionarios`
+-- Indexes for table `produto`
 --
-ALTER TABLE `funcionarios`
-  ADD PRIMARY KEY (`id_funcionario`);
+ALTER TABLE `produto`
+  ADD PRIMARY KEY (`id_produto`);
 
 --
--- Indexes for table `log`
+-- Indexes for table `status_pedido`
 --
-ALTER TABLE `log`
-  ADD PRIMARY KEY (`id_log`);
-
---
--- Indexes for table `perfil`
---
-ALTER TABLE `perfil`
-  ADD PRIMARY KEY (`id_perfil`);
-
---
--- Indexes for table `tipo_equipes`
---
-ALTER TABLE `tipo_equipes`
-  ADD PRIMARY KEY (`id_tipo_equipe`);
-
---
--- Indexes for table `tipo_material`
---
-ALTER TABLE `tipo_material`
-  ADD PRIMARY KEY (`id_tipo_material`);
-
---
--- Indexes for table `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id_usuario`),
-  ADD KEY `fk_id_perfil_idx` (`perfil_usuario`);
+ALTER TABLE `status_pedido`
+  ADD PRIMARY KEY (`id_status_pedido`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `cargos`
+-- AUTO_INCREMENT for table `cliente`
 --
-ALTER TABLE `cargos`
-  MODIFY `id_cargo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `cliente`
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT for table `carros`
+-- AUTO_INCREMENT for table `entrada_prod`
 --
-ALTER TABLE `carros`
-  MODIFY `id_carro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+ALTER TABLE `entrada_prod`
+  MODIFY `id_entrada_prod` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `entrada_material`
+-- AUTO_INCREMENT for table `itens_pedido`
 --
-ALTER TABLE `entrada_material`
-  MODIFY `id_entrada_mat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `itens_pedido`
+  MODIFY `id_itens_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
--- AUTO_INCREMENT for table `equipes`
+-- AUTO_INCREMENT for table `login`
 --
-ALTER TABLE `equipes`
-  MODIFY `id_equipe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `login`
+  MODIFY `id_login` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `equipe_funcionarios`
+-- AUTO_INCREMENT for table `pedido`
 --
-ALTER TABLE `equipe_funcionarios`
-  MODIFY `id_equipe_func` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `pedido`
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT for table `funcionarios`
+-- AUTO_INCREMENT for table `produto`
 --
-ALTER TABLE `funcionarios`
-  MODIFY `id_funcionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+ALTER TABLE `produto`
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `log`
+-- AUTO_INCREMENT for table `status_pedido`
 --
-ALTER TABLE `log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `perfil`
---
-ALTER TABLE `perfil`
-  MODIFY `id_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `tipo_equipes`
---
-ALTER TABLE `tipo_equipes`
-  MODIFY `id_tipo_equipe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `tipo_material`
---
-ALTER TABLE `tipo_material`
-  MODIFY `id_tipo_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT for table `usuarios`
---
-ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- Constraints for dumped tables
---
-
---
--- Limitadores para a tabela `equipes`
---
-ALTER TABLE `equipes`
-  ADD CONSTRAINT `inspetor_equipe` FOREIGN KEY (`inspetor_equipe`) REFERENCES `funcionarios` (`id_funcionario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `tipo_equioe` FOREIGN KEY (`tipo_equipe`) REFERENCES `tipo_equipes` (`id_tipo_equipe`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Limitadores para a tabela `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD CONSTRAINT `fk_id_perfil` FOREIGN KEY (`perfil_usuario`) REFERENCES `perfil` (`id_perfil`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
+ALTER TABLE `status_pedido`
+  MODIFY `id_status_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
