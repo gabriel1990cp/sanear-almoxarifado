@@ -72,10 +72,31 @@ class Estoque extends CI_Controller
                 $notaRemessa = strip_tags(trim($this->input->post('nota_remessa')));
                 $atendiRequisicao = strip_tags($this->input->post('atendimento_requisicao'));
 
+
+                $this->load->library('upload');
+
+                $config['upload_path'] = './uploads';
+                $config['allowed_types'] = 'pdf';
+                $config['max_width'] = '500';
+                $config['overwrite'] = 'true';
+                $config['encrypt_name'] = TRUE;
+
+                $this->upload->initialize($config);
+
+                if (!$this->upload->do_upload('arquivo')):
+                    $erro = array('error' => $this->upload->display_errors());
+                    $this->session->set_flashdata(open_modal($erro['error'], CLASSE_ERRO));
+                    redirect(base_url('estoque-entrada'));
+                    exit();
+                else:
+                    $imagem['arquivo'] = $this->upload->data();
+                endif;
+
+
                 $data = array(
                     'atend_requisicao_entrada_est' => $atendiRequisicao,
                     'nota_remessa_entrada_est' => $notaRemessa,
-                    'arquivo_entrada_est' => '',
+                    'arquivo_entrada_est' => $imagem['arquivo']['file_name'],
                     'responsavel_entrada_est' => '1',
                     'status_entrada_est' => 'aberto',
                     'data_entrada_est' => date('Y-m-d H:i:s')
@@ -98,10 +119,10 @@ class Estoque extends CI_Controller
     public function insert_material($idEntradaMaterial)
     {
         #ID ENTRADA MATERIAL
-        $data['id_entrada_material'] = (int) $idEntradaMaterial;
+        $data['id_entrada_material'] = (int)$idEntradaMaterial;
 
         #LISTA OS MATERIAIS DA ENTRADA DO ESTOQUE
-        $data['materiais'] = $this->estoque_model->list_material( (int) $idEntradaMaterial );
+        $data['materiais'] = $this->estoque_model->list_material((int)$idEntradaMaterial);
 
         #TIPO DE MATERIAL PARA CADASTRO
         $data['tipo_material'] = $this->estoque_model->list_type_material();
@@ -129,7 +150,6 @@ class Estoque extends CI_Controller
         $fimCaixaHMNumeros = substr($fimCaixaHM, 4, 6);
 
         $diferencaHM = $fimCaixaHMNumeros - $inicioCaixaHMNumeros;
-
 
         $data = array(
             'id_entrada_estoque_caixa' => $idEntradaMaterial,
@@ -169,7 +189,8 @@ class Estoque extends CI_Controller
     }
 
 
-    public function edit($id)
+    public
+    function edit($id)
     {
         if (empty($id)):
             redirect(base_url('funcionarios'));
@@ -194,7 +215,8 @@ class Estoque extends CI_Controller
         $this->load->view('include/footer.php');
     }
 
-    public function view($id)
+    public
+    function view($id)
     {
         if (empty($page)):
             $page = 0;
@@ -213,7 +235,8 @@ class Estoque extends CI_Controller
         $this->load->view('include/footer.php');
     }
 
-    public function search()
+    public
+    function search()
     {
         $nome = strip_tags(trim($this->input->post('nome')));
         $cpf = strip_tags($this->input->post('cpf'));
@@ -238,7 +261,8 @@ class Estoque extends CI_Controller
         $this->load->view('include/footer.php');
     }
 
-    public function delete($id)
+    public
+    function delete($id)
     {
         if (empty($id)):
             redirect(base_url('funcionarios'));
@@ -257,7 +281,8 @@ class Estoque extends CI_Controller
         endif;
     }
 
-    public function insert_edit()
+    public
+    function insert_edit()
     {
         if ($_POST):
 
