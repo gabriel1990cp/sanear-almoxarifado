@@ -27,7 +27,7 @@ class Estoque extends CI_Controller
         endif;
 
         #LISTA TODOS FUNCIONARIOS
-        $data['funcionarios'] = $this->funcionario_model->list_employee(null, $page);
+        $data['entradasEstoque'] = $this->estoque_model->list_material(null, $page);
 
         #PAGINADOR
         $config['base_url'] = base_url() . 'funcionarios';
@@ -42,7 +42,7 @@ class Estoque extends CI_Controller
 
         $this->load->view('include/head.php');
         $this->load->view('include/nav.php');
-        $this->load->view('funcionario/home', $data);
+        $this->load->view('estoque/home', $data);
         $this->load->view('include/footer.php');
     }
 
@@ -107,7 +107,7 @@ class Estoque extends CI_Controller
                 if (isset($idEntradaMaterial)):
                     $this->session->set_flashdata(open_modal('Entrada no estoque gerada com sucesso !', CLASSE_SUCESSO));
                     #REDIRICIONA PARA A ENTRADA DE MATERIAL
-                    redirect(base_url('entrada-material/' . $idEntradaMaterial));
+                    redirect(base_url('estoque'));
                 else:
                     $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
                     redirect(base_url('estoque-entrada'));
@@ -116,13 +116,13 @@ class Estoque extends CI_Controller
         endif;
     }
 
-    public function insert_material($idEntradaMaterial)
+    public function insert_material($idEntradaMaterial,$tipoMaterial)
     {
         #ID ENTRADA MATERIAL
         $data['id_entrada_material'] = (int)$idEntradaMaterial;
 
         #LISTA OS MATERIAIS DA ENTRADA DO ESTOQUE
-        $data['materiais'] = $this->estoque_model->list_material((int)$idEntradaMaterial);
+        $data['materiais'] = $this->estoque_model->list_material_input((int)$idEntradaMaterial);
 
         #TIPO DE MATERIAL PARA CADASTRO
         $data['tipo_material'] = $this->estoque_model->list_type_material();
@@ -130,10 +130,21 @@ class Estoque extends CI_Controller
         #ENTRADA DE MATERIAL
         $this->load->view('include/head.php');
         $this->load->view('include/nav.php');
-        $this->load->view('estoque/entrada-material', $data);
+
+        switch ((int)$tipoMaterial){
+
+            case 1:
+                $this->load->view('estoque/entrada-material-hmy', $data);
+                break;
+            case 2:
+
+                break;
+
+            default:
+                echo "i is not equal to 0, 1 or 2";
+        }
+
         $this->load->view('include/footer.php');
-
-
     }
 
     public function entrada_estoque_cxhm()
@@ -185,12 +196,10 @@ class Estoque extends CI_Controller
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
 
         endif;
-
     }
 
 
-    public
-    function edit($id)
+    public function edit($id)
     {
         if (empty($id)):
             redirect(base_url('funcionarios'));
@@ -215,8 +224,7 @@ class Estoque extends CI_Controller
         $this->load->view('include/footer.php');
     }
 
-    public
-    function view($id)
+    public function view($id)
     {
         if (empty($page)):
             $page = 0;
@@ -235,8 +243,7 @@ class Estoque extends CI_Controller
         $this->load->view('include/footer.php');
     }
 
-    public
-    function search()
+    public function search()
     {
         $nome = strip_tags(trim($this->input->post('nome')));
         $cpf = strip_tags($this->input->post('cpf'));
@@ -261,8 +268,7 @@ class Estoque extends CI_Controller
         $this->load->view('include/footer.php');
     }
 
-    public
-    function delete($id)
+    public function delete($id)
     {
         if (empty($id)):
             redirect(base_url('funcionarios'));
@@ -281,8 +287,7 @@ class Estoque extends CI_Controller
         endif;
     }
 
-    public
-    function insert_edit()
+    public function insert_edit()
     {
         if ($_POST):
 

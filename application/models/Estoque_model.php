@@ -23,19 +23,16 @@ class Estoque_model extends CI_Model
     }
 
 
-    #LISTA TODOS FUNCIONARIOS, LISTA O FUNCIONARIO PARA EDITAR
-    function list_employee($id = NULL, $page = NULL)
+    #LISTA TODAS ENTRADAS DE MATERIAS
+    function list_material($id = NULL, $page = NULL)
     {
-        $this->db->select('x1.*,x2.nome_carro,x3.nome_cargo');
-        $this->db->from("funcionarios x1");
-        $this->db->join("carros x2", 'x1.carro_funcionario = x2.id_carro', 'left');
-        $this->db->join("cargos x3", 'x1.cargo_funcionario = x3.id_cargo', 'left');
+        $this->db->select('*');
+        $this->db->from("estoque_entrada");
         if (!empty($id)):
-            $this->db->where('x1.id_funcionario', $id);
+            $this->db->where('id_entrada_est', $id);
         endif;
         $this->db->limit(10, $page);
-        $this->db->order_by('x1.status_funcionario', "ASC");
-        $this->db->order_by('x1.nome_funcionario', "ASC");
+        $this->db->order_by('data_entrada_est', "ASC");
         return $this->db->get()->result_array();
     }
 
@@ -46,7 +43,7 @@ class Estoque_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    function list_material($idEntradaMaterial)
+    function list_material_input($idEntradaMaterial)
     {
         $this->db->select('x1.*, x2.nome_tipo_material');
         $this->db->from("estoque_caixa x1");
