@@ -11,7 +11,7 @@
     <!-- ============ META =================== -->
 
     <!-- ============ FONT =================== -->
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=ABeeZee" rel="stylesheet">
     <!-- ============ FONT =================== -->
 
     <!-- ============ CSS =================== -->
@@ -33,8 +33,5 @@
     <!-- ============ RESPONSIVO=================== -->
 </head>
 
-<script>
-    var base_url = "<?= base_url(); ?>";
-</script>
 
 

@@ -53,7 +53,6 @@
                         <th>Nota de remessa</th>
                         <th>Arquivo</th>
                         <th>Status</th>
-                        <th>Entrada Material</th>
                         <th>Opção</th>
                     </tr>
                     </thead>
@@ -66,23 +65,11 @@
                                 <td>Gabriel Costa</a></td>
                                 <td><?= $entradaEstoque['data_entrada_est']; ?></td>
                                 <td><?= $entradaEstoque['atend_requisicao_entrada_est']; ?></td>
-                                <td><?= $entradaEstoque['nota_remessa_entrada_est']; ?></td>
-                                <td><?= substr($entradaEstoque['arquivo_entrada_est'], 25, 30); ?></td>
+                                <td><?= $entradaEstoque['nota_remessa_entrada_est'];?></td>
+                                <td><a href="<?= base_url('uploads/'). $entradaEstoque['arquivo_entrada_est'] ?>" download=""><?= $entradaEstoque['arquivo_entrada_est'];?></a></td>
                                 <td><?= $entradaEstoque['status_entrada_est']; ?></td>
                                 <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Selecione > <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="<?=base_url('entrada-material/' . $entradaEstoque['id_entrada_est'] . "/1")?>">Hidrômetro Y</a></li>
-                                            <li><a href="#">Hidrômetro A/B/C/D</a></li>
-                                            <li><a href="#">Lacre coralha de aço</a></li>
-                                            <li><a href="#">Mola dispositivo anti fraude</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
+                                    <a class="btn btn-primary btn-xs" href="<?= base_url('entrada-material/' . $entradaEstoque['id_entrada_est'])?>/1">Material</a>
                                     <a class="btn btn-warning btn-xs" href="<?= base_url('editar-funcionario/' . $entradaEstoque['id_entrada_est']) ?>">Editar</a>
                                     <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-id="<?= $entradaEstoque['id_entrada_est'] ?>" data-nome="<?= $entradaEstoque['id_entrada_est'] ?>">Deletar</button>
                                 </td>

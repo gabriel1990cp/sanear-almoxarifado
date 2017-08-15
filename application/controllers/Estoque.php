@@ -26,7 +26,7 @@ class Estoque extends CI_Controller
             $page = 0;
         endif;
 
-        #LISTA TODOS FUNCIONARIOS
+        #LISTA TODOS MATERIAIS
         $data['entradasEstoque'] = $this->estoque_model->list_material(null, $page);
 
         #PAGINADOR
@@ -79,7 +79,9 @@ class Estoque extends CI_Controller
                 $config['allowed_types'] = 'pdf';
                 $config['max_width'] = '500';
                 $config['overwrite'] = 'true';
-                $config['encrypt_name'] = TRUE;
+                $config['encrypt_name'] = false;
+                $config['file_name'] = $notaRemessa;
+
 
                 $this->upload->initialize($config);
 
@@ -91,7 +93,6 @@ class Estoque extends CI_Controller
                 else:
                     $imagem['arquivo'] = $this->upload->data();
                 endif;
-
 
                 $data = array(
                     'atend_requisicao_entrada_est' => $atendiRequisicao,
@@ -116,7 +117,13 @@ class Estoque extends CI_Controller
         endif;
     }
 
-    public function insert_material($idEntradaMaterial,$tipoMaterial)
+    public function combo_material()
+    {
+        #TIPO DE MATERIAL PARA CADASTRO
+        return $this->estoque_model->list_type_material();
+    }
+
+    public function insert_material($idEntradaMaterial, $tipoMaterial)
     {
         #ID ENTRADA MATERIAL
         $data['id_entrada_material'] = (int)$idEntradaMaterial;
@@ -125,30 +132,58 @@ class Estoque extends CI_Controller
         $data['materiais'] = $this->estoque_model->list_material_input((int)$idEntradaMaterial);
 
         #TIPO DE MATERIAL PARA CADASTRO
-        $data['tipo_material'] = $this->estoque_model->list_type_material();
+        $data['tipo_material'] = $this->combo_material();
 
         #ENTRADA DE MATERIAL
         $this->load->view('include/head.php');
         $this->load->view('include/nav.php');
-
-        switch ((int)$tipoMaterial){
-
-            case 1:
-                $this->load->view('estoque/entrada-material-hmy', $data);
-                break;
-            case 2:
-
-                break;
-
-            default:
-                echo "i is not equal to 0, 1 or 2";
-        }
-
+        $this->load->view('estoque/entrada-material', $data);
         $this->load->view('include/footer.php');
     }
 
+    public function entrada_tipo_material(){
+
+        $idEntradaMaterial = (int) $this->input->post('id_entrada_material');
+        $tipoMaterial = (int) $this->input->post('tipo_material');
+
+        $data['id_entrada_material'] = $idEntradaMaterial;
+        $data['tipoMaterial'] = $tipoMaterial;
+
+        #TIPO DE MATERIAL PARA CADASTRO
+        $data['tipo_material'] = $this->combo_material();
+
+
+        switch ($tipoMaterial){
+
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                $data['form'] = $this->load->view('estoque/tipo_material/material_hm.php', '', TRUE);
+                break;
+            case 5:
+                $data['form'] = $this->load->view('estoque/tipo_material/material_hmy.php', '', TRUE);
+                break;
+        }
+
+
+
+
+        $this->load->view('include/head.php');
+        $this->load->view('include/nav.php');
+        $this->load->view('estoque/entrada-material', $data);
+
+
+
+    }
+
+
     public function entrada_estoque_cxhm()
     {
+
+        echo  "oi";
+        exit();
+
         #RECEBE OS HM PARA INSERT
         $idEntradaMaterial = strip_tags(trim($this->input->post('id_entrada_material')));
         $tipoMaterial = strip_tags(trim($this->input->post('tipo_material')));

@@ -1,4 +1,7 @@
 <body>
+<script>
+    var base_url = "<?= base_url(); ?>";
+</script>
 <!-- ============ NAV =================== -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
@@ -65,17 +68,6 @@
                         </li>
                     </ul>
                 </li>
-                <!--                <li class="dropdown">-->
-                <!--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Relatório <b class="caret"></b></a>-->
-                <!--                    <ul class="dropdown-menu">-->
-                <!--                        <li>-->
-                <!--                            <a href="--><?php //echo base_url('relatorio/pedido') ?><!--">Pedidos</a>-->
-                <!--                        </li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
-                <!--                <li>-->
-                <!--                    <a href="--><?php //echo base_url('login/encerrar_session') ?><!--">Sair</a>-->
-                <!--                </li>-->
             </ul>
         </div>
     </div>
