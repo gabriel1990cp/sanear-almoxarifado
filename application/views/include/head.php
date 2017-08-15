@@ -11,7 +11,7 @@
     <!-- ============ META =================== -->
 
     <!-- ============ FONT =================== -->
-    <link href="https://fonts.googleapis.com/css?family=ABeeZee" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <!-- ============ FONT =================== -->
 
     <!-- ============ CSS =================== -->

@@ -17,6 +17,7 @@
     <?php $this->load->view('include/alert.php'); ?>
     <div class="row">
         <form action="<?= base_url('estoque/entrada_tipo_material') ?>" method="post" enctype="multipart/form-data" id="seleciona_material" class="seleciona_material">
+            <input type="hidden" value="<?= $id_entrada_material ?>" name="id_entrada_material" id="id_entrada_material">
             <div class="form-group col-md-12">
                 <label for="tipo_material">Tipo de material *</label>
                 <select class="form-control" id="tipo_material" name="tipo_material">
@@ -31,13 +32,15 @@
                 </select>
                 <div class="error"><?= form_error('nota_remessa'); ?></div>
             </div>
-            <input type="hidden" id="id_entrada_material" name="id_entrada_material" value="<?= $id_entrada_material ?>">
         </form>
 
         <?php
-             if (!empty($form)):
-        echo $form;
-             endif;
+        if (!empty($form)):
+
+
+            echo $form;
+
+        endif;
 
         ?>
 

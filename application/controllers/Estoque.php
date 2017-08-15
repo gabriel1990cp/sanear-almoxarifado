@@ -128,7 +128,7 @@ class Estoque extends CI_Controller
         #ID ENTRADA MATERIAL
         $data['id_entrada_material'] = (int)$idEntradaMaterial;
 
-        #LISTA OS MATERIAIS DA ENTRADA DO ESTOQUE
+        #LISTA OS MATERIAIS REFERENTE A ENTRADA
         $data['materiais'] = $this->estoque_model->list_material_input((int)$idEntradaMaterial);
 
         #TIPO DE MATERIAL PARA CADASTRO
@@ -141,32 +141,31 @@ class Estoque extends CI_Controller
         $this->load->view('include/footer.php');
     }
 
-    public function entrada_tipo_material(){
+    public function entrada_tipo_material()
+    {
 
-        $idEntradaMaterial = (int) $this->input->post('id_entrada_material');
-        $tipoMaterial = (int) $this->input->post('tipo_material');
+        $idEntradaMaterial = (int)$this->input->post('id_entrada_material');
+        $tipoMaterial = (int)$this->input->post('tipo_material');
 
         $data['id_entrada_material'] = $idEntradaMaterial;
-        $data['tipoMaterial'] = $tipoMaterial;
+        $data['id_material'] = $tipoMaterial;
 
         #TIPO DE MATERIAL PARA CADASTRO
         $data['tipo_material'] = $this->combo_material();
 
 
-        switch ($tipoMaterial){
+        switch ($tipoMaterial) {
 
             case 1:
             case 2:
             case 3:
             case 4:
-                $data['form'] = $this->load->view('estoque/tipo_material/material_hm.php', '', TRUE);
+                $data['form'] = $this->load->view('estoque/tipo_material/material_hm.php', $data, TRUE);
                 break;
             case 5:
-                $data['form'] = $this->load->view('estoque/tipo_material/material_hmy.php', '', TRUE);
+                $data['form'] = $this->load->view('estoque/tipo_material/material_hmy.php', $data, TRUE);
                 break;
         }
-
-
 
 
         $this->load->view('include/head.php');
@@ -174,16 +173,11 @@ class Estoque extends CI_Controller
         $this->load->view('estoque/entrada-material', $data);
 
 
-
     }
 
 
     public function entrada_estoque_cxhm()
     {
-
-        echo  "oi";
-        exit();
-
         #RECEBE OS HM PARA INSERT
         $idEntradaMaterial = strip_tags(trim($this->input->post('id_entrada_material')));
         $tipoMaterial = strip_tags(trim($this->input->post('tipo_material')));
