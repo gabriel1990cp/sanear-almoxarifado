@@ -39,6 +39,7 @@
             <div class="form-group col-md-12">
                 <label for="arquivo">Arquivo</label>
                 <input type="file" class="form-control" id="arquivo" name="arquivo">
+                <label id="erro-file" class="error display-none" for="nome">Ops, selecione o arquivo para upload.</label>
             </div>
             <div class="form-group col-md-6">
                 <button type="submit" class="btn btn-primary btn-block cadastrar">Cadastrar</button>

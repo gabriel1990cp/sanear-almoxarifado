@@ -14,7 +14,6 @@ class Estoque extends CI_Controller
         $this->load->helper('modal_helper');
 
         #CARREGA MODEL'S
-        $this->load->model('funcionario_model');
         $this->load->model('estoque_model');
         $this->load->model('log_model');
         $this->load->database();
@@ -30,8 +29,8 @@ class Estoque extends CI_Controller
         $data['entradasEstoque'] = $this->estoque_model->list_material(null, $page);
 
         #PAGINADOR
-        $config['base_url'] = base_url() . 'funcionarios';
-        $config['total_rows'] = $this->funcionario_model->list_employee_qtd();
+        $config['base_url'] = base_url() . 'estoque';
+        $config['total_rows'] = $this->estoque_model->list_material_qtd();
         $config['per_page'] = 10;
         $config['full_tag_open'] = '<li>';
         $config['full_tag_close'] = '</li>';
@@ -67,12 +66,19 @@ class Estoque extends CI_Controller
             if ($this->form_validation->run() === FALSE):
                 $this->create_stock();
             else:
-
                 #RECEBE OS VALORES ATRAVES DO POST
                 $notaRemessa = strip_tags(trim($this->input->post('nota_remessa')));
                 $atendiRequisicao = strip_tags($this->input->post('atendimento_requisicao'));
 
+                #VERIFICA SE JÁ EXISTE UMA NOTA CADASTRADA
+                $verificaNotaRemessa = $this->estoque_model->check_nota_remessa($notaRemessa);
 
+                if ($verificaNotaRemessa > 0) {
+                    $this->session->set_flashdata(open_modal('Nota de remessa já cadastrada !', CLASSE_ERRO));
+                    redirect(base_url('estoque/index'));
+                }
+
+                #LIBRARY PARA REALIZAR O UPLOAD
                 $this->load->library('upload');
 
                 $config['upload_path'] = './uploads';
@@ -82,14 +88,12 @@ class Estoque extends CI_Controller
                 $config['encrypt_name'] = false;
                 $config['file_name'] = $notaRemessa;
 
-
                 $this->upload->initialize($config);
 
                 if (!$this->upload->do_upload('arquivo')):
                     $erro = array('error' => $this->upload->display_errors());
                     $this->session->set_flashdata(open_modal($erro['error'], CLASSE_ERRO));
                     redirect(base_url('estoque-entrada'));
-                    exit();
                 else:
                     $imagem['arquivo'] = $this->upload->data();
                 endif;
@@ -105,10 +109,11 @@ class Estoque extends CI_Controller
 
                 #VERIFICA SE O OCORREU O INSERT NO BANCO DE DADOS
                 $idEntradaMaterial = $this->estoque_model->register($data);
+
                 if (isset($idEntradaMaterial)):
                     $this->session->set_flashdata(open_modal('Entrada no estoque gerada com sucesso !', CLASSE_SUCESSO));
                     #REDIRICIONA PARA A ENTRADA DE MATERIAL
-                    redirect(base_url('estoque'));
+                    redirect(base_url('entrada-material/' . $idEntradaMaterial));
                 else:
                     $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
                     redirect(base_url('estoque-entrada'));
@@ -117,33 +122,74 @@ class Estoque extends CI_Controller
         endif;
     }
 
+    public function select_material($idEntradaMaterial, $material)
+    {
+        $data['idEntradaMaterial'] = $idEntradaMaterial;
+        $data['idMaterial'] = $material;
+
+        $data['infoEntradaMaterialView'] = $this->estoque_model->list_material($idEntradaMaterial, null);
+
+        #INFO ENTRADA MATERIAL
+        $data['infoEntradaMaterial'] = $this->load->view('estoque/info_entrada_material', $data, TRUE);
+
+        #LISTA TODOS MATERIAIS PARA A ENTRADA
+        $data['materiais'] = $this->list_material($idEntradaMaterial);
+
+        $this->load->view('include/head.php');
+        $this->load->view('include/nav.php');
+
+        switch ($material) {
+            case HIDROMETRO_A:
+            case HIDROMETRO_B:
+            case HIDROMETRO_C:
+            case HIDROMETRO_D:
+                $this->load->view('estoque/tipo_material/material_hm', $data);
+                break;
+            case HIDROMETRO_Y:
+                $this->load->view('estoque/tipo_material/material_hmy', $data);
+                break;
+        }
+
+        $this->load->view('include/footer.php');
+    }
+
     public function combo_material()
     {
         #TIPO DE MATERIAL PARA CADASTRO
         return $this->estoque_model->list_type_material();
     }
 
-    public function insert_material($idEntradaMaterial, $tipoMaterial)
+    public function list_material($idEntradaMaterial)
+    {
+        #LISTA OS MATERIAIS REFERENTE A ENTRADA
+        return $this->estoque_model->list_material_input((int)$idEntradaMaterial);
+    }
+
+    public function insert_material($idEntradaMaterial)
     {
         #ID ENTRADA MATERIAL
-        $data['id_entrada_material'] = (int)$idEntradaMaterial;
+        $data['idEntradaMaterial'] = (int)$idEntradaMaterial;
 
         #LISTA OS MATERIAIS REFERENTE A ENTRADA
-        $data['materiais'] = $this->estoque_model->list_material_input((int)$idEntradaMaterial);
+        $data['materiasEntrada'] = $this->list_material($idEntradaMaterial);
 
         #TIPO DE MATERIAL PARA CADASTRO
-        $data['tipo_material'] = $this->combo_material();
+        $data['materiais'] = $this->combo_material();
+
+        $data['infoEntradaMaterialView'] = $this->estoque_model->list_material($idEntradaMaterial, null);
+
+        #INFO ENTRADA MATERIAL
+        $data['infoEntradaMaterial'] = $this->load->view('estoque/info_entrada_material', $data, TRUE);
 
         #ENTRADA DE MATERIAL
         $this->load->view('include/head.php');
         $this->load->view('include/nav.php');
-        $this->load->view('estoque/entrada-material', $data);
+        $this->load->view('estoque/selecionar-material', $data);
         $this->load->view('include/footer.php');
     }
 
     public function entrada_tipo_material()
     {
-
         $idEntradaMaterial = (int)$this->input->post('id_entrada_material');
         $tipoMaterial = (int)$this->input->post('tipo_material');
 
@@ -153,34 +199,22 @@ class Estoque extends CI_Controller
         #TIPO DE MATERIAL PARA CADASTRO
         $data['tipo_material'] = $this->combo_material();
 
-
-        switch ($tipoMaterial) {
-
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-                $data['form'] = $this->load->view('estoque/tipo_material/material_hm.php', $data, TRUE);
-                break;
-            case 5:
-                $data['form'] = $this->load->view('estoque/tipo_material/material_hmy.php', $data, TRUE);
-                break;
-        }
-
+        #LISTA OS MATERIAIS REFERENTE A ENTRADA
+        $data['materiais'] = $this->list_material($idEntradaMaterial);
 
         $this->load->view('include/head.php');
         $this->load->view('include/nav.php');
         $this->load->view('estoque/entrada-material', $data);
-
-
     }
 
 
     public function entrada_estoque_cxhm()
     {
+
         #RECEBE OS HM PARA INSERT
-        $idEntradaMaterial = strip_tags(trim($this->input->post('id_entrada_material')));
-        $tipoMaterial = strip_tags(trim($this->input->post('tipo_material')));
+        $idEntradaMaterial = strip_tags(trim($this->input->post('idEntradaMaterial')));
+        $idMaterial = strip_tags(trim($this->input->post('idMaterial')));
+
         $inicioCaixaHM = strip_tags(trim($this->input->post('inicio_caixa_hm')));
         $fimCaixaHM = strip_tags(trim($this->input->post('fim_caixa_hm')));
 
@@ -193,7 +227,7 @@ class Estoque extends CI_Controller
 
         $data = array(
             'id_entrada_estoque_caixa' => $idEntradaMaterial,
-            'id_mat_estoque_caixa' => $tipoMaterial,
+            'id_mat_estoque_caixa' => $idMaterial,
             'quant_estoque_caixa' => $diferencaHM,
             'inicio_estoque_caixa' => $inicioCaixaHM,
             'fim_estoque_caixa' => $fimCaixaHM,
@@ -219,151 +253,10 @@ class Estoque extends CI_Controller
 
                 $this->estoque_model->register_material_item($data);
             endfor;
-
-            redirect(base_url('entrada-material/' . $idEntradaMaterial));
+            $this->session->set_flashdata(open_modal('Hidrômetro cadastrado com sucesso !', CLASSE_SUCESSO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-
-        endif;
-    }
-
-
-    public function edit($id)
-    {
-        if (empty($id)):
-            redirect(base_url('funcionarios'));
-        endif;
-
-        #LISTA TODOS OS CARROS
-        $data['carros'] = $this->funcionario_model->list_car();
-
-        #LISTA TODOS MATERIAIS PARA ENTRADA NO ESTOQUE
-        $data['cargos'] = $this->funcionario_model->list_office();
-
-        #LISTA FUNCIONARIO PARA EDITAR
-        $data['funcionario'] = $this->funcionario_model->list_employee((int)$id, null);
-
-        if (empty($data['funcionario'])):
-            redirect(base_url('funcionarios'));
-        endif;
-
-        $this->load->view('include/head.php');
-        $this->load->view('include/nav.php');
-        $this->load->view('funcionario/editar-funcionario', $data);
-        $this->load->view('include/footer.php');
-    }
-
-    public function view($id)
-    {
-        if (empty($page)):
-            $page = 0;
-        endif;
-
-        #LISTA TODOS FUNCIONARIOS
-        $data['funcionario'] = $this->funcionario_model->list_employee((int)$id, $page);
-
-        if (empty($data['funcionario'])):
-            redirect(base_url('funcionarios'));
-        endif;
-
-        $this->load->view('include/head.php');
-        $this->load->view('include/nav.php');
-        $this->load->view('funcionario/visualizar', $data);
-        $this->load->view('include/footer.php');
-    }
-
-    public function search()
-    {
-        $nome = strip_tags(trim($this->input->post('nome')));
-        $cpf = strip_tags($this->input->post('cpf'));
-        $status = $this->input->post('status');
-
-        if (empty($nome) && empty($cpf)):
-            $this->session->set_flashdata(open_modal('Ops, digite o nome ou cpf para realizar a consulta.', CLASSE_ERRO));
-            redirect(base_url('funcionario'));
-        endif;
-
-        #RESULTADO DA PESQUISA
-        $data['funcionarios'] = $this->funcionario_model->list_search($nome, $cpf, $status);
-
-        #DADOS DA PESQUISA
-        $data['nome'] = $nome;
-        $data['cpf'] = $cpf;
-        $data['status'] = $status;
-
-        $this->load->view('include/head.php');
-        $this->load->view('include/nav.php');
-        $this->load->view('funcionario/home', $data);
-        $this->load->view('include/footer.php');
-    }
-
-    public function delete($id)
-    {
-        if (empty($id)):
-            redirect(base_url('funcionarios'));
-        endif;
-
-        #SETA O USUARIO COMO INATIVO
-        $data['status_funcionario'] = "inativo";
-
-        #VERIFICA SE O STATUS FOI ALTERADO COM SUCESSO
-        if ($this->funcionario_model->delete($id, $data)):
-            $this->session->set_flashdata(open_modal(DELETADO_SUCESSO, CLASSE_SUCESSO));
-            redirect(base_url('funcionarios'));
-        else:
-            $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('funcionarios'));
-        endif;
-    }
-
-    public function insert_edit()
-    {
-        if ($_POST):
-
-            #ID PARA EDITAR
-            $idFuncionario = (int)$this->input->post('id_funcionario');
-            $this->form_validation->set_error_delimiters('<span>', '</span>');
-            $this->form_validation->set_rules('nome', ' "Nome do funcionário" ', 'required');
-
-            #VERIFICA OS CAMPOS OBRIGATORIOS
-
-            if ($this->form_validation->run() === FALSE):
-                $this->edit($idFuncionario);
-            else:
-
-                #RECEBE OS VALORES ATRAVES DO POST
-                $nome = strip_tags(trim($this->input->post('nome')));
-                $rg = strip_tags($this->input->post('rg'));
-                $cpf = strip_tags($this->input->post('cpf'));
-                $cargo = strip_tags(trim($this->input->post('cargo')));
-                $telefone = strip_tags(trim($this->input->post('telefone')));
-                $celular = strip_tags(trim($this->input->post('celular')));
-                $carro = strip_tags(trim($this->input->post('carro')));
-                $status = strip_tags(trim($this->input->post('status')));
-                $observacao = strip_tags(trim($this->input->post('observacao')));
-
-                $data = array(
-                    'nome_funcionario' => $nome,
-                    'rg_funcionario' => $rg,
-                    'cpf_funcionario' => $cpf,
-                    'cargo_funcionario' => $cargo,
-                    'telefone_funcionario' => $telefone,
-                    'celular_funcionario' => $celular,
-                    'carro_funcionario' => $carro,
-                    'observacao_funcionario' => $observacao,
-                    'status_funcionario' => $status,
-                    'data_atualizacao_funcionario' => date('Y-m-d H:i:s')
-                );
-
-                #VERIFICA SE OCORREU O UPDATE NO BANCO DE DADOS
-                if ($this->funcionario_model->update($idFuncionario, $data)):
-                    $this->session->set_flashdata(open_modal(ALTERADO_SUCESSO, CLASSE_SUCESSO));
-                    redirect(base_url('funcionarios'));
-                else:
-                    $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-                    redirect(base_url('editar-funcionario/' . $idFuncionario));
-                endif;
-            endif;
         endif;
     }
 }

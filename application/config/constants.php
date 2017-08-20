@@ -101,5 +101,13 @@ define('VARREDURA',1);
 define('DENUNCIA',2);
 
 
+define('HIDROMETRO_A',1);
+define('HIDROMETRO_B',2);
+define('HIDROMETRO_C',3);
+define('HIDROMETRO_D',4);
+define('HIDROMETRO_Y',5);
+define('LACRE_CORDOALHA_ACO',6);
+define('MOLA_DISP_ANTI_FRAUDE',7);
+
 
 

@@ -96,6 +96,14 @@ label{
     color: white !important;
 }
 
+.btn-material > p{
+    margin: 10px 10px 10px 10px;
+}
+
+.title-table{
+    font-size: 15px;
+}
+
 @media (min-width: 768px) {
     .navbar-nav > li > a {
         padding-top: 20px

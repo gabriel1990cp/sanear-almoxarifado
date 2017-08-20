@@ -22,6 +22,24 @@ class Estoque_model extends CI_Model
         return $this->db->insert_id();
     }
 
+    #VERIFICA NOTA DE REMESSA CADASTRADA
+    function check_nota_remessa($notaRemessa)
+    {
+        $this->db->select('*');
+        $this->db->from("estoque_entrada");
+        $this->db->where("nota_remessa_entrada_est",$notaRemessa);
+        return $this->db->get()->num_rows();
+    }
+
+
+    #QUANTIDADE DE ENTRADAS DE MATERIAS
+    function list_material_qtd()
+    {
+        $this->db->select('*');
+        $this->db->from("estoque_entrada");
+        return $this->db->get()->num_rows();
+    }
+
 
     #LISTA TODAS ENTRADAS DE MATERIAS
     function list_material($id = NULL, $page = NULL)

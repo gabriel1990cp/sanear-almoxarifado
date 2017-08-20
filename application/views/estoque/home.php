@@ -19,20 +19,20 @@
         <form action="<?= base_url('consultar-funcionario') ?>" method="post" enctype="multipart/form-data" id="consulta_usuario"
               class="consulta_usuario">
             <div class="form-group col-md-12">
-                <p>Digite o nome ou CPF para realizar a consulta.</p>
+                <p>Digite o atendimento de requisição ou nota de remessa para realizar a consulta.</p>
             </div>
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" value="<?php if (!empty($nome)) : echo $nome; endif; ?>">
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control" id="nome" name="nome" placeholder="Atendimento de Requisição" value="<?php if (!empty($nome)) : echo $nome; endif; ?>">
                 <label id="nome-error" class="error display-none" for="nome">Ops, digite o nome ou CPF para realizar a consulta.</label>
             </div>
-            <div class="form-group col-md-2">
-                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF" value="<?php if (!empty($cpf)) : echo $cpf; endif; ?>">
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Nota de remessa" value="<?php if (!empty($cpf)) : echo $cpf; endif; ?>">
             </div>
             <div class="form-group col-md-2">
                 <select class="form-control" id="status" name="status">
                     <option value="">Status</option>
-                    <option value="ativo" <?php if (!empty($status)) : if ($status == "ativo") : echo "selected"; endif; endif; ?>>Ativo</option>
-                    <option value="inativo" <?php if (!empty($status)) : if ($status == "inativo") : echo "selected"; endif; endif; ?>>Inativo</option>
+                    <option value="ativo" <?php if (!empty($status)) : if ($status == "ativo") : echo "selected"; endif; endif; ?>>Aberto</option>
+                    <option value="inativo" <?php if (!empty($status)) : if ($status == "inativo") : echo "selected"; endif; endif; ?>>Fechado</option>
                 </select>
             </div>
             <div class="form-group col-md-2">
@@ -65,11 +65,11 @@
                                 <td>Gabriel Costa</a></td>
                                 <td><?= $entradaEstoque['data_entrada_est']; ?></td>
                                 <td><?= $entradaEstoque['atend_requisicao_entrada_est']; ?></td>
-                                <td><?= $entradaEstoque['nota_remessa_entrada_est'];?></td>
-                                <td><a href="<?= base_url('uploads/'). $entradaEstoque['arquivo_entrada_est'] ?>" download=""><?= $entradaEstoque['arquivo_entrada_est'];?></a></td>
+                                <td><?= $entradaEstoque['nota_remessa_entrada_est']; ?></td>
+                                <td><a href="<?= base_url('uploads/') . $entradaEstoque['arquivo_entrada_est'] ?>" download=""><?= $entradaEstoque['arquivo_entrada_est']; ?></a></td>
                                 <td><?= $entradaEstoque['status_entrada_est']; ?></td>
                                 <td>
-                                    <a class="btn btn-primary btn-xs" href="<?= base_url('entrada-material/' . $entradaEstoque['id_entrada_est'])?>/1">Material</a>
+                                    <a class="btn btn-primary btn-xs" href="<?= base_url('entrada-material/' . $entradaEstoque['id_entrada_est']) ?>">Material</a>
                                     <a class="btn btn-warning btn-xs" href="<?= base_url('editar-funcionario/' . $entradaEstoque['id_entrada_est']) ?>">Editar</a>
                                     <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-id="<?= $entradaEstoque['id_entrada_est'] ?>" data-nome="<?= $entradaEstoque['id_entrada_est'] ?>">Deletar</button>
                                 </td>
@@ -104,7 +104,7 @@
 </div>
 
 <!-- SCRIPT -->
-<script src="<?= base_url('assets/js/front/funcionario.js') ?>"></script>
+<script src="<?= base_url('assets/js/front/estoque.js') ?>"></script>
 <!-- SCRIPT -->
 
 <!-- MODAL -->
