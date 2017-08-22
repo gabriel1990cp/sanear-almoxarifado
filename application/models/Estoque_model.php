@@ -70,68 +70,20 @@ class Estoque_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    function list_car()
+    function list_search($atendimentoRequisicao = NULL, $notaRemessa = NULL, $status = NULL)
     {
         $this->db->select('*');
-        $this->db->from("carros");
-        $this->db->order_by('nome_carro', 'ASC');
-        return $this->db->get()->result_array();
-    }
-
-    function list_office()
-    {
-        $this->db->select('*');
-        $this->db->from("cargos");
-        $this->db->order_by('nome_cargo', 'ASC');
-        return $this->db->get()->result_array();
-    }
-
-    function list_employee_qtd()
-    {
-        $this->db->select('*');
-        $this->db->from("funcionarios");
-        return $this->db->get()->num_rows();
-    }
-
-
-    function check_email($id = NULL, $email = NULL)
-    {
-        $this->db->select('*');
-        $this->db->from("usuarios");
-        $this->db->where('email_usuario', $email);
-        if (!empty($id)):
-            $this->db->where('id_usuario !=', $id);
+        $this->db->from("estoque_entrada");
+        if (!empty($atendimentoRequisicao)):
+            $this->db->like('atend_requisicao_entrada_est', $atendimentoRequisicao);
         endif;
-        return $this->db->get()->num_rows();
-    }
-
-
-    function list_user_password($id = NULL, $senhaAtual = NULL)
-    {
-        $this->db->select('*');
-        $this->db->from("usuarios");
-        $this->db->where('senha_usuario', $senhaAtual);
-        $this->db->where('id_usuario', $id);
-        return $this->db->get()->num_rows();
-    }
-
-
-    function list_search($nome = NULL, $cpf = NULL, $status = NULL)
-    {
-        $this->db->select('x1.*,x2.nome_carro,x3.nome_cargo');
-        $this->db->from("funcionarios x1");
-        $this->db->join("carros x2", 'x1.carro_funcionario = x2.id_carro', 'left');
-        $this->db->join("cargos x3", 'x1.cargo_funcionario = x3.id_cargo', 'left');
-        if (!empty($nome)):
-            $this->db->like('x1.nome_funcionario', $nome);
-        endif;
-        if (!empty($cpf)):
-            $this->db->like('x1.cpf_funcionario', $cpf);
+        if (!empty($notaRemessa)):
+            $this->db->like('nota_remessa_entrada_est', $notaRemessa);
         endif;
         if (!empty($status)):
-            $this->db->where('x1.status_funcionario', $status);
+            $this->db->where('status_entrada_est', $status);
         endif;
-        $this->db->order_by('x1.nome_funcionario', "ASC");
+        $this->db->order_by('data_entrada_est', "DESC");
         return $this->db->get()->result_array();
     }
 
@@ -145,6 +97,29 @@ class Estoque_model extends CI_Model
     {
         $this->db->where('id_funcionario', $id);
         return $this->db->update('funcionarios', $data);
+    }
+
+    function delete_caixa_hmy($id)
+    {
+        $this->db->where('id_estoque_caixa', $id);
+        return $this->db->delete('estoque_caixa');
+    }
+
+    function check_hmy_table($inicioCaixaHM, $fimCaixaHM)
+    {
+        $this->db->select('*');
+        $this->db->from("estoque_itens_caixa");
+        $this->db->where('item_estoque_itens_caixa', $inicioCaixaHM);
+        $this->db->or_where('item_estoque_itens_caixa', $fimCaixaHM);
+        return $this->db->get()->num_rows();
+    }
+
+    function view_caixa_hmy($idCaixaHMY)
+    {
+        $this->db->select('item_estoque_itens_caixa');
+        $this->db->from("estoque_itens_caixa");
+        $this->db->where("id_caixa_estoque_itens_caixa",$idCaixaHMY);
+        return $this->db->get()->result_array();
     }
 }
 

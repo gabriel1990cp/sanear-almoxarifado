@@ -23,7 +23,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Cadastrar caixa de hidrômetro</div>
                 <div class="panel-body">
-                    <form action="<?= base_url('estoque/entrada_estoque_cxhm') ?>" method="post" enctype="multipart/form-data" id="seleciona_material" class="seleciona_material">
+                    <form action="<?= base_url('cadastrar-hmy') ?>" method="post" enctype="multipart/form-data" id="seleciona_material_hmy" class="seleciona_material_hmy">
                         <input type="hidden" value="<?= $idEntradaMaterial ?>" name="idEntradaMaterial" id="idEntradaMaterial">
                         <input type="hidden" value="<?= $idMaterial ?>" name="idMaterial" id="idMaterial">
                         <div class="hm-y">
@@ -38,7 +38,7 @@
                                 <div class="error error_fim_caixa_hm"></div>
                             </div>
                             <div class="form-group col-md-4">
-                                <button type="submit" class="btn btn-primary btn-block cadastrar-hm" id="btn-hm-y">Adicionar</button>
+                                <button type="submit" class="btn btn-primary btn-block cadastrar-hmy" id="btn-hm-y">Adicionar</button>
                             </div>
                         </div>
                     </form>
@@ -82,8 +82,8 @@
                                     <td><?= $material['fim_estoque_caixa']; ?></td>
                                     <td><?= date('d/m/Y H:i', strtotime($material['data_cadastro_estoque_caixa']))?></td>
                                     <td>
-                                        <a class="btn btn-warning btn-xs" href="<?= base_url('editar-funcionario/' . $material['id_estoque_caixa']) ?>">Visualizar</a>
-                                        <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-id="<?= $material['id_estoque_caixa'] ?>" data-nome="<?= $material['id_estoque_caixa'] ?>">Deletar</button>
+                                        <a class="btn btn-warning btn-xs visualizar-hmy" data-caixa_hm="<?= $material['id_estoque_caixa'] ?>">Visualizar</a>
+                                        <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-entrada="<?= $idEntradaMaterial ?>"  data-material="<?= $idMaterial ?>"  data-id="<?= $material['id_estoque_caixa'] ?>" data-nome="<?= $material['id_estoque_caixa'] ?>">Deletar</button>
                                     </td>
                                 </tr>
                                 <?php
@@ -106,3 +106,43 @@
         </div>
     </div>
 </div>
+
+<script src="<?= base_url('assets/js/front/estoque.js') ?>"></script>
+
+<!-- MODAL -->
+<div class="modal fade" id="modal_confirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    &times;</span></button>
+                <h4 class="modal-title">Confirmação de Exclusão</h4>
+            </div>
+            <div class="modal-body">
+                <p>Deseja realmente excluir a caixa de hidrômetro : <strong><span id="nome_exclusao"></span></strong> ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+                <button type="button" class="btn btn-danger" id="btn_excluir">Sim</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL -->
+
+<!-- MODAL -->
+<div class="modal fade" id="visualizar-hmy">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    &times;</span></button>
+                <h4 class="modal-title">Hidrômetros cadastrados</h4>
+            </div>
+            <div class="modal-body ">
+                <div class="resultado"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODAL -->

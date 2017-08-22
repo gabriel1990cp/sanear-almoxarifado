@@ -112,9 +112,3 @@
 <script src="<?= base_url('assets/js/front/entrada_material.js') ?>"></script>
 <!-- SCRIPT -->
 
-<script>
-    $("#tipo_material").change(function () {
-
-        $("#seleciona_material").submit();
-    })
-</script>

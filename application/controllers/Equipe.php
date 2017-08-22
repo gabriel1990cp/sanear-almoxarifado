@@ -157,8 +157,6 @@ class Equipe extends CI_Controller
 
     public function delete_employee($id, $idEquipe)
     {
-
-
         if (empty($id)):
             redirect(base_url('gerenciar-equipe'));
         endif;

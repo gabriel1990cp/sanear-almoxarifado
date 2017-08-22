@@ -208,9 +208,62 @@ class Estoque extends CI_Controller
     }
 
 
+    public function caixa_hmy()
+    {
+        $idCaixaHMY = (int)$this->input->post('caixa_hm');
+
+        $caixaHMY = $this->estoque_model->view_caixa_hmy($idCaixaHMY);
+
+        $listaHMY = '';
+
+        foreach ($caixaHMY as $hmy):
+            $listaHMY .= '<p>'.$hmy['item_estoque_itens_caixa'].'</p>';
+        endforeach;
+
+        echo $listaHMY;
+    }
+
+    public function search()
+    {
+        $atendimentoRequisicao = strip_tags(trim($this->input->post('atendimento_requisicao')));
+        $notaRemessa = strip_tags($this->input->post('nota_remessa'));
+        $status = $this->input->post('status');
+
+        if (empty($atendimentoRequisicao) && empty($notaRemessa)):
+            $this->session->set_flashdata(open_modal('Ops, digite o Atendimento de Requisição ou a Nota de remessa para realizar a consulta.', CLASSE_ERRO));
+            redirect(base_url('estoque'));
+        endif;
+
+        #RESULTADO DA PESQUISA
+        $data['entradasEstoque'] = $this->estoque_model->list_search($atendimentoRequisicao, $notaRemessa, $status);
+
+        #DADOS DA PESQUISA
+        $data['atendimentoRequisicao'] = $atendimentoRequisicao;
+        $data['notaRemessa'] = $notaRemessa;
+        $data['status'] = $status;
+
+        $this->load->view('include/head.php');
+        $this->load->view('include/nav.php');
+        $this->load->view('estoque/home', $data);
+        $this->load->view('include/footer.php');
+    }
+
+
+    public function delete_caixa_hmy($idCaixaHMY, $idEntradaMaterial, $idMaterial)
+    {
+        $deletarCaixaHMY = $this->estoque_model->delete_caixa_hmy($idCaixaHMY);
+
+        if ($deletarCaixaHMY == true):
+            $this->session->set_flashdata(open_modal('Caixa de Hidrômetro deletada com sucesso !', CLASSE_SUCESSO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        else:
+            $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+    }
+
     public function entrada_estoque_cxhm()
     {
-
         #RECEBE OS HM PARA INSERT
         $idEntradaMaterial = strip_tags(trim($this->input->post('idEntradaMaterial')));
         $idMaterial = strip_tags(trim($this->input->post('idMaterial')));
@@ -218,12 +271,39 @@ class Estoque extends CI_Controller
         $inicioCaixaHM = strip_tags(trim($this->input->post('inicio_caixa_hm')));
         $fimCaixaHM = strip_tags(trim($this->input->post('fim_caixa_hm')));
 
-        #DEIXA APENAS OS NUMEROS DOS HM'S
+        # VERIFICA SE OS CAMPOS FORAM PREENCHIDOS
+        if (empty($inicioCaixaHM) || empty($fimCaixaHM)):
+            $this->session->set_flashdata(open_modal('Ops, é obrigatório preencher o "início caixa" ou "fim caixa"', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        # VERIFICA A QUANTIDADE MINIMA DE 10 DIGITOS PARA O HM
+        if (strlen($inicioCaixaHM) < 10 || strlen($fimCaixaHM) < 10):
+            $this->session->set_flashdata(open_modal('Ops, verifique a numeração dos hidrômetros', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+
+        # DEIXA APENAS OS NUMEROS DOS HM'S
         $anoModeloHM = substr($inicioCaixaHM, 0, 4);
         $inicioCaixaHMNumeros = substr($inicioCaixaHM, 4, 6);
         $fimCaixaHMNumeros = substr($fimCaixaHM, 4, 6);
 
         $diferencaHM = $fimCaixaHMNumeros - $inicioCaixaHMNumeros;
+
+        # VERIFICA DE A DIFERENÇA DE HM É MUITO ALTA
+        if ($diferencaHM > QTD_CAIXA_HM || $diferencaHM < 10):
+            $this->session->set_flashdata(open_modal('Ops, quantidade ' . $diferencaHM . ' de hidrômetros acima ou abaixo do permitido.', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        # VERIFICA SE O HM JÁ FOI CADASTRADO
+        $verificaHMCadastrado = $this->estoque_model->check_hmy_table($inicioCaixaHM, $fimCaixaHM);
+
+        if (!empty($verificaHMCadastrado)):
+            $this->session->set_flashdata(open_modal('Ops, caixa de hidrômetros já cadastrada.', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
 
         $data = array(
             'id_entrada_estoque_caixa' => $idEntradaMaterial,

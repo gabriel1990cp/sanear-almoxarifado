@@ -16,27 +16,29 @@
     </div>
     <?php $this->load->view('include/alert.php'); ?>
     <div class="row">
-        <form action="<?= base_url('consultar-funcionario') ?>" method="post" enctype="multipart/form-data" id="consulta_usuario"
+        <form action="<?= base_url('consultar-entrada') ?>" method="post" enctype="multipart/form-data" id="consultar_entrada"
               class="consulta_usuario">
             <div class="form-group col-md-12">
                 <p>Digite o atendimento de requisição ou nota de remessa para realizar a consulta.</p>
             </div>
             <div class="form-group col-md-4">
-                <input type="text" class="form-control" id="nome" name="nome" placeholder="Atendimento de Requisição" value="<?php if (!empty($nome)) : echo $nome; endif; ?>">
-                <label id="nome-error" class="error display-none" for="nome">Ops, digite o nome ou CPF para realizar a consulta.</label>
+                <input type="text" class="form-control" id="atendimento_requisicao" name="atendimento_requisicao" placeholder="Atendimento de Requisição" value="<?php if (!empty($atendimentoRequisicao)) : echo $atendimentoRequisicao; endif; ?>">
             </div>
             <div class="form-group col-md-4">
-                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Nota de remessa" value="<?php if (!empty($cpf)) : echo $cpf; endif; ?>">
+                <input type="text" class="form-control" id="nota_remessa" name="nota_remessa" placeholder="Nota de remessa" value="<?php if (!empty($notaRemessa)) : echo $notaRemessa; endif; ?>">
             </div>
             <div class="form-group col-md-2">
                 <select class="form-control" id="status" name="status">
                     <option value="">Status</option>
-                    <option value="ativo" <?php if (!empty($status)) : if ($status == "ativo") : echo "selected"; endif; endif; ?>>Aberto</option>
-                    <option value="inativo" <?php if (!empty($status)) : if ($status == "inativo") : echo "selected"; endif; endif; ?>>Fechado</option>
+                    <option value="aberto" <?php if (!empty($status)) : if ($status == "aberto") : echo "selected"; endif; endif; ?>>Aberto</option>
+                        <option value="finalizado" <?php if (!empty($status)) : if ($status == "finalizado") : echo "selected"; endif; endif; ?>>Finalizado</option>
                 </select>
             </div>
             <div class="form-group col-md-2">
                 <button type="submit" class="btn btn-primary" id="btn_search">Consultar</button>
+            </div>
+            <div class="form-group col-md-12">
+                <label id="atendimento_requisicao-error" class="error display-none" for="atendimento_requisicao">Ops, digite o atendimento de requisição ou a nota de remessa para realizar a consulta.</label>
             </div>
         </form>
     </div>
@@ -63,11 +65,11 @@
                             <tr>
                                 <td scope="row"><?= $entradaEstoque['id_entrada_est']; ?></td>
                                 <td>Gabriel Costa</a></td>
-                                <td><?= $entradaEstoque['data_entrada_est']; ?></td>
+                                <td><?= date('d/m/Y H:i', strtotime($entradaEstoque['data_entrada_est']))?></td>
                                 <td><?= $entradaEstoque['atend_requisicao_entrada_est']; ?></td>
                                 <td><?= $entradaEstoque['nota_remessa_entrada_est']; ?></td>
                                 <td><a href="<?= base_url('uploads/') . $entradaEstoque['arquivo_entrada_est'] ?>" download=""><?= $entradaEstoque['arquivo_entrada_est']; ?></a></td>
-                                <td><?= $entradaEstoque['status_entrada_est']; ?></td>
+                                <td><?= ucfirst($entradaEstoque['status_entrada_est']); ?></td>
                                 <td>
                                     <a class="btn btn-primary btn-xs" href="<?= base_url('entrada-material/' . $entradaEstoque['id_entrada_est']) ?>">Material</a>
                                     <a class="btn btn-warning btn-xs" href="<?= base_url('editar-funcionario/' . $entradaEstoque['id_entrada_est']) ?>">Editar</a>

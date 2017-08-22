@@ -16,7 +16,7 @@
     </div>
     <?php $this->load->view('include/alert.php'); ?>
     <div class="row">
-        <form action="<?= base_url('estoque/insert') ?>" method="post" enctype="multipart/form-data" id="entrada_estoque" class="entrada_estoque">
+        <form action="<?= base_url('cadastrar-entrada') ?>" method="post" enctype="multipart/form-data" id="entrada_estoque" class="entrada_estoque">
             <div class="form-group col-md-6">
                 <label for="responsavel">Responsável *</label>
                 <input type="text" class="form-control" id="responsavel" name="responsavel" disabled value="Gabriel Costa">
