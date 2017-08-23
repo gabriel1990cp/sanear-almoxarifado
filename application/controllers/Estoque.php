@@ -99,12 +99,12 @@ class Estoque extends CI_Controller
                 endif;
 
                 $data = array(
-                    'atend_requisicao_entrada_est' => $atendiRequisicao,
-                    'nota_remessa_entrada_est' => $notaRemessa,
-                    'arquivo_entrada_est' => $imagem['arquivo']['file_name'],
-                    'responsavel_entrada_est' => '1',
-                    'status_entrada_est' => 'aberto',
-                    'data_entrada_est' => date('Y-m-d H:i:s')
+                    'atend_requisicao_est_entrada' => $atendiRequisicao,
+                    'nota_remessa_est_entrada' => $notaRemessa,
+                    'arquivo_est_entrada' => $imagem['arquivo']['file_name'],
+                    'responsavel_est_entrada' => '1',
+                    'status_est_entrada' => 'aberto',
+                    'data_est_entrada' => date('Y-m-d H:i:s')
                 );
 
                 #VERIFICA SE O OCORREU O INSERT NO BANCO DE DADOS
@@ -217,7 +217,7 @@ class Estoque extends CI_Controller
         $listaHMY = '';
 
         foreach ($caixaHMY as $hmy):
-            $listaHMY .= '<p>'.$hmy['item_estoque_itens_caixa'].'</p>';
+            $listaHMY .= '<p>'.$hmy['item_est_caixa_hmy_itens'].'</p>';
         endforeach;
 
         echo $listaHMY;
@@ -306,16 +306,16 @@ class Estoque extends CI_Controller
         endif;
 
         $data = array(
-            'id_entrada_estoque_caixa' => $idEntradaMaterial,
-            'id_mat_estoque_caixa' => $idMaterial,
-            'quant_estoque_caixa' => $diferencaHM,
-            'inicio_estoque_caixa' => $inicioCaixaHM,
-            'fim_estoque_caixa' => $fimCaixaHM,
-            'id_responsavel_estoque_caixa' => '1',
-            'data_cadastro_estoque_caixa' => date('Y-m-d H:i:s')
+            'id_entrada_est_caixa_hmy' => $idEntradaMaterial,
+            'id_mat_est_caixa_hmy' => $idMaterial,
+            'quant_est_caixa_hmy' => $diferencaHM,
+            'inicio_est_caixa_hmy' => $inicioCaixaHM,
+            'fim_est_caixa_hmy' => $fimCaixaHM,
+            'id_resp_est_caixa_hmy' => '1',
+            'data_cad_est_caixa_hmy' => date('Y-m-d H:i:s')
         );
 
-        $idCaixaEntrada = $this->estoque_model->register_material($data);
+        $idCaixaEntrada = $this->estoque_model->insert_hmy($data);
 
         #VERIFICA SE INSERIU A CAIXA E INSERE OS ITENS DA CAIXA
         if (isset($idCaixaEntrada)):
@@ -325,18 +325,59 @@ class Estoque extends CI_Controller
                 $hmInsert = $inicioCaixaHMNumeros + $i;
 
                 $data = array(
-                    'id_caixa_estoque_itens_caixa' => $idCaixaEntrada,
-                    'item_estoque_itens_caixa' => $anoModeloHM . $hmInsert,
-                    'responsavel_estoque_itens_caixa' => '1',
-                    'data_estoque_itens_caixa' => date('Y-m-d H:i:s')
+                    'id_caixa_est_caixa_hmy_itens' => $idCaixaEntrada,
+                    'item_est_caixa_hmy_itens' => $anoModeloHM . $hmInsert,
+                    'responsavel_est_caixa_hmy_itens' => '1',
+                    'data_est_caixa_hmy_itens' => date('Y-m-d H:i:s')
                 );
 
-                $this->estoque_model->register_material_item($data);
+                $this->estoque_model->insert_hmy_item($data);
             endfor;
             $this->session->set_flashdata(open_modal('Hidrômetro cadastrado com sucesso !', CLASSE_SUCESSO));
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+    }
+
+    public function entrada_estoque_hm()
+    {
+        #RECEBE OS HM PARA INSERT
+        $idEntradaMaterial = strip_tags(trim($this->input->post('idEntradaMaterial')));
+        $idMaterial = strip_tags(trim($this->input->post('idMaterial')));
+
+        $hmAvulso = strip_tags(trim($this->input->post('hm_avulso')));
+
+        # VERIFICA SE OS CAMPOS FORAM PREENCHIDOS
+        if (empty($hmAvulso)):
+            $this->session->set_flashdata(open_modal('Ops, é obrigatório preencher o hidrômetro', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        # VERIFICA SE O HM JÁ FOI CADASTRADO
+        $verificaHMCadastrado = $this->estoque_model->check_hm_table($hmAvulso);
+
+        if (!empty($verificaHMCadastrado)):
+            $this->session->set_flashdata(open_modal('Ops, caixa de hidrômetros já cadastrada.', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        $data = array(
+            'id_entrada_est_hm_avulso' => $idEntradaMaterial,
+            'id_mat_est_hm_avulso' => $idMaterial,
+            'numero_est_hm_avulso' => $hmAvulso,
+            'id_resp_est_hm_avulso' => '1',
+            'data_cad_est_hm_avulso' => date('Y-m-d H:i:s')
+        );
+
+        #VERIFICA SE INSERIU A CAIXA E INSERE OS ITENS DA CAIXA
+        if ($this->estoque_model->insert_hm_avulso($data)):
+            $this->session->set_flashdata(open_modal('Hidrômetro cadastrado com sucesso !', CLASSE_SUCESSO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        else:
+            $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
     }
 }

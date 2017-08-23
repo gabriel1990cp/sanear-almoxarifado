@@ -75,19 +75,19 @@
                             foreach ($materiais as $material):
                                 ?>
                                 <tr>
-                                    <td scope="row"><?= $material['id_estoque_caixa']; ?></td>
+                                    <td scope="row"><?= $material['id_est_caixa_hmy']; ?></td>
                                     <td><?= $material['nome_tipo_material']; ?></td>
-                                    <td><?= $material['quant_estoque_caixa']; ?></td>
-                                    <td><?= $material['inicio_estoque_caixa']; ?></td>
-                                    <td><?= $material['fim_estoque_caixa']; ?></td>
-                                    <td><?= date('d/m/Y H:i', strtotime($material['data_cadastro_estoque_caixa']))?></td>
+                                    <td><?= $material['quant_est_caixa_hmy']; ?></td>
+                                    <td><?= $material['inicio_est_caixa_hmy']; ?></td>
+                                    <td><?= $material['fim_est_caixa_hmy']; ?></td>
+                                    <td><?= date('d/m/Y H:i', strtotime($material['data_cad_est_caixa_hmy']))?></td>
                                     <td>
-                                        <a class="btn btn-warning btn-xs visualizar-hmy" data-caixa_hm="<?= $material['id_estoque_caixa'] ?>">Visualizar</a>
-                                        <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-entrada="<?= $idEntradaMaterial ?>"  data-material="<?= $idMaterial ?>"  data-id="<?= $material['id_estoque_caixa'] ?>" data-nome="<?= $material['id_estoque_caixa'] ?>">Deletar</button>
+                                        <a class="btn btn-warning btn-xs visualizar-hmy" data-caixa_hm="<?= $material['id_est_caixa_hmy'] ?>">Visualizar</a>
+                                        <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-entrada="<?= $idEntradaMaterial ?>"  data-material="<?= $idMaterial ?>"  data-id="<?= $material['id_est_caixa_hmy'] ?>" data-nome="<?= $material['id_est_caixa_hmy'] ?>">Deletar</button>
                                     </td>
                                 </tr>
                                 <?php
-                                $totalProd = $material['quant_estoque_caixa'] + $totalProd;
+                                $totalProd = $material['quant_est_caixa_hmy'] + $totalProd;
                             endforeach;
                             ?>
                             <tr>

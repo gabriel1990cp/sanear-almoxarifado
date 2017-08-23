@@ -31,7 +31,7 @@
                 <select class="form-control" id="status" name="status">
                     <option value="">Status</option>
                     <option value="aberto" <?php if (!empty($status)) : if ($status == "aberto") : echo "selected"; endif; endif; ?>>Aberto</option>
-                        <option value="finalizado" <?php if (!empty($status)) : if ($status == "finalizado") : echo "selected"; endif; endif; ?>>Finalizado</option>
+                    <option value="finalizado" <?php if (!empty($status)) : if ($status == "finalizado") : echo "selected"; endif; endif; ?>>Finalizado</option>
                 </select>
             </div>
             <div class="form-group col-md-2">
@@ -63,17 +63,17 @@
                         foreach ($entradasEstoque as $entradaEstoque):
                             ?>
                             <tr>
-                                <td scope="row"><?= $entradaEstoque['id_entrada_est']; ?></td>
+                                <td scope="row"><?= $entradaEstoque['id_est_entrada']; ?></td>
                                 <td>Gabriel Costa</a></td>
-                                <td><?= date('d/m/Y H:i', strtotime($entradaEstoque['data_entrada_est']))?></td>
-                                <td><?= $entradaEstoque['atend_requisicao_entrada_est']; ?></td>
-                                <td><?= $entradaEstoque['nota_remessa_entrada_est']; ?></td>
-                                <td><a href="<?= base_url('uploads/') . $entradaEstoque['arquivo_entrada_est'] ?>" download=""><?= $entradaEstoque['arquivo_entrada_est']; ?></a></td>
-                                <td><?= ucfirst($entradaEstoque['status_entrada_est']); ?></td>
+                                <td><?= date('d/m/Y H:i', strtotime($entradaEstoque['data_est_entrada'])) ?></td>
+                                <td><?= $entradaEstoque['atend_requisicao_est_entrada']; ?></td>
+                                <td><?= $entradaEstoque['nota_remessa_est_entrada']; ?></td>
+                                <td><a href="<?= base_url('uploads/') . $entradaEstoque['arquivo_est_entrada'] ?>" download=""><?= $entradaEstoque['arquivo_est_entrada']; ?></a></td>
+                                <td><?= ucfirst($entradaEstoque['status_est_entrada']); ?></td>
                                 <td>
-                                    <a class="btn btn-primary btn-xs" href="<?= base_url('entrada-material/' . $entradaEstoque['id_entrada_est']) ?>">Material</a>
-                                    <a class="btn btn-warning btn-xs" href="<?= base_url('editar-funcionario/' . $entradaEstoque['id_entrada_est']) ?>">Editar</a>
-                                    <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-id="<?= $entradaEstoque['id_entrada_est'] ?>" data-nome="<?= $entradaEstoque['id_entrada_est'] ?>">Deletar</button>
+                                    <a class="btn btn-primary btn-xs" href="<?= base_url('entrada-material/' . $entradaEstoque['id_est_entrada']) ?>">Material</a>
+                                    <a class="btn btn-warning btn-xs" href="<?= base_url('editar-funcionario/' . $entradaEstoque['id_est_entrada']) ?>">Editar</a>
+                                    <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-id="<?= $entradaEstoque['id_est_entrada'] ?>" data-nome="<?= $entradaEstoque['id_est_entrada'] ?>">Deletar</button>
                                 </td>
                             </tr>
                             <?php

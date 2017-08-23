@@ -10,15 +10,21 @@ class Estoque_model extends CI_Model
         return $this->db->insert_id();
     }
 
-    function register_material($data)
+    function insert_hmy($data)
     {
-        $this->db->insert('estoque_caixa',$data);
+        $this->db->insert('estoque_hmy_caixa',$data);
         return $this->db->insert_id();
     }
 
-    function register_material_item($data)
+    function insert_hm_avulso($data)
     {
-        $this->db->insert('estoque_itens_caixa',$data);
+        $this->db->insert('estoque_hm_avulso',$data);
+        return $this->db->insert_id();
+    }
+
+    function insert_hmy_item($data)
+    {
+        $this->db->insert('estoque_hmy_caixa_itens',$data);
         return $this->db->insert_id();
     }
 
@@ -27,10 +33,9 @@ class Estoque_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from("estoque_entrada");
-        $this->db->where("nota_remessa_entrada_est",$notaRemessa);
+        $this->db->where("nota_remessa_est_entrada",$notaRemessa);
         return $this->db->get()->num_rows();
     }
-
 
     #QUANTIDADE DE ENTRADAS DE MATERIAS
     function list_material_qtd()
@@ -47,10 +52,10 @@ class Estoque_model extends CI_Model
         $this->db->select('*');
         $this->db->from("estoque_entrada");
         if (!empty($id)):
-            $this->db->where('id_entrada_est', $id);
+            $this->db->where('id_est_entrada', $id);
         endif;
         $this->db->limit(10, $page);
-        $this->db->order_by('data_entrada_est', "ASC");
+        $this->db->order_by('data_est_entrada', "ASC");
         return $this->db->get()->result_array();
     }
 
@@ -64,9 +69,9 @@ class Estoque_model extends CI_Model
     function list_material_input($idEntradaMaterial)
     {
         $this->db->select('x1.*, x2.nome_tipo_material');
-        $this->db->from("estoque_caixa x1");
-        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_estoque_caixa");
-        $this->db->where('x1.id_entrada_estoque_caixa   ', $idEntradaMaterial);
+        $this->db->from("estoque_hmy_caixa x1");
+        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_caixa_hmy");
+        $this->db->where('x1.id_entrada_est_caixa_hmy', $idEntradaMaterial);
         return $this->db->get()->result_array();
     }
 
@@ -75,15 +80,15 @@ class Estoque_model extends CI_Model
         $this->db->select('*');
         $this->db->from("estoque_entrada");
         if (!empty($atendimentoRequisicao)):
-            $this->db->like('atend_requisicao_entrada_est', $atendimentoRequisicao);
+            $this->db->like('atend_requisicao_est_entrada', $atendimentoRequisicao);
         endif;
         if (!empty($notaRemessa)):
-            $this->db->like('nota_remessa_entrada_est', $notaRemessa);
+            $this->db->like('nota_remessa_est_entrada', $notaRemessa);
         endif;
         if (!empty($status)):
-            $this->db->where('status_entrada_est', $status);
+            $this->db->where('status_est_entrada', $status);
         endif;
-        $this->db->order_by('data_entrada_est', "DESC");
+        $this->db->order_by('data_est_entrada', "DESC");
         return $this->db->get()->result_array();
     }
 
@@ -101,24 +106,32 @@ class Estoque_model extends CI_Model
 
     function delete_caixa_hmy($id)
     {
-        $this->db->where('id_estoque_caixa', $id);
-        return $this->db->delete('estoque_caixa');
+        $this->db->where('id_est_caixa_hmy', $id);
+        return $this->db->delete('estoque_hmy_caixa');
     }
 
     function check_hmy_table($inicioCaixaHM, $fimCaixaHM)
     {
         $this->db->select('*');
-        $this->db->from("estoque_itens_caixa");
-        $this->db->where('item_estoque_itens_caixa', $inicioCaixaHM);
-        $this->db->or_where('item_estoque_itens_caixa', $fimCaixaHM);
+        $this->db->from("estoque_hmy_caixa_itens");
+        $this->db->where('item_est_caixa_hmy_itens', $inicioCaixaHM);
+        $this->db->or_where('item_est_caixa_hmy_itens', $fimCaixaHM);
+        return $this->db->get()->num_rows();
+    }
+
+    function check_hm_table($hmAvulso)
+    {
+        $this->db->select('*');
+        $this->db->from("estoque_hmy_caixa_itens");
+        $this->db->where('item_est_caixa_hmy_itens', $hmAvulso);
         return $this->db->get()->num_rows();
     }
 
     function view_caixa_hmy($idCaixaHMY)
     {
-        $this->db->select('item_estoque_itens_caixa');
-        $this->db->from("estoque_itens_caixa");
-        $this->db->where("id_caixa_estoque_itens_caixa",$idCaixaHMY);
+        $this->db->select('item_est_caixa_hmy_itens');
+        $this->db->from("estoque_hmy_caixa_itens");
+        $this->db->where("id_caixa_est_caixa_hmy_itens",$idCaixaHMY);
         return $this->db->get()->result_array();
     }
 }
