@@ -35,11 +35,13 @@ $("#seleciona_material_hmy").validate({
     rules: {
         inicio_caixa_hm: {
             required: true,
-            minlength: 10
+            minlength: 10,
+            maxlength: 10
         },
         fim_caixa_hm: {
             required: true,
-            minlength: 10
+            minlength: 10,
+            maxlength: 10
         }
     },
     messages: {
@@ -48,6 +50,22 @@ $("#seleciona_material_hmy").validate({
         },
         fim_caixa_hm: {
             required: "O campo fim caixa é obrigatório"
+        }
+    }
+});
+
+//VALIDAÇÕES
+$("#seleciona_material_hm").validate({
+    rules: {
+        hm_avulso: {
+            required: true,
+            minlength: 6,
+            maxlength: 10,
+        }
+    },
+    messages: {
+        hm_avulso: {
+            required: "O campo hidrômetro é obrigatório"
         }
     }
 });
@@ -65,7 +83,7 @@ $(document).ready(function () {
         }
     });
 
-    //VISUALIZAR CAIXA DE HM Y
+    //VISUALIZAR CAIXA DE HIDROMETRO Y
     $('.visualizar-hmy').on('click', function (e) {
         e.preventDefault();
 
@@ -94,9 +112,9 @@ $(document).ready(function () {
 });
 
 
-//EXCUIR USUARIO
+//EXCLUIR CAIXA DE HIDROMETRO
 $(function () {
-    $('.confirma_exclusao').on('click', function (e) {
+    $('.confirma_exclusao_hm_avulso').on('click', function (e) {
         e.preventDefault();
 
         var nome = $(this).data('nome');
@@ -120,7 +138,7 @@ $(function () {
         var id = $('#modal_confirmation').data('id');
         var entrada = $('#modal_confirmation').data('entrada');
         var material = $('#modal_confirmation').data('material');
-        document.location.href = base_url + "estoque/delete_caixa_hmy/" + id + "/" + entrada + "/" + material;
+        document.location.href = base_url + "estoque/delete_caixa_hm_avulso/" + id + "/" + entrada + "/" + material;
     });
 });
 

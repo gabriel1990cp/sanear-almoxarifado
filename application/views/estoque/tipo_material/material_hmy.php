@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="page-header">
-                Entrada de Material
+                Entrada de Material - <small><?= $nomeMaterial[0]['nome_tipo_material']?></small>
             </h1>
             <ol class="breadcrumb">
                 <li>
@@ -80,10 +80,10 @@
                                     <td><?= $material['quant_est_caixa_hmy']; ?></td>
                                     <td><?= $material['inicio_est_caixa_hmy']; ?></td>
                                     <td><?= $material['fim_est_caixa_hmy']; ?></td>
-                                    <td><?= date('d/m/Y H:i', strtotime($material['data_cad_est_caixa_hmy']))?></td>
+                                    <td><?= date('d/m/Y H:i', strtotime($material['data_cad_est_caixa_hmy'])) ?></td>
                                     <td>
                                         <a class="btn btn-warning btn-xs visualizar-hmy" data-caixa_hm="<?= $material['id_est_caixa_hmy'] ?>">Visualizar</a>
-                                        <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-entrada="<?= $idEntradaMaterial ?>"  data-material="<?= $idMaterial ?>"  data-id="<?= $material['id_est_caixa_hmy'] ?>" data-nome="<?= $material['id_est_caixa_hmy'] ?>">Deletar</button>
+                                        <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-entrada="<?= $idEntradaMaterial ?>" data-material="<?= $idMaterial ?>" data-id="<?= $material['id_est_caixa_hmy'] ?>" data-nome="<?= $material['id_est_caixa_hmy'] ?>">Deletar</button>
                                     </td>
                                 </tr>
                                 <?php

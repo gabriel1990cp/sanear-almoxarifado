@@ -79,7 +79,7 @@
                                 <td><?= $equipe['nome_tipo_equipe']; ?></td>
                                 <td><?= ucfirst($equipe['status_equipe']); ?></td>
                                 <td>
-                                    <a class="btn btn-default btn-xs" href="<?= base_url('gerenciar-equipe/' . $equipe['id_equipe']) ?>">Gerenciar</a>
+                                    <a class="btn btn-primary btn-xs" href="<?= base_url('gerenciar-equipe/' . $equipe['id_equipe']) ?>">Gerenciar</a>
                                     <a class="btn btn-warning btn-xs" href="<?= base_url('editar-equipe/' . $equipe['id_equipe']) ?>">Editar</a>
                                     <?php
                                     if ($equipe['status_equipe'] != "inativo"):

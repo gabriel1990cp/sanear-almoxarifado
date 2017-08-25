@@ -110,6 +110,7 @@ define('LACRE_CORDOALHA_ACO',6);
 define('MOLA_DISP_ANTI_FRAUDE',7);
 
 define('QTD_CAIXA_HM',20);
+define('PREG_HIDROMETRO','/^[A-Z][0-9]{2}[A-Z][0-9]{6}$/');
 
 
 

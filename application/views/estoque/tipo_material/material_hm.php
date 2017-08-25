@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="page-header">
-                Entrada de Material
+                Entrada de Material - <small><?= $nomeMaterial[0]['nome_tipo_material']?></small>
             </h1>
             <ol class="breadcrumb">
                 <li>
@@ -29,7 +29,7 @@
                         <div class="hm-y">
                             <div class="form-group col-md-8">
                                 <label for="inicio_caixa_hm">Hidrômetro *</label>
-                                <input type="text" class="form-control" id="hm_avulso" name="hm_avulso" placeholder="Exemplo:Y10L102030">
+                                <input type="text" class="form-control" id="hm_avulso" name="hm_avulso" placeholder="Exemplo:X10L102030">
                                 <div class="error error_hm_avulso"></div>
                             </div>
 
@@ -58,9 +58,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Material</th>
-                            <th>Quantidade</th>
-                            <th>Início</th>
-                            <th>Término</th>
+                            <th>Hidrômetro</th>
                             <th>Data Cadastro</th>
                             <th>Opção</th>
                         </tr>
@@ -71,19 +69,16 @@
                             foreach ($materiais as $material):
                                 ?>
                                 <tr>
-                                    <td scope="row"><?= $material['id_est_caixa_hmy']; ?></td>
+                                    <td scope="row"><?= $material['id_est_hm_avulso']; ?></td>
                                     <td><?= $material['nome_tipo_material']; ?></td>
-                                    <td><?= $material['quant_est_caixa_hmy']; ?></td>
-                                    <td><?= $material['inicio_est_caixa_hmy']; ?></td>
-                                    <td><?= $material['fim_est_caixa_hmy']; ?></td>
-                                    <td><?= date('d/m/Y H:i', strtotime($material['data_cad_est_caixa_hmy']))?></td>
+                                    <td><?= $material['numero_est_hm_avulso']; ?></td>
+                                    <td><?= date('d/m/Y H:i', strtotime($material['data_cad_est_hm_avulso']))?></td>
                                     <td>
-                                        <a class="btn btn-warning btn-xs visualizar-hmy" data-caixa_hm="<?= $material['id_est_caixa_hmy'] ?>">Visualizar</a>
-                                        <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-entrada="<?= $idEntradaMaterial ?>"  data-material="<?= $idMaterial ?>"  data-id="<?= $material['id_est_caixa_hmy'] ?>" data-nome="<?= $material['id_est_caixa_hmy'] ?>">Deletar</button>
+                                        <button class="btn btn-danger btn-xs confirma_exclusao_hm_avulso" href="#" data-entrada="<?= $idEntradaMaterial ?>"  data-material="<?= $idMaterial ?>"  data-id="<?= $material['id_est_hm_avulso'] ?>" data-nome="<?= $material['id_est_hm_avulso'] ?>">Deletar</button>
                                     </td>
                                 </tr>
                                 <?php
-                                $totalProd = $material['quant_est_caixa_hmy'] + $totalProd;
+                                $totalProd = 1 + $totalProd;
                             endforeach;
                             ?>
                             <tr>
@@ -126,19 +121,3 @@
 </div>
 <!-- MODAL -->
 
-<!-- MODAL -->
-<div class="modal fade" id="visualizar-hmy">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    &times;</span></button>
-                <h4 class="modal-title">Hidrômetros cadastrados</h4>
-            </div>
-            <div class="modal-body ">
-                <div class="resultado"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- MODAL -->

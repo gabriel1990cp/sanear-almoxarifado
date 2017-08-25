@@ -71,7 +71,7 @@
                                 <td><a href="<?= base_url('uploads/') . $entradaEstoque['arquivo_est_entrada'] ?>" download=""><?= $entradaEstoque['arquivo_est_entrada']; ?></a></td>
                                 <td><?= ucfirst($entradaEstoque['status_est_entrada']); ?></td>
                                 <td>
-                                    <a class="btn btn-primary btn-xs" href="<?= base_url('entrada-material/' . $entradaEstoque['id_est_entrada']) ?>">Material</a>
+                                    <a class="btn btn-primary btn-xs" href="<?= base_url('entrada-material/' . $entradaEstoque['id_est_entrada']) ?>">Gerenciar Material</a>
                                     <a class="btn btn-warning btn-xs" href="<?= base_url('editar-funcionario/' . $entradaEstoque['id_est_entrada']) ?>">Editar</a>
                                     <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-id="<?= $entradaEstoque['id_est_entrada'] ?>" data-nome="<?= $entradaEstoque['id_est_entrada'] ?>">Deletar</button>
                                 </td>

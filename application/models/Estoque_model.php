@@ -66,12 +66,31 @@ class Estoque_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    function list_material_input($idEntradaMaterial)
+    function name_material($material)
+    {
+        $this->db->select('nome_tipo_material');
+        $this->db->from("tipo_material");
+        $this->db->where('id_tipo_material',$material);
+        return $this->db->get()->result_array();
+
+    }
+
+    function list_material_input_hmy($idEntradaMaterial)
     {
         $this->db->select('x1.*, x2.nome_tipo_material');
         $this->db->from("estoque_hmy_caixa x1");
         $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_caixa_hmy");
         $this->db->where('x1.id_entrada_est_caixa_hmy', $idEntradaMaterial);
+        return $this->db->get()->result_array();
+    }
+
+    function list_material_input_hm($idEntradaMaterial,$material)
+    {
+        $this->db->select('x1.*, x2.nome_tipo_material');
+        $this->db->from("estoque_hm_avulso x1");
+        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_hm_avulso");
+        $this->db->where('x1.id_entrada_est_hm_avulso', $idEntradaMaterial);
+        $this->db->where('x1.id_mat_est_hm_avulso', $material);
         return $this->db->get()->result_array();
     }
 
@@ -110,6 +129,17 @@ class Estoque_model extends CI_Model
         return $this->db->delete('estoque_hmy_caixa');
     }
 
+    function delete_caixa_hm_avulso($id)
+    {
+        $this->db->where('id_est_hm_avulso', $id);
+        return $this->db->delete('estoque_hm_avulso');
+    }
+
+    function count_input_material()
+    {
+
+    }
+
     function check_hmy_table($inicioCaixaHM, $fimCaixaHM)
     {
         $this->db->select('*');
@@ -122,8 +152,8 @@ class Estoque_model extends CI_Model
     function check_hm_table($hmAvulso)
     {
         $this->db->select('*');
-        $this->db->from("estoque_hmy_caixa_itens");
-        $this->db->where('item_est_caixa_hmy_itens', $hmAvulso);
+        $this->db->from("estoque_hm_avulso");
+        $this->db->where('numero_est_hm_avulso', $hmAvulso);
         return $this->db->get()->num_rows();
     }
 

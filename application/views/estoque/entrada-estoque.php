@@ -45,7 +45,7 @@
                 <button type="submit" class="btn btn-primary btn-block cadastrar">Cadastrar</button>
             </div>
             <div class="form-group col-md-6">
-                <a href="<?= base_url('equipes/') ?>" class="btn btn-danger btn-block">Cancelar</a>
+                <a href="<?= base_url('estoque/') ?>" class="btn btn-danger btn-block">Cancelar</a>
             </div>
         </form>
     </div>
