@@ -126,7 +126,7 @@
                 <h4 class="modal-title">Confirmação de Exclusão</h4>
             </div>
             <div class="modal-body">
-                <p>Deseja realmente excluir o funcionários : <strong><span id="nome_exclusao"></span></strong>?</p>
+                <p>Deseja realmente excluir o funcionário : <strong><span id="nome_exclusao"></span></strong>?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>

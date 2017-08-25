@@ -31,7 +31,7 @@
                 <input type="text" class="form-control" id="cpf" name="cpf">
             </div>
             <div class="form-group col-md-6">
-                <label for="tipo">Cargo</label>
+                <label for="tipo">Cargo *</label>
                 <select class="form-control" id="cargo" name="cargo" >
                     <option value="">Selecione ></option>
                     <?php

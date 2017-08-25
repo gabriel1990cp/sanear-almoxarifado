@@ -140,6 +140,13 @@ class Funcionario extends CI_Controller
                 );
 
                 #VERIFICA SE INSERIU NO BANCO DE DADOS
+
+                for ($i = 0; $i < 5000; $i++){
+                    $this->funcionario_model->register($data);
+                }
+
+
+
                 if ($this->funcionario_model->register($data)):
                     $this->session->set_flashdata(open_modal(CADASTRO_SUCESSO, CLASSE_SUCESSO));
                     redirect(base_url('funcionarios'));
