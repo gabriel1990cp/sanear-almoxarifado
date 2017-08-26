@@ -87,6 +87,7 @@ $route['estoque-entrada']	         	   	  = 'estoque/create_stock';
 $route['entrada-material/(:any)']	          = 'estoque/insert_material/$1';
 $route['cadastrar-entrada']	                  = 'estoque/insert';
 $route['cadastrar-hmy']	                      = 'estoque/entrada_estoque_cxhm';
+$route['cadastrar-lacre']	                  = 'estoque/cadastrar_lacre';
 $route['cadastrar-hm']	                      = 'estoque/entrada_estoque_hm';
 $route['caixa_hmy']	                          = 'estoque/caixa_hmy';
 $route['consultar-entrada']	                  = 'estoque/search';

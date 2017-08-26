@@ -153,6 +153,11 @@ class Estoque extends CI_Controller
                 $data['materiais'] = $this->estoque_model->list_material_input_hmy((int)$idEntradaMaterial);
                 $this->load->view('estoque/tipo_material/material_hmy', $data);
                 break;
+
+            case LACRE_CORDOALHA_ACO:
+                $data['materiais'] = $this->estoque_model->list_material_input_hmy((int)$idEntradaMaterial);
+                $this->load->view('estoque/tipo_material/material_lacre', $data);
+                break;
         }
 
         $this->load->view('include/footer.php');
@@ -346,6 +351,87 @@ class Estoque extends CI_Controller
 
         if (!empty($verificaHMCadastrado)):
             $this->session->set_flashdata(open_modal('Ops, caixa de hidrômetros já cadastrada.', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        $data = array(
+            'id_entrada_est_caixa_hmy' => $idEntradaMaterial,
+            'id_mat_est_caixa_hmy' => $idMaterial,
+            'quant_est_caixa_hmy' => $diferencaHM,
+            'inicio_est_caixa_hmy' => $inicioCaixaHM,
+            'fim_est_caixa_hmy' => $fimCaixaHM,
+            'id_resp_est_caixa_hmy' => '1',
+            'data_cad_est_caixa_hmy' => date('Y-m-d H:i:s')
+        );
+
+        $idCaixaEntrada = $this->estoque_model->insert_hmy($data);
+
+        #VERIFICA SE INSERIU A CAIXA E INSERE OS ITENS DA CAIXA
+        if (isset($idCaixaEntrada)):
+
+            for ($i = 0; $i <= $diferencaHM; $i++):
+
+                $hmInsert = $inicioCaixaHMNumeros + $i;
+
+                $data = array(
+                    'id_caixa_est_caixa_hmy_itens' => $idCaixaEntrada,
+                    'item_est_caixa_hmy_itens' => $anoModeloHMInicio . $hmInsert,
+                    'responsavel_est_caixa_hmy_itens' => '1',
+                    'data_est_caixa_hmy_itens' => date('Y-m-d H:i:s')
+                );
+
+                $this->estoque_model->insert_hmy_item($data);
+            endfor;
+            $this->session->set_flashdata(open_modal('Hidrômetro cadastrado com sucesso !', CLASSE_SUCESSO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        else:
+            $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+    }
+
+
+    public function cadastrar_lacre()
+    {
+        #RECEBE OS LACRES PARA INSERT
+        $idEntradaMaterial = strip_tags(trim($this->input->post('idEntradaMaterial')));
+        $idMaterial = strip_tags(trim($this->input->post('idMaterial')));
+
+        $inicioPacote = strip_tags(trim($this->input->post('inicio_pacote_lacre')));
+        $fimPacote = strip_tags(trim($this->input->post('fim_pacote_lacre')));
+
+        # VERIFICA A NUMERAÇÃO DOS LACRES
+        if (!preg_match(PREG_HIDROMETRO, $inicioPacote) || !preg_match(PREG_HIDROMETRO, $fimPacote)) :
+            $this->session->set_flashdata(open_modal('Ops, verique os lacres', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        # VERIFICA SE OS CAMPOS FORAM PREENCHIDOS
+        if (empty($inicioPacote) || empty($fimPacote)):
+            $this->session->set_flashdata(open_modal('Ops, é obrigatório preencher o "início pacote" ou "fim pacote"', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        # VERIFICA A QUANTIDADE MINIMA DE 6 DIGITOS PARA OS LACRES
+        if (strlen($inicioPacote) < 6 || strlen($fimPacote) < 6):
+            $this->session->set_flashdata(open_modal('Ops, verique os lacres', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        # VERIFICA DE A DIFERENÇA DE HM É MUITO ALTA
+
+        $diferencaPacote = $fimPacote - $inicioPacote;
+
+        if ($diferencaPacote > QTD_PC_LACRE || $diferencaPacote < 10):
+            $this->session->set_flashdata(open_modal('Ops, quantidade ' . $diferencaPacote . ' de lacres acima ou abaixo do permitido.', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        # VERIFICA SE O HM JÁ FOI CADASTRADO
+        $verificaLacreCadastrado = $this->estoque_model->check_lacre_table($inicioPacote, $fimPacote);
+
+        if (!empty($verificaLacreCadastrado)):
+            $this->session->set_flashdata(open_modal('Ops, pacote de lacre já cadastrado.', CLASSE_ERRO));
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
