@@ -74,7 +74,7 @@
                                     <td><?= $material['numero_est_hm_avulso']; ?></td>
                                     <td><?= date('d/m/Y H:i', strtotime($material['data_cad_est_hm_avulso']))?></td>
                                     <td>
-                                        <button class="btn btn-danger btn-xs confirma_exclusao_hm_avulso" href="#" data-entrada="<?= $idEntradaMaterial ?>"  data-material="<?= $idMaterial ?>"  data-id="<?= $material['id_est_hm_avulso'] ?>" data-nome="<?= $material['id_est_hm_avulso'] ?>">Deletar</button>
+                                        <button class="btn btn-danger btn-xs confirma_exclusao_hm_avulso" href="#" data-entrada="<?= $idEntradaMaterial ?>"  data-material="<?= $idMaterial ?>"  data-id="<?= $material['id_est_hm_avulso'] ?>" data-nome="<?= $material['numero_est_hm_avulso'] ?>">Deletar</button>
                                     </td>
                                 </tr>
                                 <?php
@@ -110,7 +110,7 @@
                 <h4 class="modal-title">Confirmação de Exclusão</h4>
             </div>
             <div class="modal-body">
-                <p>Deseja realmente excluir a caixa de hidrômetro : <strong><span id="nome_exclusao"></span></strong> ?</p>
+                <p>Deseja realmente excluir o hidrometro : <strong><span id="nome_exclusao"></span></strong> ?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>

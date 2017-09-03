@@ -23,7 +23,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Cadastrar caixa de hidrômetro</div>
                 <div class="panel-body">
-                    <form action="<?= base_url('cadastrar-hmy') ?>" method="post" enctype="multipart/form-data" id="seleciona_material_hmy" class="seleciona_material_hmy">
+                    <form action="<?= base_url('cadastrar-hmy') ?>" method="post" enctype="multipart/form-data" id="cadastrar_hmy" class="cadastrar_hmy">
                         <input type="hidden" value="<?= $idEntradaMaterial ?>" name="idEntradaMaterial" id="idEntradaMaterial">
                         <input type="hidden" value="<?= $idMaterial ?>" name="idMaterial" id="idMaterial">
                         <div class="hm-y">
@@ -83,7 +83,7 @@
                                     <td><?= date('d/m/Y H:i', strtotime($material['data_cad_est_caixa_hmy'])) ?></td>
                                     <td>
                                         <a class="btn btn-warning btn-xs visualizar-hmy" data-caixa_hm="<?= $material['id_est_caixa_hmy'] ?>">Visualizar</a>
-                                        <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-entrada="<?= $idEntradaMaterial ?>" data-material="<?= $idMaterial ?>" data-id="<?= $material['id_est_caixa_hmy'] ?>" data-nome="<?= $material['id_est_caixa_hmy'] ?>">Deletar</button>
+                                        <button class="btn btn-danger btn-xs confirma_exclusao_caixa_hmy" href="#" data-entrada="<?= $idEntradaMaterial ?>" data-material="<?= $idMaterial ?>" data-id="<?= $material['id_est_caixa_hmy'] ?>" data-nome="<?= $material['inicio_est_caixa_hmy'] ?> - <?= $material['fim_est_caixa_hmy'] ?>">Deletar</button>
                                     </td>
                                 </tr>
                                 <?php
@@ -123,7 +123,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
-                <button type="button" class="btn btn-danger" id="btn_excluir">Sim</button>
+                <button type="button" class="btn btn-danger" id="btn_excluir_caixa_hmy">Sim</button>
             </div>
         </div>
     </div>

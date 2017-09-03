@@ -155,8 +155,13 @@ class Estoque extends CI_Controller
                 break;
 
             case LACRE_CORDOALHA_ACO:
-                $data['materiais'] = $this->estoque_model->list_material_input_hmy((int)$idEntradaMaterial);
+                $data['materiais'] = $this->estoque_model->lista_material_tipo_lacre((int)$idEntradaMaterial);
                 $this->load->view('estoque/tipo_material/material_lacre', $data);
+                break;
+
+            case MOLA_DISP_ANTI_FRAUDE:
+                $data['materiais'] = $this->estoque_model->lista_material_tipo_mola((int)$idEntradaMaterial);
+                $this->load->view('estoque/tipo_material/material_mola', $data);
                 break;
         }
 
@@ -246,6 +251,21 @@ class Estoque extends CI_Controller
         echo $listaHMY;
     }
 
+    public function pacote_lacre()
+    {
+        $idPacoteLacre = (int)$this->input->post('pacote_lacre');
+
+        $pacoteLacre = $this->estoque_model->visualizar_pacote_lacre($idPacoteLacre);
+
+        $listaPacoteLacre = '';
+
+        foreach ($pacoteLacre as $lacre):
+            $listaPacoteLacre .= '<p>' . $lacre['item_est_lacre_pacote_itens'] . '</p>';
+        endforeach;
+
+        echo $listaPacoteLacre;
+    }
+
     public function search()
     {
         $atendimentoRequisicao = strip_tags(trim($this->input->post('atendimento_requisicao')));
@@ -291,6 +311,32 @@ class Estoque extends CI_Controller
 
         if ($deletarCaixaHMY == true):
             $this->session->set_flashdata(open_modal('Caixa de Hidrômetro deletada com sucesso !', CLASSE_SUCESSO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        else:
+            $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+    }
+
+    public function delete_mola($idMola, $idEntradaMaterial, $idMaterial)
+    {
+        $deletarMola = $this->estoque_model->delete_mola($idMola);
+
+        if ($deletarMola == true):
+            $this->session->set_flashdata(open_modal('Mola dispositivo anti fraude deletada com sucesso !', CLASSE_SUCESSO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        else:
+            $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+    }
+
+    public function deletar_pacote_lacre($idPacoteLacre, $idEntradaMaterial, $idMaterial)
+    {
+        $deletarPacoteLacre = $this->estoque_model->deletar_pacote_lacre($idPacoteLacre);
+
+        if ($deletarPacoteLacre == true):
+            $this->session->set_flashdata(open_modal('Pacote de lacre deletado com sucesso !', CLASSE_SUCESSO));
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
@@ -390,8 +436,7 @@ class Estoque extends CI_Controller
         endif;
     }
 
-
-    public function cadastrar_lacre()
+    public function entrada_estoque_lacre()
     {
         #RECEBE OS LACRES PARA INSERT
         $idEntradaMaterial = strip_tags(trim($this->input->post('idEntradaMaterial')));
@@ -400,26 +445,19 @@ class Estoque extends CI_Controller
         $inicioPacote = strip_tags(trim($this->input->post('inicio_pacote_lacre')));
         $fimPacote = strip_tags(trim($this->input->post('fim_pacote_lacre')));
 
-        # VERIFICA A NUMERAÇÃO DOS LACRES
-        if (!preg_match(PREG_HIDROMETRO, $inicioPacote) || !preg_match(PREG_HIDROMETRO, $fimPacote)) :
-            $this->session->set_flashdata(open_modal('Ops, verique os lacres', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
-        endif;
-
         # VERIFICA SE OS CAMPOS FORAM PREENCHIDOS
         if (empty($inicioPacote) || empty($fimPacote)):
             $this->session->set_flashdata(open_modal('Ops, é obrigatório preencher o "início pacote" ou "fim pacote"', CLASSE_ERRO));
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
-        # VERIFICA A QUANTIDADE MINIMA DE 6 DIGITOS PARA OS LACRES
-        if (strlen($inicioPacote) < 6 || strlen($fimPacote) < 6):
-            $this->session->set_flashdata(open_modal('Ops, verique os lacres', CLASSE_ERRO));
+        # VERIFICA A NUMERAÇÃO DOS LACRES
+        if (!preg_match(PREG_LACRE, $inicioPacote) || !preg_match(PREG_LACRE, $fimPacote)) :
+            $this->session->set_flashdata(open_modal('Ops, verifique o início ou fim da numeração do pacote de lacre', CLASSE_ERRO));
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
-        # VERIFICA DE A DIFERENÇA DE HM É MUITO ALTA
-
+        # VERIFICA A DIFERENCA DE INICIO PARA O FIM DO PACOTE DE LACRE
         $diferencaPacote = $fimPacote - $inicioPacote;
 
         if ($diferencaPacote > QTD_PC_LACRE || $diferencaPacote < 10):
@@ -427,7 +465,13 @@ class Estoque extends CI_Controller
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
-        # VERIFICA SE O HM JÁ FOI CADASTRADO
+        # VERIFICA A QUANTIDADE MINIMA DE 6 DIGITOS PARA OS LACRES
+        if (strlen($inicioPacote) < 6 || strlen($fimPacote) < 6):
+            $this->session->set_flashdata(open_modal('Ops, verifique o início ou fim da numeração do pacote', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        # VERIFICA SE O PACOTE DE LACRES JÁ FOI CADASTRADO
         $verificaLacreCadastrado = $this->estoque_model->check_lacre_table($inicioPacote, $fimPacote);
 
         if (!empty($verificaLacreCadastrado)):
@@ -436,34 +480,34 @@ class Estoque extends CI_Controller
         endif;
 
         $data = array(
-            'id_entrada_est_caixa_hmy' => $idEntradaMaterial,
-            'id_mat_est_caixa_hmy' => $idMaterial,
-            'quant_est_caixa_hmy' => $diferencaHM,
-            'inicio_est_caixa_hmy' => $inicioCaixaHM,
-            'fim_est_caixa_hmy' => $fimCaixaHM,
-            'id_resp_est_caixa_hmy' => '1',
-            'data_cad_est_caixa_hmy' => date('Y-m-d H:i:s')
+            'id_entrada_est_lacre_pacote' => $idEntradaMaterial,
+            'id_mat_est_lacre_pacote' => $idMaterial,
+            'quant_est_lacre_pacote' => $diferencaPacote,
+            'inicio_est_lacre_pacote' => $inicioPacote,
+            'fim_est_lacre_pacote' => $fimPacote,
+            'id_resp_est_lacre_pacote' => '1',
+            'data_cad_est_lacre_pacote' => date('Y-m-d H:i:s')
         );
 
-        $idCaixaEntrada = $this->estoque_model->insert_hmy($data);
+        $idPacoteEntrada = $this->estoque_model->insert_lacre($data);
 
         #VERIFICA SE INSERIU A CAIXA E INSERE OS ITENS DA CAIXA
-        if (isset($idCaixaEntrada)):
+        if (isset($idPacoteEntrada)):
 
-            for ($i = 0; $i <= $diferencaHM; $i++):
+            for ($i = 0; $i <= $diferencaPacote; $i++):
 
-                $hmInsert = $inicioCaixaHMNumeros + $i;
+                $lacreInsert = $inicioPacote + $i;
 
                 $data = array(
-                    'id_caixa_est_caixa_hmy_itens' => $idCaixaEntrada,
-                    'item_est_caixa_hmy_itens' => $anoModeloHMInicio . $hmInsert,
-                    'responsavel_est_caixa_hmy_itens' => '1',
-                    'data_est_caixa_hmy_itens' => date('Y-m-d H:i:s')
+                    'id_pacote_est_lacre_pacote_itens' => $idPacoteEntrada,
+                    'item_est_lacre_pacote_itens' => $lacreInsert,
+                    'responsavel_est_lacre_pacote_itens' => '1',
+                    'data_est_lacre_pacote_itens' => date('Y-m-d H:i:s')
                 );
 
-                $this->estoque_model->insert_hmy_item($data);
+                $this->estoque_model->insert_lacre_item($data);
             endfor;
-            $this->session->set_flashdata(open_modal('Hidrômetro cadastrado com sucesso !', CLASSE_SUCESSO));
+            $this->session->set_flashdata(open_modal('Lacre cadastrado com sucesso !', CLASSE_SUCESSO));
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
@@ -510,6 +554,38 @@ class Estoque extends CI_Controller
         #VERIFICA SE INSERIU A CAIXA E INSERE OS ITENS DA CAIXA
         if ($this->estoque_model->insert_hm_avulso($data)):
             $this->session->set_flashdata(open_modal('Hidrômetro cadastrado com sucesso !', CLASSE_SUCESSO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        else:
+            $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+    }
+
+    public function entrada_estoque_mola()
+    {
+        #RECEBE A QUANTIDADE DE MOLAS PARA CADASTRAR
+        $idEntradaMaterial = strip_tags(trim($this->input->post('idEntradaMaterial')));
+        $idMaterial = strip_tags(trim($this->input->post('idMaterial')));
+
+        $quantMola = strip_tags(trim(strtoupper($this->input->post('quant_mola'))));
+
+        # VERIFICA SE A QUANTIDADE FOI PREENCHIDA
+        if (empty($quantMola)):
+            $this->session->set_flashdata(open_modal('Ops, é obrigatório preencher o campo quantidade', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        $data = array(
+            'id_entrada_est_mola' => $idEntradaMaterial,
+            'id_mat_est_mola' => $idMaterial,
+            'quant_est_mola' => $quantMola,
+            'id_resp_est_mola' => '1',
+            'data_cad_est_mola' => date('Y-m-d H:i:s')
+        );
+
+        #VERIFICA SE INSERIU A CAIXA E INSERE OS ITENS DA CAIXA
+        if ($this->estoque_model->insert_mola($data)):
+            $this->session->set_flashdata(open_modal('Mola dispositivo anti fraude cadastrado com sucesso !', CLASSE_SUCESSO));
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));

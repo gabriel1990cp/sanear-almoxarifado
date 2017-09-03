@@ -88,7 +88,6 @@ label{
     margin-top: 22px;
 }
 
-
 .section-pagination {
     cursor: default !important;
     background-color: #337ab7 !important;
@@ -102,6 +101,11 @@ label{
 
 .title-table{
     font-size: 15px;
+}
+
+.resultado_lacre{
+    height: 200px;
+    overflow-x: auto;
 }
 
 @media (min-width: 768px) {

@@ -23,17 +23,17 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Cadastrar pacote de lacre cordoalha de aço</div>
                 <div class="panel-body">
-                    <form action="<?= base_url('cadastrar-lacre') ?>" method="post" enctype="multipart/form-data" id="seleciona_material_lacre" class="seleciona_material_lacre">
+                    <form action="<?= base_url('cadastrar-lacre') ?>" method="post" enctype="multipart/form-data" id="cadastrar_pacote_lacre" class="cadastrar_pacote_lacre">
                         <input type="hidden" value="<?= $idEntradaMaterial ?>" name="idEntradaMaterial" id="idEntradaMaterial">
                         <input type="hidden" value="<?= $idMaterial ?>" name="idMaterial" id="idMaterial">
                         <div class="hm-y">
                             <div class="form-group col-md-4">
-                                <label for="inicio_pacote_lacre">Início pacote *</label>
+                                <label for="inicio_pacote_lacre">Início da numeração do pacote*</label>
                                 <input type="text" class="form-control" id="inicio_pacote_lacre" name="inicio_pacote_lacre" placeholder="Exemplo:504050">
                                 <div class="error error_inicio_pacote_lacre"></div>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="fim_pacote_lacre">Fim pacote*</label>
+                                <label for="fim_pacote_lacre">Fim da numeração do pacote*</label>
                                 <input type="text" class="form-control" id="fim_pacote_lacre" name="fim_pacote_lacre" placeholder="Exemplo:504150">
                                 <div class="error error_fim_pacote_lacre"></div>
                             </div>
@@ -75,19 +75,19 @@
                             foreach ($materiais as $material):
                                 ?>
                                 <tr>
-                                    <td scope="row"><?= $material['id_est_caixa_hmy']; ?></td>
+                                    <td scope="row"><?= $material['id_est_lacre_pacote']; ?></td>
                                     <td><?= $material['nome_tipo_material']; ?></td>
-                                    <td><?= $material['quant_est_caixa_hmy']; ?></td>
-                                    <td><?= $material['inicio_est_caixa_hmy']; ?></td>
-                                    <td><?= $material['fim_est_caixa_hmy']; ?></td>
-                                    <td><?= date('d/m/Y H:i', strtotime($material['data_cad_est_caixa_hmy'])) ?></td>
+                                    <td><?= $material['quant_est_lacre_pacote']; ?></td>
+                                    <td><?= $material['inicio_est_lacre_pacote']; ?></td>
+                                    <td><?= $material['fim_est_lacre_pacote']; ?></td>
+                                    <td><?= date('d/m/Y H:i', strtotime($material['data_cad_est_lacre_pacote'])) ?></td>
                                     <td>
-                                        <a class="btn btn-warning btn-xs visualizar-hmy" data-caixa_hm="<?= $material['id_est_caixa_hmy'] ?>">Visualizar</a>
-                                        <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-entrada="<?= $idEntradaMaterial ?>" data-material="<?= $idMaterial ?>" data-id="<?= $material['id_est_caixa_hmy'] ?>" data-nome="<?= $material['id_est_caixa_hmy'] ?>">Deletar</button>
+                                        <a class="btn btn-warning btn-xs visualizar-lacre" data-pacote_lacre="<?= $material['id_est_lacre_pacote'] ?>">Visualizar</a>
+                                        <button class="btn btn-danger btn-xs confirma_exclusao_pacote_lacre" href="#" data-entrada="<?= $idEntradaMaterial ?>" data-material="<?= $idMaterial ?>" data-id="<?= $material['id_est_lacre_pacote'] ?>" data-nome="<?= $material['inicio_est_lacre_pacote'] ?> - <?= $material['fim_est_lacre_pacote'] ?>">Deletar</button>
                                     </td>
                                 </tr>
                                 <?php
-                                $totalProd = $material['quant_est_caixa_hmy'] + $totalProd;
+                                $totalProd = $material['quant_est_lacre_pacote'] + $totalProd;
                             endforeach;
                             ?>
                             <tr>
@@ -119,11 +119,11 @@
                 <h4 class="modal-title">Confirmação de Exclusão</h4>
             </div>
             <div class="modal-body">
-                <p>Deseja realmente excluir a caixa de hidrômetro : <strong><span id="nome_exclusao"></span></strong> ?</p>
+                <p>Deseja realmente excluir o pacote de lacre : <strong><span id="nome_exclusao"></span></strong> ?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
-                <button type="button" class="btn btn-danger" id="btn_excluir">Sim</button>
+                <button type="button" class="btn btn-danger" id="btn_excluir_lacre">Sim</button>
             </div>
         </div>
     </div>
@@ -131,7 +131,7 @@
 <!-- MODAL -->
 
 <!-- MODAL -->
-<div class="modal fade" id="visualizar-hmy">
+<div class="modal fade" id="visualizar-lacre">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -140,7 +140,7 @@
                 <h4 class="modal-title">Lacres cordoalha de aço cadastrados</h4>
             </div>
             <div class="modal-body ">
-                <div class="resultado"></div>
+                <div class="resultado_lacre"></div>
             </div>
         </div>
     </div>

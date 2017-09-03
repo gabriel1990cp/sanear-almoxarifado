@@ -115,10 +115,10 @@ INSERT INTO `equipe_funcionarios` (`id_equipe_func`, `id_equipe`, `id_funcionari
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `estoque_entrada`
+-- Estrutura da tabela `entrada_estoque`
 --
 
-CREATE TABLE `estoque_entrada` (
+CREATE TABLE `entrada_estoque` (
   `id_est_entrada` int(11) NOT NULL,
   `nota_remessa_est_entrada` varchar(45) DEFAULT NULL,
   `atend_requisicao_est_entrada` varchar(45) DEFAULT NULL,
@@ -129,10 +129,10 @@ CREATE TABLE `estoque_entrada` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Extraindo dados da tabela `estoque_entrada`
+-- Extraindo dados da tabela `entrada_estoque`
 --
 
-INSERT INTO `estoque_entrada` (`id_est_entrada`, `nota_remessa_est_entrada`, `atend_requisicao_est_entrada`, `arquivo_est_entrada`, `responsavel_est_entrada`, `status_est_entrada`, `data_est_entrada`) VALUES
+INSERT INTO `entrada_estoque` (`id_est_entrada`, `nota_remessa_est_entrada`, `atend_requisicao_est_entrada`, `arquivo_est_entrada`, `responsavel_est_entrada`, `status_est_entrada`, `data_est_entrada`) VALUES
 (135, '123', '123', '12318.pdf', '1', 'aberto', '2017-08-23 02:55:37'),
 (136, '456', '456', '456.pdf', '1', 'aberto', '2017-08-23 02:56:20'),
 (137, '678', '678', '678.pdf', '1', 'aberto', '2017-08-23 03:03:32');
@@ -140,10 +140,10 @@ INSERT INTO `estoque_entrada` (`id_est_entrada`, `nota_remessa_est_entrada`, `at
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `estoque_hmy_caixa`
+-- Estrutura da tabela `entrada_estoque_hmy_caixa`
 --
 
-CREATE TABLE `estoque_hmy_caixa` (
+CREATE TABLE `entrada_estoque_hmy_caixa` (
   `id_est_caixa_hmy` int(11) NOT NULL,
   `id_entrada_est_caixa_hmy` int(11) NOT NULL,
   `id_mat_est_caixa_hmy` int(11) DEFAULT NULL,
@@ -157,10 +157,10 @@ CREATE TABLE `estoque_hmy_caixa` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `estoque_hmy_caixa_itens`
+-- Estrutura da tabela `entrada_estoque_hmy_caixa_itens`
 --
 
-CREATE TABLE `estoque_hmy_caixa_itens` (
+CREATE TABLE `entrada_estoque_hmy_caixa_itens` (
   `id_est_caixa_hmy_itens` int(10) UNSIGNED NOT NULL,
   `id_caixa_est_caixa_hmy_itens` int(11) NOT NULL,
   `item_est_caixa_hmy_itens` varchar(25) DEFAULT NULL,
@@ -171,10 +171,10 @@ CREATE TABLE `estoque_hmy_caixa_itens` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `estoque_hm_avulso`
+-- Estrutura da tabela `entrada_estoque_hm_avulso`
 --
 
-CREATE TABLE `estoque_hm_avulso` (
+CREATE TABLE `entrada_estoque_hm_avulso` (
   `id_est_hm_avulso` int(11) NOT NULL,
   `id_entrada_est_hm_avulso` int(11) DEFAULT NULL,
   `id_mat_est_hm_avulso` int(11) DEFAULT NULL,
@@ -184,10 +184,10 @@ CREATE TABLE `estoque_hm_avulso` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Extraindo dados da tabela `estoque_hm_avulso`
+-- Extraindo dados da tabela `entrada_estoque_hm_avulso`
 --
 
-INSERT INTO `estoque_hm_avulso` (`id_est_hm_avulso`, `id_entrada_est_hm_avulso`, `id_mat_est_hm_avulso`, `numero_est_hm_avulso`, `id_resp_est_hm_avulso`, `data_cad_est_hm_avulso`) VALUES
+INSERT INTO `entrada_estoque_hm_avulso` (`id_est_hm_avulso`, `id_entrada_est_hm_avulso`, `id_mat_est_hm_avulso`, `numero_est_hm_avulso`, `id_resp_est_hm_avulso`, `data_cad_est_hm_avulso`) VALUES
 (1, 137, 3, 'A10L102030', 1, '2017-08-23 03:06:52'),
 (2, 137, 3, 'Y10L102030', 1, '2017-08-23 03:07:57');
 
@@ -360,29 +360,29 @@ ALTER TABLE `equipe_funcionarios`
   ADD PRIMARY KEY (`id_equipe_func`);
 
 --
--- Indexes for table `estoque_entrada`
+-- Indexes for table `entrada_estoque`
 --
-ALTER TABLE `estoque_entrada`
+ALTER TABLE `entrada_estoque`
   ADD PRIMARY KEY (`id_est_entrada`);
 
 --
--- Indexes for table `estoque_hmy_caixa`
+-- Indexes for table `entrada_estoque_hmy_caixa`
 --
-ALTER TABLE `estoque_hmy_caixa`
+ALTER TABLE `entrada_estoque_hmy_caixa`
   ADD PRIMARY KEY (`id_est_caixa_hmy`),
-  ADD KEY `id_estoque_entrada_idx` (`id_entrada_est_caixa_hmy`);
+  ADD KEY `id_entrada_estoque_idx` (`id_entrada_est_caixa_hmy`);
 
 --
--- Indexes for table `estoque_hmy_caixa_itens`
+-- Indexes for table `entrada_estoque_hmy_caixa_itens`
 --
-ALTER TABLE `estoque_hmy_caixa_itens`
+ALTER TABLE `entrada_estoque_hmy_caixa_itens`
   ADD PRIMARY KEY (`id_est_caixa_hmy_itens`),
-  ADD KEY `id_estoque_hmy_caixa_idx` (`id_caixa_est_caixa_hmy_itens`);
+  ADD KEY `id_entrada_estoque_hmy_caixa_idx` (`id_caixa_est_caixa_hmy_itens`);
 
 --
--- Indexes for table `estoque_hm_avulso`
+-- Indexes for table `entrada_estoque_hm_avulso`
 --
-ALTER TABLE `estoque_hm_avulso`
+ALTER TABLE `entrada_estoque_hm_avulso`
   ADD PRIMARY KEY (`id_est_hm_avulso`);
 
 --
@@ -447,24 +447,24 @@ ALTER TABLE `equipes`
 ALTER TABLE `equipe_funcionarios`
   MODIFY `id_equipe_func` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
--- AUTO_INCREMENT for table `estoque_entrada`
+-- AUTO_INCREMENT for table `entrada_estoque`
 --
-ALTER TABLE `estoque_entrada`
+ALTER TABLE `entrada_estoque`
   MODIFY `id_est_entrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
 --
--- AUTO_INCREMENT for table `estoque_hmy_caixa`
+-- AUTO_INCREMENT for table `entrada_estoque_hmy_caixa`
 --
-ALTER TABLE `estoque_hmy_caixa`
+ALTER TABLE `entrada_estoque_hmy_caixa`
   MODIFY `id_est_caixa_hmy` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 --
--- AUTO_INCREMENT for table `estoque_hmy_caixa_itens`
+-- AUTO_INCREMENT for table `entrada_estoque_hmy_caixa_itens`
 --
-ALTER TABLE `estoque_hmy_caixa_itens`
+ALTER TABLE `entrada_estoque_hmy_caixa_itens`
   MODIFY `id_est_caixa_hmy_itens` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=524;
 --
--- AUTO_INCREMENT for table `estoque_hm_avulso`
+-- AUTO_INCREMENT for table `entrada_estoque_hm_avulso`
 --
-ALTER TABLE `estoque_hm_avulso`
+ALTER TABLE `entrada_estoque_hm_avulso`
   MODIFY `id_est_hm_avulso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `funcionarios`
@@ -508,16 +508,16 @@ ALTER TABLE `equipes`
   ADD CONSTRAINT `tipo_equioe` FOREIGN KEY (`tipo_equipe`) REFERENCES `tipo_equipes` (`id_tipo_equipe`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Limitadores para a tabela `estoque_hmy_caixa`
+-- Limitadores para a tabela `entrada_estoque_hmy_caixa`
 --
-ALTER TABLE `estoque_hmy_caixa`
-  ADD CONSTRAINT `id_estoque_entrada` FOREIGN KEY (`id_entrada_est_caixa_hmy`) REFERENCES `estoque_entrada` (`id_est_entrada`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `entrada_estoque_hmy_caixa`
+  ADD CONSTRAINT `id_entrada_estoque` FOREIGN KEY (`id_entrada_est_caixa_hmy`) REFERENCES `entrada_estoque` (`id_est_entrada`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `estoque_hmy_caixa_itens`
+-- Limitadores para a tabela `entrada_estoque_hmy_caixa_itens`
 --
-ALTER TABLE `estoque_hmy_caixa_itens`
-  ADD CONSTRAINT `id_estoque_hmy_caixa` FOREIGN KEY (`id_caixa_est_caixa_hmy_itens`) REFERENCES `estoque_hmy_caixa` (`id_est_caixa_hmy`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `entrada_estoque_hmy_caixa_itens`
+  ADD CONSTRAINT `id_entrada_estoque_hmy_caixa` FOREIGN KEY (`id_caixa_est_caixa_hmy_itens`) REFERENCES `entrada_estoque_hmy_caixa` (`id_est_caixa_hmy`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limitadores para a tabela `usuarios`

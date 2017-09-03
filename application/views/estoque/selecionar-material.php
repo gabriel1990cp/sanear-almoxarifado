@@ -24,7 +24,7 @@
     <div class="col-md-12">
         <div class="row">
             <div class="panel panel-info">
-                <div class="panel-heading">Dados da entrada</div>
+                <div class="panel-heading">Resumo da entrada</div>
                 <div class="panel-body">
                     <p>Responsável: Gabriel Costa Pinto</p>
                     <p>Data de cadastro: </p>

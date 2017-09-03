@@ -112,6 +112,7 @@ define('MOLA_DISP_ANTI_FRAUDE',7);
 define('QTD_CAIXA_HM',20);
 define('QTD_PC_LACRE',100);
 define('PREG_HIDROMETRO','/^[A-Z][0-9]{2}[A-Z][0-9]{6}$/');
+define('PREG_LACRE','/^[0-9]{6}$/');
 
 
 
