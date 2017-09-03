@@ -26,8 +26,15 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Resumo da entrada</div>
                 <div class="panel-body">
-                    <p>Responsável: Gabriel Costa Pinto</p>
-                    <p>Data de cadastro: </p>
+                    <?php
+                    foreach ($totalMateriaisEntrada as $materiaisEntrada):
+                        foreach ($materiaisEntrada as $row):
+
+                            echo '<p>' . $row['nome_tipo_material'] . ' : ' . $row['total'] . '</p>';
+
+                        endforeach;
+                    endforeach;
+                    ?>
                 </div>
             </div>
         </div>

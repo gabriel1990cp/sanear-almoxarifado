@@ -183,6 +183,42 @@ class Estoque_model extends CI_Model
         return $this->db->delete('entrada_estoque_lacre_pacote');
     }
 
+    function total_hm_avulso_entrada ($idEntradaMaterial)
+    {
+        $this->db->select(' COUNT(*) as total, x2.nome_tipo_material');
+        $this->db->from("entrada_estoque_hm_avulso x1");
+        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_hm_avulso");
+        $this->db->where('x1.id_entrada_est_hm_avulso', $idEntradaMaterial);
+        $this->db->group_by('id_mat_est_hm_avulso');
+        return $this->db->get()->result_array();
+    }
+    function total_hmY_entrada ($idEntradaMaterial)
+    {
+        $this->db->select(' COUNT(*) as total, x2.nome_tipo_material ');
+        $this->db->from("entrada_estoque_hmy_caixa_itens x1");
+        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_caixa_hmy_itens");
+        $this->db->where('x1.id_entrada_est_caixa_hmy_itens', $idEntradaMaterial);
+        return $this->db->get()->result_array();
+    }
+
+    function total_lacre_entrada ($idEntradaMaterial)
+    {
+        $this->db->select(' COUNT(*) as total, x2.nome_tipo_material ');
+        $this->db->from("entrada_estoque_lacre_pacote_itens x1");
+        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_lacre_pacote_itens");
+        $this->db->where("x1.id_entrada_est_lacre_pacote_itens",$idEntradaMaterial);
+        return $this->db->get()->result_array();
+    }
+
+    function total_mola_entrada ($idEntradaMaterial)
+    {
+        $this->db->select(' SUM(quant_est_mola) as total, x2.nome_tipo_material ');
+        $this->db->from("entrada_estoque_mola x1");
+        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_mola");
+        $this->db->where("x1.id_entrada_est_mola",$idEntradaMaterial);
+        return $this->db->get()->result_array();
+    }
+
     function check_hmy_table($inicioCaixaHM, $fimCaixaHM)
     {
         $this->db->select('*');

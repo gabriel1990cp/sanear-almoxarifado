@@ -191,24 +191,28 @@ class Estoque extends CI_Controller
         $data['infoEntradaMaterial'] = $this->load->view('estoque/info_entrada_material', $data, TRUE);
 
         #QUANTIDADE DE MATERIAS PARA A ENTRADA EM ABERTO
-        #foreach ($data['materiais'] as $row):
-#
-        #    switch ($row['id_tipo_material']) {
-        #        case HIDROMETRO_A:
-        #        case HIDROMETRO_B:
-        #        case HIDROMETRO_C:
-        #        case HIDROMETRO_D:
-        #            #LISTA TODOS MATERIAIS PARA A ENTRADA
-        #            $quantMaterialEntrada[$row['$idEntradaMaterial']] = $this->estoque_model->count_input_hmy($idEntradaMaterial, $row['$idEntradaMaterial']);
-        #            break;
-#
-        #        case HIDROMETRO_Y:
-        #            #LISTA TODOS MATERIAIS PARA A ENTRADA
-#
-        #            break;
-        #    }
-#
-        #endforeach;
+
+
+        #HM AVULSO
+        $totalMateriaisEntrada = array();
+
+        $totalHmAvulso = $this->estoque_model->total_hm_avulso_entrada($idEntradaMaterial);
+        array_push($totalMateriaisEntrada,$totalHmAvulso);
+
+        #HM Y
+        $totalHMY = $this->estoque_model->total_hmY_entrada($idEntradaMaterial);
+        array_push($totalMateriaisEntrada,$totalHMY);
+
+        #LACRE
+        $totalLacre = $this->estoque_model->total_lacre_entrada($idEntradaMaterial);
+        array_push($totalMateriaisEntrada,$totalLacre);
+
+
+        #MOLA
+        $totalMola = $this->estoque_model->total_mola_entrada($idEntradaMaterial);
+        array_push($totalMateriaisEntrada,$totalMola);
+
+        $data['totalMateriaisEntrada'] = $totalMateriaisEntrada;
 
         #ENTRADA DE MATERIAL
         $this->load->view('include/head.php');
@@ -423,6 +427,8 @@ class Estoque extends CI_Controller
                     'id_caixa_est_caixa_hmy_itens' => $idCaixaEntrada,
                     'item_est_caixa_hmy_itens' => $anoModeloHMInicio . $hmInsert,
                     'responsavel_est_caixa_hmy_itens' => '1',
+                    'id_mat_est_caixa_hmy_itens' => $idMaterial,
+                    'id_entrada_est_caixa_hmy_itens' => $idEntradaMaterial,
                     'data_est_caixa_hmy_itens' => date('Y-m-d H:i:s')
                 );
 
@@ -501,6 +507,8 @@ class Estoque extends CI_Controller
                 $data = array(
                     'id_pacote_est_lacre_pacote_itens' => $idPacoteEntrada,
                     'item_est_lacre_pacote_itens' => $lacreInsert,
+                    'id_mat_est_lacre_pacote_itens' => $idMaterial,
+                    'id_entrada_est_lacre_pacote_itens' => $idEntradaMaterial,
                     'responsavel_est_lacre_pacote_itens' => '1',
                     'data_est_lacre_pacote_itens' => date('Y-m-d H:i:s')
                 );
