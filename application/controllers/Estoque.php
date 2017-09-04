@@ -335,6 +335,19 @@ class Estoque extends CI_Controller
         endif;
     }
 
+    public function deletar_entrada($idEntradaMaterial)
+    {
+        $deletarEntrada= $this->estoque_model->deletar_entrada($idEntradaMaterial);
+
+        if ($deletarEntrada == true):
+            $this->session->set_flashdata(open_modal('Entrada deletada com sucesso !', CLASSE_SUCESSO));
+            redirect(base_url('estoque'));
+        else:
+            $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+            redirect(base_url('estoque'));
+        endif;
+    }
+
     public function deletar_pacote_lacre($idPacoteLacre, $idEntradaMaterial, $idMaterial)
     {
         $deletarPacoteLacre = $this->estoque_model->deletar_pacote_lacre($idPacoteLacre);

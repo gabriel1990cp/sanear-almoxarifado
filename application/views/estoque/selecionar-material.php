@@ -29,9 +29,11 @@
                     <?php
                     foreach ($totalMateriaisEntrada as $materiaisEntrada):
                         foreach ($materiaisEntrada as $row):
-
-                            echo '<p>' . $row['nome_tipo_material'] . ' : ' . $row['total'] . '</p>';
-
+                            if (!empty($row)):
+                                if ($row['total'] == !0):
+                                    echo '<p>' . $row['nome_tipo_material'] . ' : ' . $row['total'] . '</p>';
+                                endif;
+                            endif;
                         endforeach;
                     endforeach;
                     ?>

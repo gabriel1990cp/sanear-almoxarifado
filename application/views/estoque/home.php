@@ -73,7 +73,7 @@
                                 <td>
                                     <a class="btn btn-primary btn-xs" href="<?= base_url('entrada-material/' . $entradaEstoque['id_est_entrada']) ?>">Gerenciar Material</a>
                                     <a class="btn btn-warning btn-xs" href="<?= base_url('editar-funcionario/' . $entradaEstoque['id_est_entrada']) ?>">Editar</a>
-                                    <button class="btn btn-danger btn-xs confirma_exclusao" href="#" data-id="<?= $entradaEstoque['id_est_entrada'] ?>" data-nome="<?= $entradaEstoque['id_est_entrada'] ?>">Deletar</button>
+                                    <button class="btn btn-danger btn-xs confirma_exclusao_entrada_estoque" href="#" data-id="<?= $entradaEstoque['id_est_entrada'] ?>" data-nome="<?= $entradaEstoque['id_est_entrada'] ?>">Deletar</button>
                                 </td>
                             </tr>
                             <?php
@@ -119,11 +119,11 @@
                 <h4 class="modal-title">Confirmação de Exclusão</h4>
             </div>
             <div class="modal-body">
-                <p>Deseja realmente excluir o funcionários : <strong><span id="nome_exclusao"></span></strong>?</p>
+                <p>Deseja realmente excluir a entrada : <strong><span id="nome_exclusao"></span></strong>?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
-                <button type="button" class="btn btn-danger" id="btn_excluir">Sim</button>
+                <button type="button" class="btn btn-danger" id="btn_excluir_entrada">Sim</button>
             </div>
         </div>
     </div>

@@ -286,6 +286,31 @@ $(function () {
     });
 });
 
+//EXCLUIR ENTRADA DO ESTOQUE
+$(function () {
+    $('.confirma_exclusao_entrada_estoque').on('click', function (e) {
+        e.preventDefault();
+
+        var nome = $(this).data('nome');
+        var id = $(this).data('id');
+
+        $('#modal_confirmation').data('nome', nome);
+        $('#modal_confirmation').data('id', id);
+        $('#modal_confirmation').modal('show');
+    });
+
+    $('#modal_confirmation').on('show.bs.modal', function () {
+        var nome = $(this).data('nome');
+        $('#nome_exclusao').text(nome);
+    });
+
+    $('#btn_excluir_entrada').click(function () {
+        var id = $('#modal_confirmation').data('id');
+        document.location.href = base_url + "estoque/deletar_entrada/" + id;
+    });
+});
+
+
 
 //BUSCA DE ENTRADAS CADASTRADAS
 $("#btn_search").click(function () {

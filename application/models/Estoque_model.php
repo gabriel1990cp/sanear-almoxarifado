@@ -177,6 +177,12 @@ class Estoque_model extends CI_Model
         return $this->db->delete('entrada_estoque_mola');
     }
 
+    function deletar_entrada($idEntradaMaterial)
+    {
+        $this->db->where('id_est_entrada', $idEntradaMaterial);
+        return $this->db->delete('entrada_estoque');
+    }
+
     function deletar_pacote_lacre($id)
     {
         $this->db->where('id_est_lacre_pacote', $id);
