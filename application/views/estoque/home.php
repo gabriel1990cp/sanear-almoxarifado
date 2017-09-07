@@ -72,7 +72,7 @@
                                 <td><?= ucfirst($entradaEstoque['status_est_entrada']); ?></td>
                                 <td>
                                     <a class="btn btn-primary btn-xs" href="<?= base_url('entrada-material/' . $entradaEstoque['id_est_entrada']) ?>">Gerenciar Material</a>
-                                    <a class="btn btn-warning btn-xs" href="<?= base_url('editar-funcionario/' . $entradaEstoque['id_est_entrada']) ?>">Editar</a>
+                                    <a class="btn btn-warning btn-xs" href="<?= base_url('editar-entrada/' . $entradaEstoque['id_est_entrada']) ?>">Editar</a>
                                     <button class="btn btn-danger btn-xs confirma_exclusao_entrada_estoque" href="#" data-id="<?= $entradaEstoque['id_est_entrada'] ?>" data-nome="<?= $entradaEstoque['id_est_entrada'] ?>">Deletar</button>
                                 </td>
                             </tr>

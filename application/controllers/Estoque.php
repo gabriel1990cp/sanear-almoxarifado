@@ -54,6 +54,19 @@ class Estoque extends CI_Controller
         $this->load->view('include/footer.php');
     }
 
+    public function editar_entrada($idEntrada)
+    {
+
+        $data['dadosEntrada'] = $this->estoque_model->list_material($idEntrada, null);
+
+        #EDITAR ENTRADA ESTOQUE
+        $this->load->view('include/head.php');
+        $this->load->view('include/nav.php');
+        $this->load->view('estoque/editar-entrada-material', $data);
+        $this->load->view('include/footer.php');
+    }
+
+
     public function insert()
     {
         #INSERIR ENTRADA NO ESTOQUE
@@ -120,6 +133,81 @@ class Estoque extends CI_Controller
                 endif;
             endif;
         endif;
+    }
+
+
+    public function salvar_editar_entrada()
+    {
+        #INSERIR ENTRADA NO ESTOQUE
+        if ($_POST):
+            $this->form_validation->set_error_delimiters('<span>', '</span>');
+            $this->form_validation->set_rules('atendimento_requisicao', ' "Atendimento de Requisição" ', 'required');
+            $this->form_validation->set_rules('nota_remessa', ' "Nota de remessa" ', 'required');
+
+            #VERIFICA OS CAMPOS OBRIGATORIOS
+            if ($this->form_validation->run() === FALSE):
+                $this->create_stock();
+            else:
+                #RECEBE OS VALORES ATRAVES DO POST
+                $idEntrada = $this->input->post('id_entrada');
+                $notaRemessa = strip_tags(trim($this->input->post('nota_remessa')));
+                $atendiRequisicao = strip_tags($this->input->post('atendimento_requisicao'));
+
+                #VERIFICA SE JÁ EXISTE UMA NOTA CADASTRADA
+                $verificaNotaRemessa = $this->estoque_model->check_nota_remessa($notaRemessa);
+
+                if ($verificaNotaRemessa > 0) {
+                    $this->session->set_flashdata(open_modal('Nota de remessa já cadastrada !', CLASSE_ERRO));
+                    redirect(base_url('estoque/index'));
+                }
+
+
+                #LIBRARY PARA REALIZAR O UPLOAD
+                $this->load->library('upload');
+
+                $config['upload_path'] = './uploads';
+                $config['allowed_types'] = 'pdf';
+                $config['max_width'] = '500';
+                $config['overwrite'] = 'true';
+                $config['encrypt_name'] = false;
+                $config['file_name'] = $notaRemessa;
+
+                $this->upload->initialize($config);
+
+                $data = array(
+                    'atend_requisicao_est_entrada' => $atendiRequisicao,
+                    'nota_remessa_est_entrada' => $notaRemessa,
+                    'responsavel_est_entrada' => '1',
+                    'status_est_entrada' => 'aberto',
+                    'data_est_entrada' => date('Y-m-d H:i:s')
+                );
+
+                if ($this->upload->do_upload('arquivo') != false):
+
+                    if (!$this->upload->do_upload('arquivo')):
+                        $erro = array('error' => $this->upload->display_errors());
+                        $this->session->set_flashdata(open_modal($erro['error'], CLASSE_ERRO));
+                        redirect(base_url('estoque-entrada'));
+                    else:
+                        $arquivo['arquivo'] = $this->upload->data();
+                    endif;
+
+                    $data['arquivo_est_entrada'] = $arquivo['arquivo']['file_name'];
+
+                endif;
+
+                #VERIFICA SE O OCORREU O INSERT NO BANCO DE DADOS
+                if ($this->estoque_model->editar_entrada($idEntrada, $data)):
+                    $this->session->set_flashdata(open_modal('Entrada no estoque editada com sucesso !', CLASSE_SUCESSO));
+                    #REDIRICIONA PARA A ENTRADA DE MATERIAL
+                    redirect(base_url('entrada-material/' . $idEntrada));
+                else:
+                    $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+                    redirect(base_url('estoque-entrada'));
+                endif;
+            endif;
+        endif;
+
     }
 
     public function select_material($idEntradaMaterial, $material)
@@ -197,20 +285,20 @@ class Estoque extends CI_Controller
         $totalMateriaisEntrada = array();
 
         $totalHmAvulso = $this->estoque_model->total_hm_avulso_entrada($idEntradaMaterial);
-        array_push($totalMateriaisEntrada,$totalHmAvulso);
+        array_push($totalMateriaisEntrada, $totalHmAvulso);
 
         #HM Y
         $totalHMY = $this->estoque_model->total_hmY_entrada($idEntradaMaterial);
-        array_push($totalMateriaisEntrada,$totalHMY);
+        array_push($totalMateriaisEntrada, $totalHMY);
 
         #LACRE
         $totalLacre = $this->estoque_model->total_lacre_entrada($idEntradaMaterial);
-        array_push($totalMateriaisEntrada,$totalLacre);
+        array_push($totalMateriaisEntrada, $totalLacre);
 
 
         #MOLA
         $totalMola = $this->estoque_model->total_mola_entrada($idEntradaMaterial);
-        array_push($totalMateriaisEntrada,$totalMola);
+        array_push($totalMateriaisEntrada, $totalMola);
 
         $data['totalMateriaisEntrada'] = $totalMateriaisEntrada;
 
@@ -337,7 +425,7 @@ class Estoque extends CI_Controller
 
     public function deletar_entrada($idEntradaMaterial)
     {
-        $deletarEntrada= $this->estoque_model->deletar_entrada($idEntradaMaterial);
+        $deletarEntrada = $this->estoque_model->deletar_entrada($idEntradaMaterial);
 
         if ($deletarEntrada == true):
             $this->session->set_flashdata(open_modal('Entrada deletada com sucesso !', CLASSE_SUCESSO));
@@ -432,7 +520,7 @@ class Estoque extends CI_Controller
         #VERIFICA SE INSERIU A CAIXA E INSERE OS ITENS DA CAIXA
         if (isset($idCaixaEntrada)):
 
-            for ($i = 0; $i <= $diferencaHM; $i++):
+            for ($i = 1; $i <= $diferencaHM; $i++):
 
                 $hmInsert = $inicioCaixaHMNumeros + $i;
 
@@ -446,6 +534,7 @@ class Estoque extends CI_Controller
                 );
 
                 $this->estoque_model->insert_hmy_item($data);
+
             endfor;
             $this->session->set_flashdata(open_modal('Hidrômetro cadastrado com sucesso !', CLASSE_SUCESSO));
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
@@ -561,6 +650,12 @@ class Estoque extends CI_Controller
         # VERIFICA A QUANTIDADE MINIMA DE 10 DIGITOS PARA O HM
         if (strlen($hmAvulso) < 6 || strlen($hmAvulso) > 10):
             $this->session->set_flashdata(open_modal('Ops, verique se o hidrometrô está correto', CLASSE_ERRO));
+            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        # VERIFICA A NUMERAÇÃO DOS HIDROMETROS
+        if (!preg_match(PREG_HIDROMETRO, $hmAvulso)):
+            $this->session->set_flashdata(open_modal('Ops, verique o hidrometrô cadastrado', CLASSE_ERRO));
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 

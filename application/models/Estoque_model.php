@@ -10,6 +10,12 @@ class Estoque_model extends CI_Model
         return $this->db->insert_id();
     }
 
+    function editar_entrada($id, $data)
+    {
+        $this->db->where('id_est_entrada', $id);
+        return $this->db->update('entrada_estoque', $data);
+    }
+
     function insert_hmy($data)
     {
         $this->db->insert('entrada_estoque_hmy_caixa',$data);

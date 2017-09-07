@@ -93,6 +93,8 @@ $route['cadastrar-mola']	                  = 'estoque/entrada_estoque_mola';
 $route['caixa_hmy']	                          = 'estoque/caixa_hmy';
 $route['pacote_lacre']	                      = 'estoque/pacote_lacre';
 $route['consultar-entrada']	                  = 'estoque/search';
+$route['editar-entrada/(:any)']	              = 'estoque/editar_entrada/$1';
+$route['salvar-editar-entrada']	              = 'estoque/salvar_editar_entrada';
 
 
 
