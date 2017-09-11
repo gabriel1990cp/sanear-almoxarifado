@@ -707,4 +707,21 @@ class Estoque extends CI_Controller
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
     }
+
+    public function finalizar_entrada ($id)
+    {
+        $data = array(
+            'status_est_entrada' => 'finalizado'
+        );
+
+        #FINALIZAR A ENTRADA DE MATERIAL
+        if ($this->estoque_model->finalizar_entrada($id, $data)):
+            $this->session->set_flashdata(open_modal('Entrada finalizada com sucesso !', CLASSE_SUCESSO));
+            redirect(base_url('estoque'));
+        else:
+            $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
+            redirect(base_url('estoque'));
+        endif;
+
+    }
 }

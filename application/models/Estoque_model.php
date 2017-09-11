@@ -272,5 +272,11 @@ class Estoque_model extends CI_Model
         $this->db->where("id_pacote_est_lacre_pacote_itens",$idPacoteLacre);
         return $this->db->get()->result_array();
     }
+
+    function finalizar_entrada($idEntrada,$data)
+    {
+        $this->db->where('id_est_entrada', $idEntrada);
+        return $this->db->update('entrada_estoque', $data);
+    }
 }
 
