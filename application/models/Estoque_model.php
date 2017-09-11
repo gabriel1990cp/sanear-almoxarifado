@@ -215,7 +215,7 @@ class Estoque_model extends CI_Model
 
     function total_lacre_entrada ($idEntradaMaterial)
     {
-        $this->db->select(' COUNT(*) as total, x2.nome_tipo_material ');
+        $this->db->select(' COUNT(id_est_lacre_pacote_itens) as total, x2.nome_tipo_material ');
         $this->db->from("entrada_estoque_lacre_pacote_itens x1");
         $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_lacre_pacote_itens");
         $this->db->where("x1.id_entrada_est_lacre_pacote_itens",$idEntradaMaterial);

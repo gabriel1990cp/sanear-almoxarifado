@@ -31,7 +31,7 @@
                             <a href="<?php echo base_url('estoque') ?>">Listar</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('estoque-entrada') ?>">Entrada</a>
+                            <a href="<?php echo base_url('estoque-entrada') ?>">Cadastrar Entrada</a>
                         </li>
                     </ul>
                 </li>

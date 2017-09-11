@@ -64,5 +64,19 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-primary btn-block cadastrar finalizar_entrada_estoque">Finalizar Entrada</a>
+        </div>
+        <div class="col-md-6">
+            <a href="<?= base_url('estoque/') ?>" class="btn btn-danger btn-block">Cancelar Entrada</a>
+        </div>
+    </div>
 </div>
+
+
+<!-- SCRIPT -->
+<script src="<?= base_url('assets/js/front/estoque.js') ?>"></script>
+<!-- SCRIPT -->
+
 

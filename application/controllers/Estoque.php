@@ -295,7 +295,6 @@ class Estoque extends CI_Controller
         $totalLacre = $this->estoque_model->total_lacre_entrada($idEntradaMaterial);
         array_push($totalMateriaisEntrada, $totalLacre);
 
-
         #MOLA
         $totalMola = $this->estoque_model->total_mola_entrada($idEntradaMaterial);
         array_push($totalMateriaisEntrada, $totalMola);

@@ -316,7 +316,38 @@ $(function () {
     });
 });
 
+//FINALIZAR ENTRADA DO ESTOQUE
+$(function () {
+    $('.finalizar_entrada_estoque').on('click', function (e) {
 
+        alert('teste');
+
+        e.preventDefault();
+
+        var nome = $(this).data('nome');
+        var id = $(this).data('id');
+        var entrada = $(this).data('entrada');
+        var material = $(this).data('material');
+
+        $('#modal_confirmation').data('nome', nome);
+        $('#modal_confirmation').data('id', id);
+        $('#modal_confirmation').data('entrada', entrada);
+        $('#modal_confirmation').data('material', material);
+        $('#modal_confirmation').modal('show');
+    });
+
+    $('#modal_confirmation').on('show.bs.modal', function () {
+        var nome = $(this).data('nome');
+        $('#nome_exclusao').text(nome);
+    });
+
+    $('#btn_excluir_entrada').click(function () {
+        var id = $('#modal_confirmation').data('id');
+        var entrada = $('#modal_confirmation').data('entrada');
+        var material = $('#modal_confirmation').data('material');
+        document.location.href = base_url + "estoque/deletar_entrada/" + id;
+    });
+});
 
 //BUSCA DE ENTRADAS CADASTRADAS
 $("#btn_search").click(function () {
