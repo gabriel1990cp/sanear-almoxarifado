@@ -106,12 +106,14 @@ define('HIDROMETRO_B',2);
 define('HIDROMETRO_C',3);
 define('HIDROMETRO_D',4);
 define('HIDROMETRO_Y',5);
-define('LACRE_CORDOALHA_ACO',6);
-define('MOLA_DISP_ANTI_FRAUDE',7);
+define('CAIXA_HIDROMETRO_Y',6);
+define('LACRE_CORDOALHA_ACO',7);
+define('MOLA_DISP_ANTI_FRAUDE',8);
 
 define('QTD_CAIXA_HM',20);
 define('QTD_PC_LACRE',100);
 define('PREG_HIDROMETRO','/^[A-Z][0-9]{2}[A-Z][0-9]{6}$/');
+define('PREG_HIDROMETRO_AVULSO','/^[A-Z][0-9]{2}[A-Z][0-9]{4,6}$/');
 define('PREG_LACRE','/^[0-9]{6}$/');
 
 

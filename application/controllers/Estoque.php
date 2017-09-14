@@ -231,12 +231,13 @@ class Estoque extends CI_Controller
             case HIDROMETRO_B:
             case HIDROMETRO_C:
             case HIDROMETRO_D:
+            case HIDROMETRO_Y:
                 #LISTA TODOS MATERIAIS PARA A ENTRADA
                 $data['materiais'] = $this->estoque_model->list_material_input_hm((int)$idEntradaMaterial, $material);
                 $this->load->view('estoque/tipo_material/material_hm', $data);
                 break;
 
-            case HIDROMETRO_Y:
+            case CAIXA_HIDROMETRO_Y:
                 #LISTA TODOS MATERIAIS PARA A ENTRADA
                 $data['materiais'] = $this->estoque_model->list_material_input_hmy((int)$idEntradaMaterial);
                 $this->load->view('estoque/tipo_material/material_hmy', $data);
@@ -631,7 +632,6 @@ class Estoque extends CI_Controller
         $idMaterial = strip_tags(trim($this->input->post('idMaterial')));
 
         $hmAvulso = strip_tags(trim(strtoupper($this->input->post('hm_avulso'))));
-
         # VERIFICA SE O HIDROMETRO FOI PREENCHIDO
         if (empty($hmAvulso)):
             $this->session->set_flashdata(open_modal('Ops, é obrigatório preencher o hidrômetro', CLASSE_ERRO));
@@ -653,7 +653,7 @@ class Estoque extends CI_Controller
         endif;
 
         # VERIFICA A NUMERAÇÃO DOS HIDROMETROS
-        if (!preg_match(PREG_HIDROMETRO, $hmAvulso)):
+        if (!preg_match(PREG_HIDROMETRO_AVULSO, $hmAvulso)):
             $this->session->set_flashdata(open_modal('Ops, verique o hidrometrô cadastrado', CLASSE_ERRO));
             redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
