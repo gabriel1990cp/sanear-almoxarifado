@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 04-Set-2017 às 03:35
+-- Generation Time: 18-Set-2017 às 03:41
 -- Versão do servidor: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -80,13 +80,6 @@ CREATE TABLE `entrada_estoque` (
   `status_est_entrada` set('aberto','finalizado') DEFAULT NULL,
   `data_est_entrada` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `entrada_estoque`
---
-
-INSERT INTO `entrada_estoque` (`id_est_entrada`, `nota_remessa_est_entrada`, `atend_requisicao_est_entrada`, `arquivo_est_entrada`, `responsavel_est_entrada`, `status_est_entrada`, `data_est_entrada`) VALUES
-(5, '123', '123', '12329.pdf', '1', 'aberto', '2017-09-04 03:30:20');
 
 -- --------------------------------------------------------
 
@@ -320,8 +313,9 @@ INSERT INTO `tipo_material` (`id_tipo_material`, `nome_tipo_material`) VALUES
 (3, 'Hidrômetro C'),
 (4, 'Hidrômetro D'),
 (5, 'Hidrômetro Y'),
-(6, 'Lacre cordoalha de aço'),
-(7, 'Mola dispositivo anti fraude');
+(6, 'Caixa Hidrômetro Y'),
+(7, 'Lacre cordoalha de aço'),
+(8, 'Mola dispositivo anti fraude');
 
 -- --------------------------------------------------------
 
@@ -484,32 +478,32 @@ ALTER TABLE `carros`
 -- AUTO_INCREMENT for table `entrada_estoque`
 --
 ALTER TABLE `entrada_estoque`
-  MODIFY `id_est_entrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_est_entrada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `entrada_estoque_hmy_caixa`
 --
 ALTER TABLE `entrada_estoque_hmy_caixa`
-  MODIFY `id_est_caixa_hmy` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_est_caixa_hmy` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `entrada_estoque_hmy_caixa_itens`
 --
 ALTER TABLE `entrada_estoque_hmy_caixa_itens`
-  MODIFY `id_est_caixa_hmy_itens` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_est_caixa_hmy_itens` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `entrada_estoque_hm_avulso`
 --
 ALTER TABLE `entrada_estoque_hm_avulso`
-  MODIFY `id_est_hm_avulso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_est_hm_avulso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `entrada_estoque_lacre_pacote`
 --
 ALTER TABLE `entrada_estoque_lacre_pacote`
-  MODIFY `id_est_lacre_pacote` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_est_lacre_pacote` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `entrada_estoque_lacre_pacote_itens`
 --
 ALTER TABLE `entrada_estoque_lacre_pacote_itens`
-  MODIFY `id_est_lacre_pacote_itens` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_est_lacre_pacote_itens` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=416;
 --
 -- AUTO_INCREMENT for table `entrada_estoque_mola`
 --
@@ -549,7 +543,7 @@ ALTER TABLE `tipo_equipes`
 -- AUTO_INCREMENT for table `tipo_material`
 --
 ALTER TABLE `tipo_material`
-  MODIFY `id_tipo_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_tipo_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `usuarios`
 --

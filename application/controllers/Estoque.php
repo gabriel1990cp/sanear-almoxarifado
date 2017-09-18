@@ -135,7 +135,6 @@ class Estoque extends CI_Controller
         endif;
     }
 
-
     public function salvar_editar_entrada()
     {
         #INSERIR ENTRADA NO ESTOQUE
@@ -160,7 +159,6 @@ class Estoque extends CI_Controller
                     $this->session->set_flashdata(open_modal('Nota de remessa já cadastrada !', CLASSE_ERRO));
                     redirect(base_url('estoque/index'));
                 }
-
 
                 #LIBRARY PARA REALIZAR O UPLOAD
                 $this->load->library('upload');
@@ -280,7 +278,6 @@ class Estoque extends CI_Controller
         $data['infoEntradaMaterial'] = $this->load->view('estoque/info_entrada_material', $data, TRUE);
 
         #QUANTIDADE DE MATERIAS PARA A ENTRADA EM ABERTO
-
 
         #HM AVULSO
         $totalMateriaisEntrada = array();
@@ -425,10 +422,19 @@ class Estoque extends CI_Controller
 
     public function deletar_entrada($idEntradaMaterial)
     {
+        $data['dadosEntrada'] = $this->estoque_model->list_material($idEntradaMaterial, null);
+
+        $arquivo = $data['dadosEntrada'][0]['arquivo_est_entrada'];
+
         $deletarEntrada = $this->estoque_model->deletar_entrada($idEntradaMaterial);
 
         if ($deletarEntrada == true):
+
+            #APAGA O ARQUIVO
+            unlink('uploads/' . $arquivo);
+
             $this->session->set_flashdata(open_modal('Entrada deletada com sucesso !', CLASSE_SUCESSO));
+
             redirect(base_url('estoque'));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
@@ -708,7 +714,7 @@ class Estoque extends CI_Controller
         endif;
     }
 
-    public function finalizar_entrada ($id)
+    public function finalizar_entrada($id)
     {
         $data = array(
             'status_est_entrada' => 'finalizado'
