@@ -6,7 +6,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li>
-                    <i class="fa fa-dashboard"></i> <a href="<?= base_url('estoque') ?>">Estoque</a>
+                    <i class="fa fa-dashboard"></i> <a href="<?= base_url('Entradaestoque') ?>">Estoque</a>
                 </li>
                 <li class="active">
                     <i class="fa fa-table"></i> Entrada em aberto

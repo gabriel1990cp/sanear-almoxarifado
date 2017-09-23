@@ -363,7 +363,7 @@ class Estoque extends CI_Controller
 
         if (empty($atendimentoRequisicao) && empty($notaRemessa)):
             $this->session->set_flashdata(open_modal('Ops, digite o Atendimento de Requisição ou a Nota de remessa para realizar a consulta.', CLASSE_ERRO));
-            redirect(base_url('estoque'));
+            redirect(base_url('Entradaestoque'));
         endif;
 
         #RESULTADO DA PESQUISA
@@ -435,10 +435,10 @@ class Estoque extends CI_Controller
 
             $this->session->set_flashdata(open_modal('Entrada deletada com sucesso !', CLASSE_SUCESSO));
 
-            redirect(base_url('estoque'));
+            redirect(base_url('Entradaestoque'));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('estoque'));
+            redirect(base_url('Entradaestoque'));
         endif;
     }
 
@@ -723,10 +723,10 @@ class Estoque extends CI_Controller
         #FINALIZAR A ENTRADA DE MATERIAL
         if ($this->estoque_model->finalizar_entrada($id, $data)):
             $this->session->set_flashdata(open_modal('Entrada finalizada com sucesso !', CLASSE_SUCESSO));
-            redirect(base_url('estoque'));
+            redirect(base_url('Entradaestoque'));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('estoque'));
+            redirect(base_url('Entradaestoque'));
         endif;
 
     }
