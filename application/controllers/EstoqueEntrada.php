@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Estoque extends CI_Controller
+class EstoqueEntrada extends CI_Controller
 {
     function __construct()
     {
@@ -363,7 +363,7 @@ class Estoque extends CI_Controller
 
         if (empty($atendimentoRequisicao) && empty($notaRemessa)):
             $this->session->set_flashdata(open_modal('Ops, digite o Atendimento de Requisição ou a Nota de remessa para realizar a consulta.', CLASSE_ERRO));
-            redirect(base_url('Entradaestoque'));
+            redirect(base_url('estoque'));
         endif;
 
         #RESULTADO DA PESQUISA
@@ -387,10 +387,10 @@ class Estoque extends CI_Controller
 
         if ($deletarCaixaHMY == true):
             $this->session->set_flashdata(open_modal('Caixa de Hidrômetro deletada com sucesso !', CLASSE_SUCESSO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
     }
 
@@ -400,10 +400,10 @@ class Estoque extends CI_Controller
 
         if ($deletarCaixaHMY == true):
             $this->session->set_flashdata(open_modal('Caixa de Hidrômetro deletada com sucesso !', CLASSE_SUCESSO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
     }
 
@@ -413,10 +413,10 @@ class Estoque extends CI_Controller
 
         if ($deletarMola == true):
             $this->session->set_flashdata(open_modal('Mola dispositivo anti fraude deletada com sucesso !', CLASSE_SUCESSO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
     }
 
@@ -435,10 +435,10 @@ class Estoque extends CI_Controller
 
             $this->session->set_flashdata(open_modal('Entrada deletada com sucesso !', CLASSE_SUCESSO));
 
-            redirect(base_url('Entradaestoque'));
+            redirect(base_url('estoque'));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('Entradaestoque'));
+            redirect(base_url('estoque'));
         endif;
     }
 
@@ -448,10 +448,10 @@ class Estoque extends CI_Controller
 
         if ($deletarPacoteLacre == true):
             $this->session->set_flashdata(open_modal('Pacote de lacre deletado com sucesso !', CLASSE_SUCESSO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
     }
 
@@ -467,19 +467,19 @@ class Estoque extends CI_Controller
         # VERIFICA A NUMERAÇÃO DOS HIDROMETROS
         if (!preg_match(PREG_HIDROMETRO, $inicioCaixaHM) || !preg_match(PREG_HIDROMETRO, $fimCaixaHM)) :
             $this->session->set_flashdata(open_modal('Ops, verique os hidrometrô(s) cadastrado(s)', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # VERIFICA SE OS CAMPOS FORAM PREENCHIDOS
         if (empty($inicioCaixaHM) || empty($fimCaixaHM)):
             $this->session->set_flashdata(open_modal('Ops, é obrigatório preencher o "início caixa" ou "fim caixa"', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # VERIFICA A QUANTIDADE MINIMA DE 10 DIGITOS PARA O HM
         if (strlen($inicioCaixaHM) < 10 || strlen($fimCaixaHM) < 10):
             $this->session->set_flashdata(open_modal('Ops, verique os hidrometrô(s) cadastrado(s)', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # DEIXA APENAS OS NUMEROS DOS HM'S
@@ -494,13 +494,13 @@ class Estoque extends CI_Controller
         # VERIFICA SE O ANO/MODELO DO HIDROMETRO ESTÁ CERTO
         if ($anoModeloHMInicio != $anoModeloHMFim):
             $this->session->set_flashdata(open_modal('Ops, ano/modelo incorreto', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # VERIFICA DE A DIFERENÇA DE HM É MUITO ALTA
         if ($diferencaHM > QTD_CAIXA_HM || $diferencaHM < 10):
             $this->session->set_flashdata(open_modal('Ops, quantidade ' . $diferencaHM . ' de hidrômetros acima ou abaixo do permitido.', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # VERIFICA SE O HM JÁ FOI CADASTRADO
@@ -508,7 +508,7 @@ class Estoque extends CI_Controller
 
         if (!empty($verificaHMCadastrado)):
             $this->session->set_flashdata(open_modal('Ops, caixa de hidrômetros já cadastrada.', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         $data = array(
@@ -543,10 +543,10 @@ class Estoque extends CI_Controller
 
             endfor;
             $this->session->set_flashdata(open_modal('Hidrômetro cadastrado com sucesso !', CLASSE_SUCESSO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
     }
 
@@ -562,27 +562,30 @@ class Estoque extends CI_Controller
         # VERIFICA SE OS CAMPOS FORAM PREENCHIDOS
         if (empty($inicioPacote) || empty($fimPacote)):
             $this->session->set_flashdata(open_modal('Ops, é obrigatório preencher o "início pacote" ou "fim pacote"', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # VERIFICA A NUMERAÇÃO DOS LACRES
         if (!preg_match(PREG_LACRE, $inicioPacote) || !preg_match(PREG_LACRE, $fimPacote)) :
             $this->session->set_flashdata(open_modal('Ops, verifique o início ou fim da numeração do pacote de lacre', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # VERIFICA A DIFERENCA DE INICIO PARA O FIM DO PACOTE DE LACRE
         $diferencaPacote = $fimPacote - $inicioPacote;
 
-        if ($diferencaPacote > QTD_PC_LACRE || $diferencaPacote < 10):
-            $this->session->set_flashdata(open_modal('Ops, quantidade ' . $diferencaPacote . ' de lacres acima ou abaixo do permitido.', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+        if ($diferencaPacote > QTD_PC_LACRE_MAXIMO):
+            $this->session->set_flashdata(open_modal('Ops, quantidade máxima permitida de 100 unidades', CLASSE_ERRO));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
+        else:
+            $this->session->set_flashdata(open_modal('Ops, quantidade mínima permitida de 10 unidades', CLASSE_ERRO));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # VERIFICA A QUANTIDADE MINIMA DE 6 DIGITOS PARA OS LACRES
         if (strlen($inicioPacote) < 6 || strlen($fimPacote) < 6):
             $this->session->set_flashdata(open_modal('Ops, verifique o início ou fim da numeração do pacote', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # VERIFICA SE O PACOTE DE LACRES JÁ FOI CADASTRADO
@@ -590,7 +593,7 @@ class Estoque extends CI_Controller
 
         if (!empty($verificaLacreCadastrado)):
             $this->session->set_flashdata(open_modal('Ops, pacote de lacre já cadastrado.', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         $data = array(
@@ -608,7 +611,7 @@ class Estoque extends CI_Controller
         #VERIFICA SE INSERIU A CAIXA E INSERE OS ITENS DA CAIXA
         if (isset($idPacoteEntrada)):
 
-            for ($i = 0; $i <= $diferencaPacote; $i++):
+            for ($i = 1; $i <= $diferencaPacote; $i++):
 
                 $lacreInsert = $inicioPacote + $i;
 
@@ -624,10 +627,10 @@ class Estoque extends CI_Controller
                 $this->estoque_model->insert_lacre_item($data);
             endfor;
             $this->session->set_flashdata(open_modal('Lacre cadastrado com sucesso !', CLASSE_SUCESSO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
     }
 
@@ -641,7 +644,7 @@ class Estoque extends CI_Controller
         # VERIFICA SE O HIDROMETRO FOI PREENCHIDO
         if (empty($hmAvulso)):
             $this->session->set_flashdata(open_modal('Ops, é obrigatório preencher o hidrômetro', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # VERIFICA SE O HM JÁ FOI CADASTRADO
@@ -649,19 +652,19 @@ class Estoque extends CI_Controller
 
         if (!empty($verificaHMCadastrado)):
             $this->session->set_flashdata(open_modal('Ops, hidrômetros já cadastrado.', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # VERIFICA A QUANTIDADE MINIMA DE 10 DIGITOS PARA O HM
         if (strlen($hmAvulso) < 6 || strlen($hmAvulso) > 10):
             $this->session->set_flashdata(open_modal('Ops, verique se o hidrometrô está correto', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         # VERIFICA A NUMERAÇÃO DOS HIDROMETROS
         if (!preg_match(PREG_HIDROMETRO_AVULSO, $hmAvulso)):
             $this->session->set_flashdata(open_modal('Ops, verique o hidrometrô cadastrado', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         $data = array(
@@ -675,10 +678,10 @@ class Estoque extends CI_Controller
         #VERIFICA SE INSERIU A CAIXA E INSERE OS ITENS DA CAIXA
         if ($this->estoque_model->insert_hm_avulso($data)):
             $this->session->set_flashdata(open_modal('Hidrômetro cadastrado com sucesso !', CLASSE_SUCESSO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
     }
 
@@ -693,7 +696,13 @@ class Estoque extends CI_Controller
         # VERIFICA SE A QUANTIDADE FOI PREENCHIDA
         if (empty($quantMola)):
             $this->session->set_flashdata(open_modal('Ops, é obrigatório preencher o campo quantidade', CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
+        endif;
+
+        # QUANTIDADE MAXIMA DE MOLAS
+        if ($quantMola > 2000):
+            $this->session->set_flashdata(open_modal('Ops, verifique a quantidade.', CLASSE_ERRO));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
 
         $data = array(
@@ -707,10 +716,10 @@ class Estoque extends CI_Controller
         #VERIFICA SE INSERIU A CAIXA E INSERE OS ITENS DA CAIXA
         if ($this->estoque_model->insert_mola($data)):
             $this->session->set_flashdata(open_modal('Mola dispositivo anti fraude cadastrado com sucesso !', CLASSE_SUCESSO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $idMaterial));
+            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
         endif;
     }
 
@@ -723,10 +732,10 @@ class Estoque extends CI_Controller
         #FINALIZAR A ENTRADA DE MATERIAL
         if ($this->estoque_model->finalizar_entrada($id, $data)):
             $this->session->set_flashdata(open_modal('Entrada finalizada com sucesso !', CLASSE_SUCESSO));
-            redirect(base_url('Entradaestoque'));
+            redirect(base_url('estoque'));
         else:
             $this->session->set_flashdata(open_modal(MENSAGEM_ERRO, CLASSE_ERRO));
-            redirect(base_url('Entradaestoque'));
+            redirect(base_url('estoque'));
         endif;
 
     }

@@ -6,7 +6,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li>
-                    <i class="fa fa-dashboard"></i> <a href="<?= base_url('Entradaestoque') ?>">Estoque</a>
+                    <i class="fa fa-dashboard"></i> <a href="<?= base_url('estoque') ?>">Estoque</a>
                 </li>
                 <li class="active">
                     <i class="fa fa-table"></i> Entrada em aberto
@@ -52,7 +52,7 @@
                             ?>
                             <div class="btn-material col-xs-6 col-md-3">
                                 <p>
-                                    <a class="btn btn-default btn-md" href="<?= base_url('estoque/select_material/' . $idEntradaMaterial . '/' . $material['id_tipo_material']) ?>"><?= $material['nome_tipo_material'] ?></a>
+                                    <a class="btn btn-default btn-md" href="<?= base_url('selecionar-material/' . $idEntradaMaterial . '/' . $material['id_tipo_material']) ?>"><?= $material['nome_tipo_material'] ?></a>
                                 </p>
                             </div>
                             <?php

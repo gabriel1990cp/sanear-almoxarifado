@@ -81,21 +81,23 @@ $route['editar-equipe/(:any)']	              = 'equipe/edit/$1';
 $route['gerenciar-equipe/(:any)']	          = 'equipe/manager_team/$1';
 
 
-#ESTOQUE
-$route['estoque/(:any)']		   	          = 'estoque/index/$1';
-$route['estoque-entrada']	         	   	  = 'estoque/create_stock';
-$route['entrada-material/(:any)']	          = 'estoque/insert_material/$1';
-$route['cadastrar-entrada']	                  = 'estoque/insert';
-$route['cadastrar-hmy']	                      = 'estoque/entrada_estoque_cxhm';
-$route['cadastrar-lacre']	                  = 'estoque/entrada_estoque_lacre';
-$route['cadastrar-hm']	                      = 'estoque/entrada_estoque_hm';
-$route['cadastrar-mola']	                  = 'estoque/entrada_estoque_mola';
-$route['caixa_hmy']	                          = 'estoque/caixa_hmy';
-$route['pacote_lacre']	                      = 'estoque/pacote_lacre';
-$route['consultar-entrada']	                  = 'estoque/search';
-$route['editar-entrada/(:any)']	              = 'estoque/editar_entrada/$1';
-$route['salvar-editar-entrada']	              = 'estoque/salvar_editar_entrada';
-$route['finalizar-entrada/(:any)']	          = 'estoque/finalizar_entrada/$1';
+#ESTOQUE ENTRADA
+$route['estoque']		   	                  = 'EstoqueEntrada/index';
+$route['estoque/(:any)']		   	          = 'EstoqueEntrada/index/$1';
+$route['estoque-entrada']	         	   	  = 'EstoqueEntrada/create_stock';
+$route['entrada-material/(:any)']	          = 'EstoqueEntrada/insert_material/$1';
+$route['cadastrar-entrada']	                  = 'EstoqueEntrada/insert';
+$route['cadastrar-hmy']	                      = 'EstoqueEntrada/entrada_estoque_cxhm';
+$route['cadastrar-lacre']	                  = 'EstoqueEntrada/entrada_estoque_lacre';
+$route['cadastrar-hm']	                      = 'EstoqueEntrada/entrada_estoque_hm';
+$route['cadastrar-mola']	                  = 'EstoqueEntrada/entrada_estoque_mola';
+$route['caixa_hmy']	                          = 'EstoqueEntrada/caixa_hmy';
+$route['pacote_lacre']	                      = 'EstoqueEntrada/pacote_lacre';
+$route['consultar-entrada']	                  = 'EstoqueEntrada/search';
+$route['editar-entrada/(:any)']	              = 'EstoqueEntrada/editar_entrada/$1';
+$route['salvar-editar-entrada']	              = 'EstoqueEntrada/salvar_editar_entrada';
+$route['finalizar-entrada/(:any)']	          = 'EstoqueEntrada/finalizar_entrada/$1';
+$route['selecionar-material/(:any)/(:any)']	  = 'EstoqueEntrada/select_material/$1/$2';
 
 
 

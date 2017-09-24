@@ -191,7 +191,7 @@ $(function () {
         var id = $('#modal_confirmation').data('id');
         var entrada = $('#modal_confirmation').data('entrada');
         var material = $('#modal_confirmation').data('material');
-        document.location.href = base_url + "estoque/deletar_pacote_lacre/" + id + "/" + entrada + "/" + material;
+        document.location.href = base_url + "EstoqueEntrada/deletar_pacote_lacre/" + id + "/" + entrada + "/" + material;
     });
 });
 
@@ -222,7 +222,7 @@ $(function () {
         var id = $('#modal_confirmation').data('id');
         var entrada = $('#modal_confirmation').data('entrada');
         var material = $('#modal_confirmation').data('material');
-        document.location.href = base_url + "estoque/delete_caixa_hmy/" + id + "/" + entrada + "/" + material;
+        document.location.href = base_url + "EstoqueEntrada/delete_caixa_hmy/" + id + "/" + entrada + "/" + material;
     });
 });
 
@@ -252,7 +252,7 @@ $(function () {
         var id = $('#modal_confirmation').data('id');
         var entrada = $('#modal_confirmation').data('entrada');
         var material = $('#modal_confirmation').data('material');
-        document.location.href = base_url + "estoque/delete_caixa_hm_avulso/" + id + "/" + entrada + "/" + material;
+        document.location.href = base_url + "EstoqueEntrada/delete_caixa_hm_avulso/" + id + "/" + entrada + "/" + material;
     });
 });
 
@@ -282,7 +282,7 @@ $(function () {
         var id = $('#modal_confirmation').data('id');
         var entrada = $('#modal_confirmation').data('entrada');
         var material = $('#modal_confirmation').data('material');
-        document.location.href = base_url + "estoque/delete_mola/" + id + "/" + entrada + "/" + material;
+        document.location.href = base_url + "EstoqueEntrada/delete_mola/" + id + "/" + entrada + "/" + material;
     });
 });
 

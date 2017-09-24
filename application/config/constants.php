@@ -111,7 +111,8 @@ define('LACRE_CORDOALHA_ACO',7);
 define('MOLA_DISP_ANTI_FRAUDE',8);
 
 define('QTD_CAIXA_HM',20);
-define('QTD_PC_LACRE',100);
+define('QTD_PC_LACRE_MAXIMO',100);
+define('QTD_PC_LACRE_MINIMO',10);
 define('PREG_HIDROMETRO','/^[A-Z][0-9]{2}[A-Z][0-9]{6}$/');
 define('PREG_HIDROMETRO_AVULSO','/^[A-Z][0-9]{2}[A-Z][0-9]{4,6}$/');
 define('PREG_LACRE','/^[0-9]{6}$/');
