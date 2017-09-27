@@ -99,5 +99,6 @@ $route['salvar-editar-entrada']	              = 'EstoqueEntrada/salvar_editar_en
 $route['finalizar-entrada/(:any)']	          = 'EstoqueEntrada/finalizar_entrada/$1';
 $route['selecionar-material/(:any)/(:any)']	  = 'EstoqueEntrada/select_material/$1/$2';
 
-
-
+#ESTOQUE SAIDA
+$route['estoque-saida']	         	   	  = 'EstoqueSaida/cadastrar_saida';
+$route['cadastrar-saida']	         	  = 'EstoqueSaida/salvar_saida';

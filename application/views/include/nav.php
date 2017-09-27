@@ -25,13 +25,24 @@
                     <a href="<?php echo base_url('home') ?>">Home</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Estoque<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Estoque (Entrada)<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="<?php echo base_url('estoque/index') ?>">Listar</a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('estoque-entrada') ?>">Cadastrar Entrada</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Estoque (Saída)<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="<?php echo base_url('estoque/index') ?>">Listar</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url('estoque-saida') ?>">Cadastrar Entrada</a>
                         </li>
                     </ul>
                 </li>

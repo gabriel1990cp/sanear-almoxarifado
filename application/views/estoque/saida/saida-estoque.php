@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="page-header">
-                Estoque - <small>Cadastrar entrada </small>
+                Estoque - <small>Cadastrar saída</small>
             </h1>
             <ol class="breadcrumb">
                 <li>
@@ -16,7 +16,7 @@
     </div>
     <?php $this->load->view('include/alert.php'); ?>
     <div class="row">
-        <form action="<?= base_url('cadastrar-entrada') ?>" method="post" enctype="multipart/form-data" id="entrada_estoque" class="entrada_estoque">
+        <form action="<?= base_url('cadastrar-saida') ?>" method="post" enctype="multipart/form-data" id="saida_estoque" class="saida_estoque">
             <div class="form-group col-md-6">
                 <label for="responsavel">Responsável *</label>
                 <input type="text" class="form-control" id="responsavel" name="responsavel" disabled value="Gabriel Costa">
@@ -25,21 +25,20 @@
                 <label for="data_cadastro">Data de cadastro *</label>
                 <input type="text" class="form-control" id="data_cadastro" name="data_cadastro" disabled value="<?=date('d/m/Y H:i:s')?>">
             </div>
-            <div class="form-group col-md-6">
-                <label for="atendimento_requisicao">Atendimento de Requisição *</label>
-                <input type="text" class="form-control" id="atendimento_requisicao" name="atendimento_requisicao">
-                <div class="error"><?= form_error('atendimento_requisicao'); ?></div>
-            </div>
-
-            <div class="form-group col-md-6">
-                <label for="nota_remessa">Nota de remessa *</label>
-                <input type="text" class="form-control" id="nota_remessa" name="nota_remessa">
-                <div class="error"><?= form_error('nota_remessa'); ?></div>
-            </div>
             <div class="form-group col-md-12">
-                <label for="arquivo">Arquivo</label>
-                <input type="file" class="form-control" id="arquivo" name="arquivo">
-                <label id="erro-file" class="error display-none" for="nome">Ops, selecione o arquivo para upload.</label>
+                <label for="equipe">Equipe *</label>
+                <div class="error"><?= form_error('equipe'); ?></div>
+                <select class="form-control" id="equipe" name="equipe">
+                    <option value="">Selecione ></option>
+                    <?php
+                    foreach ($equipes as $equipe):
+                        ?>
+                        <option value="<?= $equipe['id_equipe'] ?>"><?= $equipe['nome_equipe'] ?></option>
+                        <?php
+                    endforeach;
+                    ?>
+                </select>
+
             </div>
             <div class="form-group col-md-6">
                 <button type="submit" class="btn btn-primary btn-block cadastrar">Cadastrar</button>

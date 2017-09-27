@@ -48,6 +48,7 @@
  * @property equipe_model $equipe_model
  * @property funcionario_model $funcionario_model
  * @property Estoque_model $estoque_model
+ * @property EstoqueSaida_model $estoque_saida_model
  *
  *
  */
