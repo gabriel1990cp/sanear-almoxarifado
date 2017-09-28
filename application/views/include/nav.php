@@ -24,27 +24,29 @@
                 <li>
                     <a href="<?php echo base_url('home') ?>">Home</a>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Estoque (Entrada)<b class="caret"></b></a>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Estoque <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a href="<?php echo base_url('estoque/index') ?>">Listar</a>
+                        <li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Entrada</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<?php echo base_url('estoque/index') ?>">Listar</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url('estoque-entrada') ?>">Cadastrar</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="<?php echo base_url('estoque-entrada') ?>">Cadastrar Entrada</a>
+                        <li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Saída</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<?php echo base_url('estoque-saida') ?>">Listar</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url('estoque-cadastrar-saida') ?>">Cadastrar</a>
+                                </li>
+                            </ul>
                         </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Estoque (Saída)<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="<?php echo base_url('estoque/index') ?>">Listar</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url('estoque-saida') ?>">Cadastrar Entrada</a>
-                        </li>
-                    </ul>
+                    </ul
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Equipes <b class="caret"></b></a>
@@ -84,3 +86,7 @@
     </div>
 </nav>
 <!-- ============ NAV =================== -->
+
+<!-- ============ SCRIPT =================== -->
+<script src="<?= base_url('assets/js/front/nav.js') ?>"></script>
+<!-- ============ SCRIPT =================== -->

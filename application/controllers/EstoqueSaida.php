@@ -27,11 +27,11 @@ class EstoqueSaida extends CI_Controller
         endif;
 
         #LISTA TODOS MATERIAIS
-        $data['entradasEstoque'] = $this->estoque_model->list_material(null, $page);
+        $data['entradasEstoque'] = $this->estoque_saida_model->list_material(null, $page);
 
         #PAGINADOR
         $config['base_url'] = base_url() . 'estoque';
-        $config['total_rows'] = $this->estoque_model->list_material_qtd();
+        $config['total_rows'] = $this->estoque_saida_model->list_material_qtd();
         $config['per_page'] = 10;
         $config['full_tag_open'] = '<li>';
         $config['full_tag_close'] = '</li>';
@@ -90,7 +90,7 @@ class EstoqueSaida extends CI_Controller
 
                 if ($verificaEquipeCadastrada > 0) {
                     $this->session->set_flashdata(open_modal('ops, equipe já cadastrada !', CLASSE_ERRO));
-                    redirect(base_url('estoque-saida'));
+                    redirect(base_url('estoque-cadastrar-saida'));
                 }
 
                 $data = array(
