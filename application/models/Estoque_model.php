@@ -195,39 +195,21 @@ class Estoque_model extends CI_Model
         return $this->db->delete('entrada_estoque_lacre_pacote');
     }
 
-    function total_hm_avulso_entrada ($idEntradaMaterial)
+    function totalMateriais ($idEntradaMaterial)
     {
-        $this->db->select(' COUNT(*) as total, x2.nome_tipo_material');
-        $this->db->from("entrada_estoque_hm_avulso x1");
-        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_hm_avulso");
-        $this->db->where('x1.id_entrada_est_hm_avulso', $idEntradaMaterial);
-        $this->db->group_by('id_mat_est_hm_avulso');
-        return $this->db->get()->result_array();
-    }
-    function total_hmY_entrada ($idEntradaMaterial)
-    {
-        $this->db->select(' COUNT(*) as total, x2.nome_tipo_material ');
-        $this->db->from("entrada_estoque_hmy_caixa_itens x1");
-        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_caixa_hmy_itens");
-        $this->db->where('x1.id_entrada_est_caixa_hmy_itens', $idEntradaMaterial);
-        return $this->db->get()->result_array();
-    }
+        $this->db->select
+        ('(SELECT COUNT(EEHA.id_entrada_est_hm_avulso) FROM entrada_estoque_hm_avulso EEHA WHERE EE.id_est_entrada = EEHA.id_entrada_est_hm_avulso AND EEHA.id_mat_est_hm_avulso = 1 ) AS totalHMA, 
+            (SELECT COUNT(EEHB.id_entrada_est_hm_avulso) FROM entrada_estoque_hm_avulso EEHB WHERE EE.id_est_entrada = EEHB.id_entrada_est_hm_avulso AND EEHB.id_mat_est_hm_avulso = 2)  AS totalHMB,
+            (SELECT COUNT(EEHC.id_entrada_est_hm_avulso) FROM entrada_estoque_hm_avulso EEHC WHERE EE.id_est_entrada = EEHC.id_entrada_est_hm_avulso AND EEHC.id_mat_est_hm_avulso = 3)  AS totalHMC,
+            (SELECT COUNT(EEHD.id_entrada_est_hm_avulso) FROM entrada_estoque_hm_avulso EEHD WHERE EE.id_est_entrada = EEHD.id_entrada_est_hm_avulso AND EEHD.id_mat_est_hm_avulso = 4)  AS totalHMD,
+            (SELECT COUNT(EEHY.id_entrada_est_hm_avulso) FROM entrada_estoque_hm_avulso EEHY WHERE EE.id_est_entrada = EEHY.id_entrada_est_hm_avulso AND EEHY.id_mat_est_hm_avulso = 5)  AS totalHMY,
+            (SELECT SUM(EEHY.quant_est_caixa_hmy) FROM entrada_estoque_hmy_caixa EEHY WHERE EE.id_est_entrada = EEHY.id_entrada_est_caixa_hmy AND EEHY.id_mat_est_caixa_hmy = 6 ) AS totalCaixaHMY,
+            (SELECT SUM(EELP.quant_est_lacre_pacote) FROM entrada_estoque_lacre_pacote EELP WHERE EE.id_est_entrada = EELP.id_entrada_est_lacre_pacote) AS totalLacre,
+            (SELECT SUM(EEM.quant_est_mola) FROM entrada_estoque_mola EEM WHERE EE.id_est_entrada = EEM.id_entrada_est_mola) AS totalMola
+        ');
+        $this->db->from("entrada_estoque EE ");
+        $this->db->where('EE.id_est_entrada', $idEntradaMaterial);
 
-    function total_lacre_entrada ($idEntradaMaterial)
-    {
-        $this->db->select(' COUNT(*) as total, x2.nome_tipo_material ');
-        $this->db->from("entrada_estoque_lacre_pacote_itens x1");
-        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_lacre_pacote_itens");
-        $this->db->where("x1.id_entrada_est_lacre_pacote_itens",$idEntradaMaterial);
-        return $this->db->get()->result_array();
-    }
-
-    function total_mola_entrada ($idEntradaMaterial)
-    {
-        $this->db->select(' SUM(quant_est_mola) as total, x2.nome_tipo_material ');
-        $this->db->from("entrada_estoque_mola x1");
-        $this->db->join("tipo_material x2", "x2.id_tipo_material = x1.id_mat_est_mola");
-        $this->db->where("x1.id_entrada_est_mola",$idEntradaMaterial);
         return $this->db->get()->result_array();
     }
 

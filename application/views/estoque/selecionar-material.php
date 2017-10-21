@@ -27,15 +27,31 @@
                 <div class="panel-heading">Resumo da entrada</div>
                 <div class="panel-body">
                     <?php
-                    foreach ($totalMateriaisEntrada as $materiaisEntrada):
-                        foreach ($materiaisEntrada as $row):
-                            if (!empty($row)):
-                                if ($row['total'] == !0):
-                                    echo '<p>' . $row['nome_tipo_material'] . ' : ' . $row['total'] . '</p>';
-                                endif;
-                            endif;
-                        endforeach;
-                    endforeach;
+                    if ($totalMateriais[0]['totalHMA']) {
+                        echo '<p> Hidrômetro A : ' . $totalMateriais[0]['totalHMA'] . '</p>';
+                    }
+                    if ($totalMateriais[0]['totalHMA']) {
+                        echo '<p> Hidrômetro B : ' . $totalMateriais[0]['totalHMB'] . '</p>';
+                    }
+                    if ($totalMateriais[0]['totalHMC']) {
+                        echo '<p> Hidrômetro C : ' . $totalMateriais[0]['totalHMC'] . '</p>';
+                    }
+                    if ($totalMateriais[0]['totalHMD']) {
+                        echo '<p> Hidrômetro D : ' . $totalMateriais[0]['totalHMD'] . '</p>';
+                    }
+                    if ($totalMateriais[0]['totalHMY']) {
+                        echo '<p> Hidrômetro Y : ' . $totalMateriais[0]['totalHMY'] . '</p>';
+                    }
+                    if ($totalMateriais[0]['totalHMY']) {
+                        echo '<p> Caixa Hidrômetro Y : ' . $totalMateriais[0]['totalCaixaHMY'] . '</p>';
+                    }
+                    if ($totalMateriais[0]['totalLacre']) {
+                        echo '<p> Lacre cordoalha de aço : ' . $totalMateriais[0]['totalLacre'] . '</p>';
+                    }
+                    if ($totalMateriais[0]['totalMola']) {
+                        echo '<p> Mola dispositivo anti fraude : ' . $totalMateriais[0]['totalLacre'] . '</p>';
+                    }
+
                     ?>
                 </div>
             </div>
@@ -52,7 +68,8 @@
                             ?>
                             <div class="btn-material col-xs-6 col-md-3">
                                 <p>
-                                    <a class="btn btn-default btn-md" href="<?= base_url('selecionar-material/' . $idEntradaMaterial . '/' . $material['id_tipo_material']) ?>"><?= $material['nome_tipo_material'] ?></a>
+                                    <a class="btn btn-default btn-md"
+                                       href="<?= base_url('selecionar-material/' . $idEntradaMaterial . '/' . $material['id_tipo_material']) ?>"><?= $material['nome_tipo_material'] ?></a>
                                 </p>
                             </div>
                             <?php
@@ -65,7 +82,9 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <button class="btn btn-primary btn-block finalizar_entrada_estoque" data-id="<?= $idEntradaMaterial ?>" data-nome="<?= $idEntradaMaterial ?>">Finalizar Entrada</button>
+            <button class="btn btn-primary btn-block finalizar_entrada_estoque" data-id="<?= $idEntradaMaterial ?>"
+                    data-nome="<?= $idEntradaMaterial ?>">Finalizar Entrada
+            </button>
         </div>
         <div class="col-md-6">
             <a href="<?= base_url('estoque/') ?>" class="btn btn-danger btn-block">Cancelar Entrada</a>

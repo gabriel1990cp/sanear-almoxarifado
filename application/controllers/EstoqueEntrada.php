@@ -279,25 +279,7 @@ class EstoqueEntrada extends CI_Controller
 
         #QUANTIDADE DE MATERIAS PARA A ENTRADA EM ABERTO
 
-        #HM AVULSO
-        $totalMateriaisEntrada = array();
-
-        $totalHmAvulso = $this->estoque_model->total_hm_avulso_entrada($idEntradaMaterial);
-        array_push($totalMateriaisEntrada, $totalHmAvulso);
-
-        #HM Y
-        $totalHMY = $this->estoque_model->total_hmY_entrada($idEntradaMaterial);
-        array_push($totalMateriaisEntrada, $totalHMY);
-
-        #LACRE
-        $totalLacre = $this->estoque_model->total_lacre_entrada($idEntradaMaterial);
-        array_push($totalMateriaisEntrada, $totalLacre);
-
-        #MOLA
-        $totalMola = $this->estoque_model->total_mola_entrada($idEntradaMaterial);
-        array_push($totalMateriaisEntrada, $totalMola);
-
-        $data['totalMateriaisEntrada'] = $totalMateriaisEntrada;
+        $data['totalMateriais'] = $this->estoque_model->totalMateriais($idEntradaMaterial);
 
         #ENTRADA DE MATERIAL
         $this->load->view('include/head.php');
@@ -574,13 +556,7 @@ class EstoqueEntrada extends CI_Controller
         # VERIFICA A DIFERENCA DE INICIO PARA O FIM DO PACOTE DE LACRE
         $diferencaPacote = $fimPacote - $inicioPacote;
 
-        if ($diferencaPacote > QTD_PC_LACRE_MAXIMO):
-            $this->session->set_flashdata(open_modal('Ops, quantidade máxima permitida de 100 unidades', CLASSE_ERRO));
-            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
-        else:
-            $this->session->set_flashdata(open_modal('Ops, quantidade mínima permitida de 10 unidades', CLASSE_ERRO));
-            redirect(base_url('selecionar-material/' . $idEntradaMaterial . '/' . $idMaterial));
-        endif;
+
 
         # VERIFICA A QUANTIDADE MINIMA DE 6 DIGITOS PARA OS LACRES
         if (strlen($inicioPacote) < 6 || strlen($fimPacote) < 6):
